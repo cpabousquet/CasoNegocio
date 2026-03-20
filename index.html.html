@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Costo-Beneficio — Oficina de Proyectos OXXO Chile</title>
+<style>
+:root {
+  --p900:#1a1650;--p800:#26215C;--p700:#3C3489;--p600:#534AB7;--p400:#7F77DD;--p200:#AFA9EC;--p100:#CECBF6;--p50:#EEEDFE;
+  --t800:#085041;--t600:#0F6E56;--t400:#1D9E75;--t100:#9FE1CB;--t50:#E1F5EE;
+  --a800:#633806;--a600:#854F0B;--a400:#BA7517;--a100:#FAC775;--a50:#FAEEDA;
+  --c800:#712B13;--c600:#993C1D;--c400:#D85A30;--c100:#F5C4B3;--c50:#FAECE7;
+  --b800:#0C447C;--b600:#185FA5;--b400:#378ADD;--b100:#B5D4F4;--b50:#E6F1FB;
+  --g800:#27500A;--g600:#3B6D11;--g400:#639922;--g100:#C0DD97;--g50:#EAF3DE;
+  --r800:#791F1F;--r400:#E24B4A;--r50:#FCEBEB;
+  /* ── LIGHT THEME ── */
+  --bg:#F5F4F1;
+  --surface:#FFFFFF;
+  --surface2:#F0EEE9;
+  --surface3:#E8E6DF;
+  --border:rgba(0,0,0,0.08);
+  --border2:rgba(0,0,0,0.13);
+  --text:#1A1A18;
+  --text2:#4A4945;
+  --text3:#888780;
+  --radius:10px;--radius-lg:16px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid var(--border2);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-mark{width:32px;height:32px;background:var(--p700);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-weight:700;font-size:13px;color:#fff;}
+.brand-name{font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:var(--p800);}
+.brand-sub{font-size:12px;color:var(--text3);margin-top:-2px;}
+.nav-pills{display:flex;gap:4px;}
+.nav-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;color:var(--text2);transition:all .15s;background:transparent;}
+.nav-pill:hover{color:var(--p700);background:var(--p50);}
+.nav-pill.active{background:var(--p700);color:#fff;border-color:var(--p700);}
+
+/* ── LAYOUT ── */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px);}
+
+/* ── SIDEBAR ── */
+.sidebar{background:#fff;border-right:1px solid var(--border2);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sidebar-section{padding:0 1rem 1rem;}
+.sidebar-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:.5rem 1rem .25rem;display:block;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .12s;margin-bottom:2px;border:1px solid transparent;}
+.sidebar-item:hover{color:var(--p700);background:var(--p50);}
+.sidebar-item.active{color:var(--p800);background:var(--p50);border-color:var(--p100);}
+.sidebar-item .s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-item .s-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all .2s;}
+.sidebar-item.done .s-check{background:var(--g400);border-color:var(--g400);color:#fff;}
+.result-mini{margin:1rem;padding:1rem;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border);}
+.result-mini-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.kpi-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.kpi-label{font-size:11px;color:var(--text3);}
+.kpi-val{font-family:'Cascadia Code','Consolas','Courier New',monospace;font-size:13px;font-weight:500;}
+.kpi-val.good{color:var(--g600);}
+.kpi-val.bad{color:var(--r400);}
+.kpi-val.neutral{color:var(--p600);}
+.kpi-val.pending{color:var(--text3);}
+
+/* ── MAIN ── */
+.main{padding:2rem;overflow-y:auto;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── PAGE HEADER ── */
+.page-hero{margin-bottom:2rem;}
+.page-hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+.page-hero h2{font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:26px;font-weight:700;margin-bottom:6px;line-height:1.2;}
+.page-hero p{font-size:14px;color:var(--text2);max-width:580px;line-height:1.7;}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--border2);border-radius:var(--radius-lg);box-shadow:0 1px 3px rgba(0,0,0,0.04);margin-bottom:1.25rem;overflow:hidden;}
+.card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--surface2);}
+.card-header-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.card-title{font-size:14px;font-weight:600;color:var(--text);}
+.card-sub{font-size:12px;color:var(--text3);margin-top:1px;}
+.card-body{padding:1.25rem;}
+
+/* ── FORM INPUTS ── */
+.field-group{display:grid;gap:10px;margin-bottom:1rem;}
+.field-group.cols2{grid-template-columns:1fr 1fr;}
+.field-group.cols3{grid-template-columns:1fr 1fr 1fr;}
+.field-group.cols5{grid-template-columns:repeat(5,1fr);}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);}
+.field input,.field select{background:#fff;border:1px solid var(--border2);border-radius:8px;padding:9px 12px;font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:var(--text);outline:none;transition:border .15s;width:100%;}
+.field input:focus,.field select:focus{border-color:var(--p400);}
+.field input::placeholder{color:var(--text3);}
+.field .hint{font-size:11px;color:var(--text3);line-height:1.5;}
+select option{background:#fff;color:var(--text);}
+
+/* ── INLINE TABLE INPUT ── */
+.input-table{width:100%;border-collapse:collapse;font-size:13px;}
+.input-table th{padding:8px 10px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border2);background:var(--surface2);}
+.input-table th.right{text-align:right;}
+.input-table td{padding:4px 6px;border-bottom:1px solid var(--border);}
+.input-table td:first-child{padding-left:10px;}
+.input-table tr:last-child td{border-bottom:none;}
+.input-table .row-label{font-size:12px;color:var(--text2);padding:8px 10px;}
+.input-table input{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:'Cascadia Code','Consolas','Courier New',monospace;font-size:12px;color:var(--text);outline:none;width:100%;text-align:right;transition:border .12s;}
+.input-table input:focus{border-color:var(--p400);}
+.input-table .total-row td{background:var(--surface2);font-weight:600;font-family:'Cascadia Code','Consolas','Courier New',monospace;font-size:12px;text-align:right;padding:8px 10px;color:var(--p800);}
+.input-table .total-row td:first-child{text-align:left;color:var(--text2);}
+
+/* ── ADD ROW BUTTON ── */
+.add-row-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:8px;border:1.5px dashed var(--border2);background:transparent;color:var(--text3);font-family:'Segoe UI',Arial,sans-serif;font-size:12px;cursor:pointer;margin-top:8px;transition:all .12s;width:100%;justify-content:center;}
+.add-row-btn:hover{border-color:var(--p400);color:var(--p600);background:var(--p50);}
+.del-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:4px;line-height:1;border-radius:4px;transition:color .12s;}
+.del-btn:hover{color:var(--r400);}
+
+/* ── RESULTS ── */
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;}
+.res-card{background:#fff;border:1px solid var(--border2);border-radius:var(--radius);padding:1rem;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.res-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.res-card.purple::before{background:var(--p600);}
+.res-card.teal::before{background:var(--t400);}
+.res-card.amber::before{background:var(--a400);}
+.res-card.coral::before{background:var(--c400);}
+.res-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.res-value{font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:28px;font-weight:700;line-height:1.1;margin-bottom:4px;}
+.res-value.good{color:var(--g600);}
+.res-value.bad{color:var(--r400);}
+.res-value.neutral{color:var(--p700);}
+.res-sub{font-size:11px;color:var(--text3);}
+
+/* ── CHART ── */
+.chart-wrap{background:var(--surface2);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem;border:1px solid var(--border);}
+.chart-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.06em;}
+canvas{width:100%!important;}
+
+/* ── FLOW TABLE ── */
+.flow-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'Cascadia Code','Consolas','Courier New',monospace;}
+.flow-table th{padding:8px 12px;text-align:right;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border2);background:var(--surface2);}
+.flow-table th:first-child{text-align:left;}
+.flow-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:right;color:var(--text2);}
+.flow-table td:first-child{text-align:left;color:var(--text3);font-family:'DM Sans',monospace;font-size:11px;}
+.flow-table tr.highlight td{color:var(--text);font-weight:500;background:var(--surface2);}
+.flow-table tr.positive td.val{color:var(--g600);}
+.flow-table tr.negative td.val{color:var(--r400);}
+.flow-table tr.section-head td{background:var(--surface3);color:var(--text3);font-size:10px;letter-spacing:.07em;text-transform:uppercase;font-family:'Segoe UI',Arial,sans-serif;padding:6px 12px;}
+
+/* ── ALERT ── */
+.alert{display:flex;gap:12px;padding:12px 16px;border-radius:var(--radius);margin-bottom:1rem;border:1px solid;}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.alert-body{font-size:13px;line-height:1.6;}
+.alert-body strong{font-weight:600;display:block;margin-bottom:2px;}
+.alert.info{background:var(--b50);border-color:var(--b100);color:var(--b800);}
+.alert.warn{background:var(--a50);border-color:var(--a100);color:var(--a800);}
+.alert.success{background:var(--t50);border-color:var(--t100);color:var(--t800);}
+
+/* ── ASSUMPTION BOX ── */
+.formula-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;}
+.formula-item{background:var(--surface2);border-radius:8px;padding:10px 14px;border:1px solid var(--border2);}
+.formula-name{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;}
+.formula-val{font-family:'Cascadia Code','Consolas','Courier New',monospace;font-size:11.5px;color:var(--p700);line-height:1.5;}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:1.25rem;}
+.tab{padding:8px 14px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;}
+.tab:hover{color:var(--p600);}
+.tab.active{color:var(--p700);border-bottom-color:var(--p700);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── PAYBACK BAR ── */
+.payback-bar-wrap{margin:1rem 0;}
+.payback-bar-bg{height:12px;background:var(--surface3);border-radius:6px;overflow:hidden;margin-bottom:6px;}
+.payback-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--p600),var(--t400));transition:width .6s ease;}
+.payback-bar-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
+
+/* ── GUIDE SECTION ── */
+.guide-block{background:#fff;border:1px solid var(--border2);border-radius:var(--radius);margin-bottom:.75rem;overflow:hidden;}
+.guide-block-hdr{padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid transparent;transition:background .12s;}
+.guide-block-hdr:hover{background:var(--p50);}
+.guide-block-hdr.open{border-bottom-color:var(--border);}
+.guide-block-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.guide-block-title{font-size:13px;font-weight:600;flex:1;}
+.guide-block-arrow{font-size:12px;color:var(--text3);transition:transform .2s;}
+.guide-block-hdr.open .guide-block-arrow{transform:rotate(180deg);}
+.guide-block-body{padding:1rem 1.25rem;display:none;}
+.guide-block-body.open{display:block;}
+.guide-block-body p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:.75rem;}
+.guide-block-body p:last-child{margin-bottom:0;}
+.guide-block-body strong{color:var(--text);font-weight:600;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:.5rem;}
+.chip2{padding:5px 11px;border-radius:20px;font-size:12px;border:1px solid var(--border2);color:var(--text2);}
+
+/* ── WACC CONFIG ── */
+.param-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.param-row:last-child{border-bottom:none;}
+.param-label{font-size:13px;color:var(--text2);}
+.param-hint{font-size:11px;color:var(--text3);}
+.param-input{display:flex;align-items:center;gap:6px;}
+.param-input input{width:80px;background:#fff;border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-family:'Cascadia Code','Consolas','Courier New',monospace;font-size:13px;color:var(--text);text-align:right;outline:none;}
+.param-input input:focus{border-color:var(--p400);}
+.param-unit{font-size:12px;color:var(--text3);}
+.wacc-result{margin-top:1rem;padding:1rem;background:var(--p800);border-radius:var(--radius);border:1px solid var(--p600);}
+.wacc-result-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--p200);margin-bottom:6px;}
+.wacc-result-value{font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:32px;font-weight:700;color:#fff;}
+.wacc-result-sub{font-size:12px;color:var(--p200);margin-top:4px;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:1.5rem 0;}
+
+/* ── UTILS ── */
+.mt1{margin-top:.75rem;}.mt2{margin-top:1.5rem;}
+.text-right{text-align:right;}
+.text-center{text-align:center;}
+.green{color:var(--g600);}.red{color:var(--r400);}.purple{color:var(--p700);}
+.bold{font-weight:600;}
+.mono{font-family:'Cascadia Code','Consolas','Courier New',monospace;}
+
+@media(max-width:768px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .results-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">OP</div>
+    <div>
+      <div class="brand-name">Oficina de Proyectos · OXXO Chile</div>
+      <div class="brand-sub">Caso de Negocio — Análisis Costo-Beneficio</div>
+    </div>
+  </div>
+  <div class="nav-pills">
+    <div class="nav-pill active" onclick="showPage('params')">Parámetros</div>
+    <div class="nav-pill" onclick="showPage('capex')">1 · Inversión</div>
+    <div class="nav-pill" onclick="showPage('opex')">2 · Costos</div>
+    <div class="nav-pill" onclick="showPage('benefits')">3 · Beneficios</div>
+    <div class="nav-pill" onclick="showPage('qualitative')">4 · Cualitativos</div>
+    <div class="nav-pill" onclick="showPage('results')">Resultados</div>
+    <div class="nav-pill" onclick="showPage('guide')">Guía</div>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sidebar-label">Navegación</span>
+    <div class="sidebar-item active" onclick="showPage('params')" id="si-params">
+      <div class="s-dot" style="background:var(--p600)"></div>
+      <span>Parámetros financieros</span>
+      <div class="s-check" id="sc-params">✓</div>
+    </div>
+    <div class="sidebar-item" onclick="showPage('capex')" id="si-capex">
+      <div class="s-dot" style="background:var(--p400)"></div>
+      <span>Plan de Inversiones</span>
+      <div class="s-check" id="sc-capex"></div>
+    </div>
+    <div class="sidebar-item" onclick="showPage('opex')" id="si-opex">
+      <div class="s-dot" style="background:var(--t400)"></div>
+      <span>Costos Recurrentes</span>
+      <div class="s-check" id="sc-opex"></div>
+    </div>
+    <div class="sidebar-item" onclick="showPage('benefits')" id="si-benefits">
+      <div class="s-dot" style="background:var(--a400)"></div>
+      <span>Beneficios Cuantificables</span>
+      <div class="s-check" id="sc-benefits"></div>
+    </div>
+    <div class="sidebar-item" onclick="showPage('qualitative')" id="si-qualitative">
+      <div class="s-dot" style="background:var(--c400)"></div>
+      <span>Potencial & Cualitativos</span>
+      <div class="s-check" id="sc-qualitative"></div>
+    </div>
+    <div class="sidebar-item" onclick="showPage('results')" id="si-results">
+      <div class="s-dot" style="background:var(--g400)"></div>
+      <span>Resultados & Métricas</span>
+      <div class="s-check" id="sc-results"></div>
+    </div>
+
+    <span class="sidebar-label" style="margin-top:.5rem;">Resultados en vivo</span>
+    <div class="result-mini">
+      <div class="result-mini-title">Indicadores</div>
+      <div class="kpi-row"><span class="kpi-label">WACC efectivo</span><span class="kpi-val neutral mono" id="sb-wacc">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">VAN</span><span class="kpi-val mono" id="sb-van">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">TIR</span><span class="kpi-val mono" id="sb-tir">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">Payback</span><span class="kpi-val mono" id="sb-payback">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">ROIC</span><span class="kpi-val mono" id="sb-roic">—</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ══════════ PARAMS ══════════ -->
+    <div class="page active" id="page-params">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--p800);color:var(--p200);">⚙ Parámetros financieros</div>
+        <h2>Configuración del modelo</h2>
+        <p>Define los parámetros base que se usarán en todos los cálculos. El WACC y el IST afectan directamente el VAN, la TIR y los flujos descontados.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--p800);">📊</div>
+          <div><div class="card-title">Proyecto</div><div class="card-sub">Información general</div></div>
+        </div>
+        <div class="card-body">
+          <div class="field-group cols2">
+            <div class="field"><label>Nombre del proyecto</label><input type="text" id="proj-name" placeholder="Ej: Automatización cierre de caja" oninput="recalcAll()"></div>
+            <div class="field"><label>PO / Líder</label><input type="text" id="proj-po" placeholder="Nombre del Product Owner"></div>
+          </div>
+          <div class="field-group cols3">
+            <div class="field"><label>Sponsor</label><input type="text" id="proj-sponsor" placeholder="Gerente responsable"></div>
+            <div class="field"><label>Tier</label>
+              <select id="proj-tier" onchange="recalcAll()">
+                <option value="T1">Tier 1 — Transformacional</option>
+                <option value="T2" selected>Tier 2 — Estratégico</option>
+                <option value="T3">Tier 3 — Regulatorio</option>
+                <option value="T4">Tier 4 — Mejora continua</option>
+              </select>
+            </div>
+            <div class="field"><label>Año de inicio</label>
+              <select id="proj-year" onchange="recalcAll()">
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--p800);">💹</div>
+          <div><div class="card-title">WACC — Costo de Capital</div><div class="card-sub">Tasa mínima de retorno exigida al proyecto</div></div>
+        </div>
+        <div class="card-body">
+          <div class="alert info" style="margin-bottom:1.25rem;">
+            <div class="alert-icon">ℹ</div>
+            <div class="alert-body"><strong>¿Qué es el WACC?</strong>Es la tasa que representa el costo de financiamiento de la empresa (deuda + capital propio). Un proyecto es atractivo cuando su TIR supera el WACC. Puedes ingresar el WACC directamente o calcularlo con sus componentes.</div>
+          </div>
+          <div class="tabs">
+            <div class="tab active" onclick="switchWaccTab('simple',this)">Ingresar WACC directo</div>
+            <div class="tab" onclick="switchWaccTab('calc',this)">Calcular por componentes</div>
+          </div>
+          <div class="tab-panel active" id="wacc-simple">
+            <div class="param-row">
+              <div><div class="param-label">WACC de la empresa</div><div class="param-hint">Coordinar con Finanzas / Planeación</div></div>
+              <div class="param-input"><input type="number" id="wacc-direct" value="12" min="1" max="50" step="0.1" oninput="recalcAll()"><span class="param-unit">%</span></div>
+            </div>
+          </div>
+          <div class="tab-panel" id="wacc-calc">
+            <div class="param-row">
+              <div><div class="param-label">Peso de la deuda (Wd)</div><div class="param-hint">% del financiamiento que viene de deuda</div></div>
+              <div class="param-input"><input type="number" id="wacc-wd" value="40" min="0" max="100" step="1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
+            </div>
+            <div class="param-row">
+              <div><div class="param-label">Costo de la deuda (Kd)</div><div class="param-hint">Tasa de interés de los créditos bancarios</div></div>
+              <div class="param-input"><input type="number" id="wacc-kd" value="8" min="0" max="30" step="0.1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
+            </div>
+            <div class="param-row">
+              <div><div class="param-label">Peso del capital propio (We)</div><div class="param-hint">% del financiamiento propio (= 100% − Wd)</div></div>
+              <div class="param-input"><input type="number" id="wacc-we" value="60" min="0" max="100" step="1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
+            </div>
+            <div class="param-row">
+              <div><div class="param-label">Costo del capital propio (Ke)</div><div class="param-hint">Rentabilidad exigida por los accionistas (CAPM)</div></div>
+              <div class="param-input"><input type="number" id="wacc-ke" value="15" min="0" max="40" step="0.1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
+            </div>
+            <div class="wacc-result">
+              <div class="wacc-result-label">WACC calculado</div>
+              <div class="wacc-result-value" id="wacc-calc-display">12.0%</div>
+              <div class="wacc-result-sub">Wd×Kd×(1−IST) + We×Ke</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--a800);">🏛</div>
+          <div><div class="card-title">IST — Impuesto a las empresas (Chile)</div><div class="card-sub">Se aplica sobre la utilidad antes de impuestos en los flujos netos</div></div>
+        </div>
+        <div class="card-body">
+          <div class="alert warn" style="margin-bottom:1.25rem;">
+            <div class="alert-icon">▲</div>
+            <div class="alert-body"><strong>Chile: Primera Categoría</strong>La tasa del Impuesto de Primera Categoría en Chile es actualmente 27% para empresas del régimen general (Pro Pyme puede ser menor). Este impuesto reduce los flujos netos del proyecto antes de descontarlos con el WACC. Confirma la tasa con el área de Finanzas/Tributaria.</div>
+          </div>
+          <div class="param-row">
+            <div><div class="param-label">Tasa IST (Impuesto Primera Categoría)</div><div class="param-hint">Chile régimen general: 27%. Pro Pyme: 25%</div></div>
+            <div class="param-input"><input type="number" id="ist-rate" value="27" min="0" max="40" step="0.5" oninput="recalcAll()"><span class="param-unit">%</span></div>
+          </div>
+          <div class="param-row">
+            <div><div class="param-label">Horizonte de evaluación</div><div class="param-hint">Período de proyección del modelo</div></div>
+            <div class="param-input">
+              <select id="horizon" onchange="rebuildTables();recalcAll();" style="width:80px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--text);">
+                <option value="3">3 años</option>
+                <option value="5" selected>5 años</option>
+                <option value="7">7 años</option>
+                <option value="10">10 años</option>
+              </select>
+            </div>
+          </div>
+          <div class="param-row">
+            <div><div class="param-label">Moneda del modelo</div><div class="param-hint">Todas las cifras en la unidad seleccionada</div></div>
+            <div class="param-input">
+              <select id="currency" onchange="recalcAll()" style="width:140px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--text);">
+                <option value="Miles CLP">Miles CLP ($)</option>
+                <option value="USD">USD ($)</option>
+                <option value="UF">UF</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ CAPEX ══════════ -->
+    <div class="page" id="page-capex">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--p800);color:var(--p200);">1 · CAPEX</div>
+        <h2>Plan de Inversiones</h2>
+        <p>Registra los desembolsos únicos para implementar la solución. Estos se concentran en el Año 0 y determinan la inversión inicial del proyecto.</p>
+      </div>
+      <div class="alert info"><div class="alert-icon">ℹ</div><div class="alert-body"><strong>Tip:</strong> Los activos depreciables se amortizarán durante su vida útil, generando un escudo tributario (depreciación × IST) que reduce la base imponible de cada año. La herramienta lo calcula automáticamente.</div></div>
+      <div class="card" style="margin-top:1rem;">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--p800);">📦</div>
+          <div><div class="card-title">Activos no depreciables</div><div class="card-sub">Terrenos, mejoras físicas, capital de trabajo</div></div>
+        </div>
+        <div class="card-body">
+          <table class="input-table" id="capex-nd-table">
+            <thead><tr><th>Concepto</th><th class="right">Monto (Año 0)</th><th style="width:40px;"></th></tr></thead>
+            <tbody id="capex-nd-body"></tbody>
+            <tfoot><tr class="total-row"><td>Subtotal no depreciable</td><td id="capex-nd-total">0</td><td></td></tr></tfoot>
+          </table>
+          <button class="add-row-btn" onclick="addRow('capex-nd')">+ Agregar concepto</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--p700);">💻</div>
+          <div><div class="card-title">Activos depreciables / amortizables</div><div class="card-sub">Software, hardware, desarrollo TI, consultoría</div></div>
+        </div>
+        <div class="card-body">
+          <table class="input-table" id="capex-d-table">
+            <thead><tr><th>Concepto</th><th class="right">Monto</th><th class="right">Vida útil (años)</th><th style="width:40px;"></th></tr></thead>
+            <tbody id="capex-d-body"></tbody>
+            <tfoot><tr class="total-row"><td>Subtotal depreciable</td><td id="capex-d-total">0</td><td></td><td></td></tr></tfoot>
+          </table>
+          <button class="add-row-btn" onclick="addRow('capex-d')">+ Agregar concepto</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--a800);">⚠</div>
+          <div><div class="card-title">Contingencia</div><div class="card-sub">Reserva para imprevistos (recomendado 10–15%)</div></div>
+        </div>
+        <div class="card-body">
+          <div class="field-group cols2">
+            <div class="field"><label>% de contingencia sobre total CAPEX</label><input type="number" id="contingency-pct" value="10" min="0" max="30" step="1" oninput="recalcAll()"></div>
+            <div class="field"><label>Monto contingencia (calculado)</label><input type="text" id="contingency-val" readonly style="color:var(--a400);background:var(--surface3);" value="0"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--p800);border:1px solid var(--p600);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:13px;font-weight:600;color:var(--p200);">TOTAL INVERSIÓN (CAPEX + Contingencia)</div>
+        <div style="font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:700;color:#fff;" id="capex-grand-total">0</div>
+      </div>
+    </div>
+
+    <!-- ══════════ OPEX ══════════ -->
+    <div class="page" id="page-opex">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--t800);color:var(--t100);">2 · OPEX</div>
+        <h2>Costos Recurrentes</h2>
+        <p>Ingresa los costos operativos anuales para mantener la solución funcionando. Se proyectan por cada año del horizonte de evaluación.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--t800);">🔄</div>
+          <div><div class="card-title">Costos anuales por período</div><div class="card-sub">Licencias, soporte, HH, energía, hosting, mantención, etc.</div></div>
+        </div>
+        <div class="card-body">
+          <table class="input-table" id="opex-table">
+            <thead><tr id="opex-header"><th>Concepto</th></tr></thead>
+            <tbody id="opex-body"></tbody>
+            <tfoot><tr id="opex-total-row" class="total-row"><td>Total costos recurrentes</td></tr></tfoot>
+          </table>
+          <button class="add-row-btn" onclick="addRow('opex')">+ Agregar costo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ BENEFITS ══════════ -->
+    <div class="page" id="page-benefits">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--a800);color:var(--a100);">3 · Beneficios</div>
+        <h2>Beneficios Cuantificables</h2>
+        <p>Ingresa los beneficios anuales: ahorros y nuevos ingresos que el proyecto generará. Cada cifra debe tener un supuesto documentado.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--a800);">📈</div>
+          <div><div class="card-title">Beneficios anuales por período</div><div class="card-sub">Ahorro HH, energía, licencias, ventas nuevas, mejora margen, etc.</div></div>
+        </div>
+        <div class="card-body">
+          <div class="formula-grid">
+            <div class="formula-item"><div class="formula-name">Ahorro HH</div><div class="formula-val">hrs/mes × 12 × tarifa/hr × N° personas</div></div>
+            <div class="formula-item"><div class="formula-name">Reducción errores</div><div class="formula-val">costo/error × frec/mes × (tasa_act − tasa_nueva) × 12</div></div>
+            <div class="formula-item"><div class="formula-name">Ahorro energía</div><div class="formula-val">kWh_reducidos/mes × 12 × tarifa_kWh</div></div>
+            <div class="formula-item"><div class="formula-name">Aumento ventas</div><div class="formula-val">ticket_prom × N°_transacc_nuevas × 12</div></div>
+          </div>
+          <table class="input-table" id="benefits-table">
+            <thead><tr id="benefits-header"><th>Concepto / Supuesto</th></tr></thead>
+            <tbody id="benefits-body"></tbody>
+            <tfoot><tr id="benefits-total-row" class="total-row"><td>Total beneficios anuales</td></tr></tfoot>
+          </table>
+          <button class="add-row-btn" onclick="addRow('benefits')">+ Agregar beneficio</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ QUALITATIVE ══════════ -->
+    <div class="page" id="page-qualitative">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--c800);color:var(--c100);">4 · Cualitativos</div>
+        <h2>Potencial Económico & Beneficios No Cuantificables</h2>
+        <p>Documenta el valor estratégico y cualitativo. No impacta el cálculo de retorno, pero enriquece la decisión del comité RAE.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--c800);">🌐</div>
+          <div><div class="card-title">Potencial económico indirecto</div><div class="card-sub">Oportunidades que dependen de decisiones estratégicas futuras no comprometidas</div></div>
+        </div>
+        <div class="card-body" id="potential-rows">
+          <div class="alert warn"><div class="alert-icon">▲</div><div class="alert-body">Estos ítems NO deben duplicarse en Sección 3. Si puedes calcularlo y el Sponsor lo compromete → va en beneficios cuantificables.</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--b800);">✨</div>
+          <div><div class="card-title">Beneficios no cuantificables</div><div class="card-sub">CX, calidad, UX/UI, reputación, riesgo operacional — define un KPI sustituto para cada uno</div></div>
+        </div>
+        <div class="card-body" id="qualitative-rows">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ RESULTS ══════════ -->
+    <div class="page" id="page-results">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--g800);color:var(--g100);">📊 Resultados</div>
+        <h2>Análisis Financiero Completo</h2>
+        <p>Métricas calculadas en base a los flujos descontados al WACC efectivo, aplicando IST sobre las utilidades operativas.</p>
+      </div>
+
+      <div class="results-grid">
+        <div class="res-card purple">
+          <div class="res-label">VAN</div>
+          <div class="res-value" id="r-van">—</div>
+          <div class="res-sub" id="r-van-sub">Valor presente neto</div>
+        </div>
+        <div class="res-card teal">
+          <div class="res-label">TIR</div>
+          <div class="res-value" id="r-tir">—</div>
+          <div class="res-sub" id="r-tir-sub">Tasa interna de retorno</div>
+        </div>
+        <div class="res-card amber">
+          <div class="res-label">Payback descontado</div>
+          <div class="res-value" id="r-payback">—</div>
+          <div class="res-sub" id="r-payback-sub">Recuperación de inversión</div>
+        </div>
+        <div class="res-card coral">
+          <div class="res-label">ROIC</div>
+          <div class="res-value" id="r-roic">—</div>
+          <div class="res-sub" id="r-roic-sub">Retorno sobre capital</div>
+        </div>
+      </div>
+
+      <div class="payback-bar-wrap">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;">Progreso del payback sobre horizonte de evaluación</div>
+        <div class="payback-bar-bg"><div class="payback-bar-fill" id="payback-bar" style="width:0%"></div></div>
+        <div class="payback-bar-labels"><span>Año 0</span><span id="pb-bar-mid"></span><span id="pb-bar-end"></span></div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Flujo de caja acumulado descontado (con IST)</div>
+        <canvas id="flowChart" height="220"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--surface3);">📋</div>
+          <div><div class="card-title">Tabla de flujos detallada</div><div class="card-sub">Todos los cálculos intermedios por período</div></div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div style="overflow-x:auto;">
+            <table class="flow-table" id="flow-table">
+              <thead id="flow-table-head"></thead>
+              <tbody id="flow-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt2">
+        <div class="card-header">
+          <div class="card-header-icon" style="background:var(--surface3);">🔍</div>
+          <div><div class="card-title">Parámetros aplicados</div><div class="card-sub">Resumen de los supuestos del modelo</div></div>
+        </div>
+        <div class="card-body">
+          <div class="formula-grid">
+            <div class="formula-item"><div class="formula-name">WACC efectivo</div><div class="formula-val" id="p-wacc">—</div></div>
+            <div class="formula-item"><div class="formula-name">IST aplicado</div><div class="formula-val" id="p-ist">—</div></div>
+            <div class="formula-item"><div class="formula-name">CAPEX total</div><div class="formula-val" id="p-capex">—</div></div>
+            <div class="formula-item"><div class="formula-name">OPEX total (5 años)</div><div class="formula-val" id="p-opex">—</div></div>
+            <div class="formula-item"><div class="formula-name">Beneficios totales (5 años)</div><div class="formula-val" id="p-benefits">—</div></div>
+            <div class="formula-item"><div class="formula-name">Horizonte de evaluación</div><div class="formula-val" id="p-horizon">—</div></div>
+          </div>
+          <div class="alert success mt1">
+            <div class="alert-icon">✓</div>
+            <div class="alert-body" id="decision-box"><strong>Decisión recomendada</strong>Completa las secciones anteriores para ver la recomendación.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ GUIDE ══════════ -->
+    <div class="page" id="page-guide">
+      <div class="page-hero">
+        <div class="page-hero-tag" style="background:var(--surface2);color:var(--text2);">📖 Guía</div>
+        <h2>¿Cómo completar cada sección?</h2>
+        <p>Referencia rápida con ejemplos, fórmulas y criterios de aprobación para el comité RAE.</p>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-hdr open" onclick="toggleGuide(this)">
+          <div class="guide-block-num" style="background:var(--p800);color:var(--p200);">1</div>
+          <div class="guide-block-title">Plan de Inversiones (CAPEX)</div>
+          <div class="guide-block-arrow">▼</div>
+        </div>
+        <div class="guide-block-body open">
+          <p><strong>¿Qué incluir?</strong> Todo desembolso único para implementar la solución: desarrollo TI, licencias iniciales, hardware, consultores externos, mejoras físicas.</p>
+          <p><strong>No depreciables:</strong> activos que no pierden valor contablemente (terrenos, capital de trabajo, mejoras estructurales permanentes).<br>
+          <strong>Depreciables:</strong> software (3–5 años), hardware (4–6 años), desarrollo TI (3 años). TI debe validar la vida útil antes del RAE.<br>
+          <strong>Contingencia:</strong> agrega 10–15% del total. Es obligatorio declararla aquí — si aparece un imprevisto sin contingencia, deberás solicitar un cambio de presupuesto formal.</p>
+          <p><strong>Impacto tributario:</strong> la depreciación anual de los activos depreciables genera un <em>escudo tributario</em> = Depreciación × IST. Esto reduce la base imponible y mejora el flujo neto de cada período. La herramienta lo calcula automáticamente.</p>
+          <div class="chips">
+            <span class="chip2">Software y licencias</span><span class="chip2">Hardware / POS</span><span class="chip2">Desarrollo e integración TI</span><span class="chip2">Consultoría implantación</span><span class="chip2">Mejoras físicas</span><span class="chip2">Capital de trabajo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-hdr" onclick="toggleGuide(this)">
+          <div class="guide-block-num" style="background:var(--t800);color:var(--t100);">2</div>
+          <div class="guide-block-title">Costos Recurrentes (OPEX)</div>
+          <div class="guide-block-arrow">▼</div>
+        </div>
+        <div class="guide-block-body">
+          <p><strong>¿Qué incluir?</strong> Todo pago anual para mantener la solución operativa durante el horizonte de evaluación.</p>
+          <p><strong>Horas hombre:</strong> hrs/mes × 12 × tarifa/hr × N° personas. Documenta la tarifa usada en el nombre del concepto.<br>
+          <strong>Licencias recurrentes:</strong> cotiza el contrato de renovación anual con el proveedor — no estimes por tu cuenta.<br>
+          <strong>Crecimiento del costo:</strong> si un costo crece año a año (más usuarios, inflación, mayor volumen), ingresa valores distintos por período. No repitas el mismo valor si no es realista.</p>
+          <p><strong>Regla:</strong> si el proveedor no ha cotizado el soporte/mantención, pon el costo como pendiente y coordina antes del RAE. El comité puede rechazar el caso si los costos no tienen respaldo.</p>
+          <div class="chips">
+            <span class="chip2">Licencias anuales</span><span class="chip2">Soporte SLA</span><span class="chip2">Hosting / nube</span><span class="chip2">HH operativas TI</span><span class="chip2">Mantención</span><span class="chip2">Energía</span><span class="chip2">Comisiones</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-hdr" onclick="toggleGuide(this)">
+          <div class="guide-block-num" style="background:var(--a800);color:var(--a100);">3</div>
+          <div class="guide-block-title">Beneficios Cuantificables</div>
+          <div class="guide-block-arrow">▼</div>
+        </div>
+        <div class="guide-block-body">
+          <p><strong>¿Qué incluir?</strong> Ahorros reales y nuevos ingresos comprometidos dentro del alcance del proyecto. Cada línea necesita un supuesto documentado y un área validadora.</p>
+          <p><strong>Regla de supuesto:</strong> escribe la fórmula en el nombre del concepto. Ej: "Ahorro HH cierre caja — 40 min×24 tiendas×5d×52sem×$8.000/hr". Sin esto, el RAE puede descontar el beneficio.<br>
+          <strong>Línea base (baseline):</strong> debes tener medido cuánto cuesta el proceso hoy. Sin baseline no hay beneficio medible en el cierre.<br>
+          <strong>Escenario conservador:</strong> usa el escenario base, no el optimista. Es mejor superar la meta que quedar corto.</p>
+          <p><strong>Área validadora:</strong> Finanzas valida los beneficios económicos; Operaciones valida los operativos. El Sponsor debe firmar antes del RAE.</p>
+          <div class="chips">
+            <span class="chip2">Ahorro HH</span><span class="chip2">Reducción errores</span><span class="chip2">Ahorro energía</span><span class="chip2">Ahorro licencias</span><span class="chip2">Aumento ventas</span><span class="chip2">Mejora margen</span><span class="chip2">Menor merma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-hdr" onclick="toggleGuide(this)">
+          <div class="guide-block-num" style="background:var(--c800);color:var(--c100);">4</div>
+          <div class="guide-block-title">Potencial Económico & No Cuantificables</div>
+          <div class="guide-block-arrow">▼</div>
+        </div>
+        <div class="guide-block-body">
+          <p><strong>Potencial económico:</strong> oportunidades reales que dependen de decisiones estratégicas futuras no comprometidas en el alcance actual. Se redactan como posibilidades, no como certezas. Ejemplos: "La plataforma soporta hasta 50 tiendas adicionales sin re-desarrollo", "Prerrequisito del futuro programa Loyalty — reduce su CAPEX en ~30%".</p>
+          <p><strong>Beneficios no cuantificables:</strong> CX, calidad de servicio, UX/UI, imagen de marca, reducción de riesgo operacional. Para cada uno propón un KPI sustituto: NPS antes/después, tasa de errores en auditoría, encuesta de satisfacción.</p>
+          <p><strong>Regla clave:</strong> si un ítem ya está en Sección 3 (cuantificable), NO lo pongas aquí. La diferencia está en el compromiso y en si puedes calcularlo dentro del alcance actual.</p>
+        </div>
+      </div>
+
+      <div class="guide-block">
+        <div class="guide-block-hdr" onclick="toggleGuide(this)">
+          <div class="guide-block-num" style="background:var(--g800);color:var(--g100);">✓</div>
+          <div class="guide-block-title">Métricas financieras — ¿Qué significan?</div>
+          <div class="guide-block-arrow">▼</div>
+        </div>
+        <div class="guide-block-body">
+          <p><strong>VAN (Valor Actual Neto):</strong> suma de todos los flujos futuros traídos a valor de hoy descontados al WACC, menos la inversión inicial. <em>VAN &gt; 0 → el proyecto crea valor</em>. Es la métrica más importante.</p>
+          <p><strong>TIR (Tasa Interna de Retorno):</strong> tasa que hace que el VAN sea exactamente 0. <em>TIR &gt; WACC → el proyecto es atractivo</em>. Si la TIR es muy alta, el proyecto tiene margen de seguridad ante variaciones del costo de capital.</p>
+          <p><strong>Payback descontado:</strong> tiempo en que los flujos descontados acumulados igualan la inversión inicial. Es más conservador que el payback simple porque considera el valor del dinero en el tiempo. <em>Se considera bueno: &lt; 24–36 meses para Tier 2–3</em>.</p>
+          <p><strong>ROIC (Retorno sobre Capital Invertido):</strong> beneficio neto anual promedio ÷ inversión total × 100%. <em>Se considera bueno: &gt; 15–20%</em>.</p>
+          <p><strong>IST en los flujos:</strong> el impuesto se aplica sobre la utilidad operativa neta de cada año (beneficios − costos − depreciación). El flujo neto = Utilidad operativa × (1 − IST) + Depreciación (se suma de nuevo porque no es caja).</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- CHART.JS -->
+<!-- Chart.js reemplazado por canvas nativo — sin dependencias externas -->
+<script>
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let chartInstance = null;
+let currentPage = 'params';
+
+const state = {
+  capexND: [],
+  capexD: [],
+  opex: [],
+  benefits: [],
+  potentials: [],
+  qualitative: []
+};
+
+// ══════════════════════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════════════════════
+function showPage(id) {
+  currentPage = id;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-pill').forEach(p => { if (p.textContent.toLowerCase().includes(id.slice(0,4)) || p.getAttribute('onclick')?.includes(id)) p.classList.add('active'); });
+  const si = document.getElementById('si-' + id);
+  if (si) si.classList.add('active');
+  if (id === 'results') recalcAll();
+}
+
+// ══════════════════════════════════════════════════════════
+// WACC TAB
+// ══════════════════════════════════════════════════════════
+let waccMode = 'simple';
+function switchWaccTab(mode, el) {
+  waccMode = mode;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('wacc-' + mode).classList.add('active');
+  recalcWacc();
+}
+
+function recalcWacc() {
+  const ist = parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27;
+  const wd = parseFloat(document.getElementById('wacc-wd').value) / 100 || 0.4;
+  const kd = parseFloat(document.getElementById('wacc-kd').value) / 100 || 0.08;
+  const we = parseFloat(document.getElementById('wacc-we').value) / 100 || 0.6;
+  const ke = parseFloat(document.getElementById('wacc-ke').value) / 100 || 0.15;
+  const wacc = wd * kd * (1 - ist) + we * ke;
+  const el = document.getElementById('wacc-calc-display');
+  if (el) el.textContent = (wacc * 100).toFixed(2) + '%';
+  recalcAll();
+}
+
+function getWACC() {
+  if (waccMode === 'simple') {
+    return parseFloat(document.getElementById('wacc-direct').value) / 100 || 0.12;
+  } else {
+    const ist = parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27;
+    const wd = parseFloat(document.getElementById('wacc-wd').value) / 100 || 0.4;
+    const kd = parseFloat(document.getElementById('wacc-kd').value) / 100 || 0.08;
+    const we = parseFloat(document.getElementById('wacc-we').value) / 100 || 0.6;
+    const ke = parseFloat(document.getElementById('wacc-ke').value) / 100 || 0.15;
+    return wd * kd * (1 - ist) + we * ke;
+  }
+}
+
+function getIST() { return parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27; }
+function getHorizon() { return parseInt(document.getElementById('horizon').value) || 5; }
+function getCurrency() { return document.getElementById('currency')?.value || 'Miles CLP'; }
+
+// ══════════════════════════════════════════════════════════
+// ROW MANAGEMENT
+// ══════════════════════════════════════════════════════════
+let rowIds = { 'capex-nd': 0, 'capex-d': 0, opex: 0, benefits: 0 };
+
+function addRow(type) {
+  const id = ++rowIds[type];
+  const h = getHorizon();
+
+  if (type === 'capex-nd') {
+    const tr = document.createElement('tr');
+    tr.id = 'cnd-' + id;
+    tr.innerHTML = `<td><input type="text" placeholder="Ej: Mejoras sala servidores" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text);font-size:12px;outline:none;"></td>
+      <td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-nd-val" style="width:100%"></td>
+      <td><button class="del-btn" onclick="delRow('cnd-${id}')">✕</button></td>`;
+    document.getElementById('capex-nd-body').appendChild(tr);
+  } else if (type === 'capex-d') {
+    const tr = document.createElement('tr');
+    tr.id = 'cd-' + id;
+    tr.innerHTML = `<td><input type="text" placeholder="Ej: Software ERP" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text);font-size:12px;outline:none;"></td>
+      <td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-d-val"></td>
+      <td><input type="number" placeholder="5" min="1" max="20" value="5" oninput="recalcAll()" class="capex-d-life" style="width:70px;"></td>
+      <td><button class="del-btn" onclick="delRow('cd-${id}')">✕</button></td>`;
+    document.getElementById('capex-d-body').appendChild(tr);
+  } else if (type === 'opex') {
+    const tr = document.createElement('tr');
+    tr.id = 'opex-' + id;
+    let cells = `<td class="row-label"><input type="text" placeholder="Ej: Licencias software" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text2);font-size:12px;outline:none;"></td>`;
+    for (let y = 1; y <= h; y++) cells += `<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="opex-val" data-year="${y}"></td>`;
+    cells += `<td><button class="del-btn" onclick="delRow('opex-${id}')">✕</button></td>`;
+    tr.innerHTML = cells;
+    document.getElementById('opex-body').appendChild(tr);
+  } else if (type === 'benefits') {
+    const tr = document.createElement('tr');
+    tr.id = 'ben-' + id;
+    let cells = `<td class="row-label"><input type="text" placeholder="Ej: Ahorro HH — 40 min×24 tiendas×$8.000/hr" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text2);font-size:12px;outline:none;"></td>`;
+    for (let y = 1; y <= h; y++) cells += `<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="ben-val" data-year="${y}"></td>`;
+    cells += `<td><button class="del-btn" onclick="delRow('ben-${id}')">✕</button></td>`;
+    tr.innerHTML = cells;
+    document.getElementById('benefits-body').appendChild(tr);
+  }
+  recalcAll();
+}
+
+function delRow(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  recalcAll();
+}
+
+function rebuildTables() {
+  const h = getHorizon();
+  // rebuild opex header
+  const oh = document.getElementById('opex-header');
+  oh.innerHTML = '<th>Concepto</th>' + Array.from({length:h},(_,i)=>`<th class="right">Año ${i+1}</th>`).join('') + '<th></th>';
+  const otr = document.getElementById('opex-total-row');
+  otr.innerHTML = '<td>Total costos recurrentes</td>' + Array.from({length:h},(_,i)=>`<td id="opex-total-y${i+1}" style="text-align:right;color:var(--c400);">0</td>`).join('') + '<td></td>';
+  // rebuild benefits header
+  const bh = document.getElementById('benefits-header');
+  bh.innerHTML = '<th>Concepto / Supuesto</th>' + Array.from({length:h},(_,i)=>`<th class="right">Año ${i+1}</th>`).join('') + '<th></th>';
+  const btr = document.getElementById('benefits-total-row');
+  btr.innerHTML = '<td>Total beneficios anuales</td>' + Array.from({length:h},(_,i)=>`<td id="ben-total-y${i+1}" style="text-align:right;color:var(--g400);">0</td>`).join('') + '<td></td>';
+  // clear opex and benefits rows as they have wrong column count
+  document.getElementById('opex-body').innerHTML = '';
+  document.getElementById('benefits-body').innerHTML = '';
+  rowIds.opex = 0; rowIds.benefits = 0;
+}
+
+// Qualitative rows
+function addQualRow(type) {
+  const container = document.getElementById(type === 'potential' ? 'potential-rows' : 'qualitative-rows');
+  const div = document.createElement('div');
+  div.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:8px;';
+  div.innerHTML = `
+    <div class="field"><label>${type==='potential'?'Potencial económico':'Beneficio cualitativo'}</label>
+      <input type="text" placeholder="${type==='potential'?'Ej: Escalabilidad a 50 nuevas tiendas':'Ej: Mejora experiencia supervisores (CX)'}"></div>
+    <div class="field"><label>${type==='potential'?'Descripción del impacto estratégico':'KPI sustituto para medición'}</label>
+      <input type="text" placeholder="${type==='potential'?'Reduce CAPEX de futuros proyectos en ~30%':'NPS interno antes/después a 90 días'}"></div>
+    <div style="display:flex;align-items:flex-end;padding-bottom:1px;"><button class="del-btn" onclick="this.closest('div[style]').remove()">✕</button></div>`;
+  container.appendChild(div);
+}
+
+// ══════════════════════════════════════════════════════════
+// CALCULATIONS
+// ══════════════════════════════════════════════════════════
+function fmt(n) {
+  if (isNaN(n) || n === null) return '—';
+  const sign = n < 0 ? '-' : '';
+  const abs = Math.abs(n);
+  if (abs >= 1000000) return sign + (abs/1000000).toFixed(2) + 'M';
+  if (abs >= 1000) return sign + abs.toLocaleString('es-CL', {maximumFractionDigits:0});
+  return sign + abs.toFixed(1);
+}
+
+function sumInputs(selector) {
+  return Array.from(document.querySelectorAll(selector)).reduce((s,el) => s + (parseFloat(el.value)||0), 0);
+}
+
+function recalcAll() {
+  const h = getHorizon();
+  const wacc = getWACC();
+  const ist = getIST();
+
+  // ── CAPEX ──
+  const capexND = sumInputs('.capex-nd-val');
+  const capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr => ({
+    val: parseFloat(tr.querySelector('.capex-d-val')?.value)||0,
+    life: parseFloat(tr.querySelector('.capex-d-life')?.value)||5
+  }));
+  const capexD = capexDItems.reduce((s,i) => s + i.val, 0);
+  const contPct = parseFloat(document.getElementById('contingency-pct')?.value)||0;
+  const contVal = (capexND + capexD) * contPct / 100;
+  const totalCapex = capexND + capexD + contVal;
+
+  if (document.getElementById('capex-nd-total')) document.getElementById('capex-nd-total').textContent = fmt(capexND);
+  if (document.getElementById('capex-d-total')) document.getElementById('capex-d-total').textContent = fmt(capexD);
+  if (document.getElementById('contingency-val')) document.getElementById('contingency-val').value = fmt(contVal);
+  if (document.getElementById('capex-grand-total')) document.getElementById('capex-grand-total').textContent = fmt(totalCapex);
+
+  // ── Annual depreciation by year ──
+  const deprByYear = Array(h + 1).fill(0);
+  capexDItems.forEach(item => {
+    const annualDepr = item.life > 0 ? item.val / item.life : 0;
+    for (let y = 1; y <= Math.min(h, item.life); y++) deprByYear[y] += annualDepr;
+  });
+
+  // ── OPEX by year ──
+  const opexByYear = Array(h + 1).fill(0);
+  document.querySelectorAll('#opex-body tr').forEach(tr => {
+    tr.querySelectorAll('.opex-val').forEach(inp => {
+      const y = parseInt(inp.dataset.year);
+      opexByYear[y] = (opexByYear[y]||0) + (parseFloat(inp.value)||0);
+    });
+  });
+  for (let y = 1; y <= h; y++) {
+    const el = document.getElementById('opex-total-y' + y);
+    if (el) el.textContent = fmt(opexByYear[y]);
+  }
+
+  // ── Benefits by year ──
+  const benByYear = Array(h + 1).fill(0);
+  document.querySelectorAll('#benefits-body tr').forEach(tr => {
+    tr.querySelectorAll('.ben-val').forEach(inp => {
+      const y = parseInt(inp.dataset.year);
+      benByYear[y] = (benByYear[y]||0) + (parseFloat(inp.value)||0);
+    });
+  });
+  for (let y = 1; y <= h; y++) {
+    const el = document.getElementById('ben-total-y' + y);
+    if (el) el.textContent = fmt(benByYear[y]);
+  }
+
+  // ── Net cash flows with IST ──
+  // Flow(0) = -totalCapex
+  // Flow(y) = (Benefits - OPEX - Depreciation) * (1-IST) + Depreciation
+  const flows = [];
+  flows[0] = -totalCapex;
+  for (let y = 1; y <= h; y++) {
+    const ebit = benByYear[y] - opexByYear[y] - deprByYear[y];
+    const nopat = ebit * (1 - ist);
+    const fcf = nopat + deprByYear[y]; // add back depreciation (non-cash)
+    flows[y] = fcf;
+  }
+
+  // ── VAN ──
+  let van = flows[0];
+  const discounted = [flows[0]];
+  for (let y = 1; y <= h; y++) {
+    const df = flows[y] / Math.pow(1 + wacc, y);
+    discounted[y] = df;
+    van += df;
+  }
+
+  // ── Payback descontado ──
+  let cumulDisc = [flows[0]];
+  for (let y = 1; y <= h; y++) cumulDisc[y] = cumulDisc[y-1] + discounted[y];
+  let paybackYears = null;
+  for (let y = 1; y <= h; y++) {
+    if (cumulDisc[y-1] < 0 && cumulDisc[y] >= 0) {
+      const frac = Math.abs(cumulDisc[y-1]) / discounted[y];
+      paybackYears = (y - 1) + frac;
+      break;
+    }
+  }
+
+  // ── TIR (bisection) ──
+  let tir = null;
+  function npvAtRate(r) {
+    return flows.reduce((s,f,i) => s + f / Math.pow(1 + r, i), 0);
+  }
+  let lo = -0.999, hi = 100;
+  if (npvAtRate(lo) * npvAtRate(hi) < 0) {
+    for (let i = 0; i < 200; i++) {
+      const mid = (lo + hi) / 2;
+      if (Math.abs(hi - lo) < 1e-8) { tir = mid; break; }
+      npvAtRate(mid) > 0 ? lo = mid : hi = mid;
+    }
+    tir = (lo + hi) / 2;
+  }
+
+  // ── ROIC ──
+  const avgBenefit = benByYear.slice(1).reduce((s,v) => s + v, 0) / h;
+  const avgOpex = opexByYear.slice(1).reduce((s,v) => s + v, 0) / h;
+  const roic = totalCapex > 0 ? ((avgBenefit - avgOpex) * (1 - ist) / totalCapex) * 100 : null;
+
+  // ── UPDATE SIDEBAR ──
+  const sbWacc = document.getElementById('sb-wacc');
+  if (sbWacc) { sbWacc.textContent = (wacc*100).toFixed(1) + '%'; sbWacc.className = 'kpi-val neutral mono'; }
+  const sbVan = document.getElementById('sb-van');
+  if (sbVan) { sbVan.textContent = van ? fmt(van) : '—'; sbVan.className = 'kpi-val mono ' + (van > 0 ? 'good' : van < 0 ? 'bad' : 'pending'); }
+  const sbTir = document.getElementById('sb-tir');
+  if (sbTir) { sbTir.textContent = tir !== null ? (tir*100).toFixed(1)+'%' : '—'; sbTir.className = 'kpi-val mono ' + (tir > wacc ? 'good' : tir !== null ? 'bad' : 'pending'); }
+  const sbPb = document.getElementById('sb-payback');
+  if (sbPb) { sbPb.textContent = paybackYears !== null ? paybackYears.toFixed(1)+' años' : (van < 0 ? '>'+h+'a' : '—'); sbPb.className = 'kpi-val mono ' + (paybackYears !== null ? (paybackYears < 2.5 ? 'good' : 'neutral') : 'pending'); }
+  const sbRoic = document.getElementById('sb-roic');
+  if (sbRoic) { sbRoic.textContent = roic !== null ? roic.toFixed(1)+'%' : '—'; sbRoic.className = 'kpi-val mono ' + (roic > 15 ? 'good' : roic !== null ? 'neutral' : 'pending'); }
+
+  // ── UPDATE RESULTS PAGE ──
+  if (currentPage === 'results') {
+    updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h);
+  }
+}
+
+function updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h) {
+  // KPI cards
+  const rVan = document.getElementById('r-van');
+  if (rVan) { rVan.textContent = fmt(van); rVan.className = 'res-value ' + (van > 0 ? 'good' : 'bad'); }
+  const rVanSub = document.getElementById('r-van-sub');
+  if (rVanSub) rVanSub.textContent = van > 0 ? 'El proyecto crea valor ✓' : 'El proyecto destruye valor ✗';
+
+  const rTir = document.getElementById('r-tir');
+  if (rTir) { rTir.textContent = tir !== null ? (tir*100).toFixed(1)+'%' : 'N/A'; rTir.className = 'res-value ' + (tir > wacc ? 'good' : 'bad'); }
+  const rTirSub = document.getElementById('r-tir-sub');
+  if (rTirSub) rTirSub.textContent = tir !== null ? (tir > wacc ? `TIR > WACC (${(wacc*100).toFixed(1)}%) ✓` : `TIR < WACC (${(wacc*100).toFixed(1)}%) ✗`) : 'Sin flujos positivos';
+
+  const rPb = document.getElementById('r-payback');
+  if (rPb) { rPb.textContent = paybackYears !== null ? paybackYears.toFixed(1)+' años' : '>' + h + ' años'; rPb.className = 'res-value ' + (paybackYears !== null && paybackYears < h ? 'good' : 'bad'); }
+  const rPbSub = document.getElementById('r-payback-sub');
+  if (rPbSub) rPbSub.textContent = paybackYears !== null ? (paybackYears < 2 ? 'Excelente — recuperación rápida' : paybackYears < 3 ? 'Bueno — dentro del horizonte' : 'Aceptable — evaluar con Sponsor') : 'No se recupera en el horizonte';
+
+  const rRoic = document.getElementById('r-roic');
+  if (rRoic) { rRoic.textContent = roic !== null ? roic.toFixed(1)+'%' : '—'; rRoic.className = 'res-value ' + (roic > 15 ? 'good' : roic > 0 ? 'neutral' : 'bad'); }
+  const rRoicSub = document.getElementById('r-roic-sub');
+  if (rRoicSub) rRoicSub.textContent = roic !== null ? (roic > 20 ? 'Alto retorno ✓' : roic > 15 ? 'Retorno aceptable' : 'Retorno bajo — revisar') : 'Sin inversión registrada';
+
+  // Payback bar
+  const barEl = document.getElementById('payback-bar');
+  if (barEl) barEl.style.width = paybackYears !== null ? Math.min(100, (paybackYears / h) * 100) + '%' : '100%';
+  const pbMid = document.getElementById('pb-bar-mid');
+  if (pbMid) pbMid.textContent = 'Año ' + Math.round(h/2);
+  const pbEnd = document.getElementById('pb-bar-end');
+  if (pbEnd) pbEnd.textContent = 'Año ' + h;
+
+  // Decision
+  const decisionEl = document.getElementById('decision-box');
+  if (decisionEl) {
+    const ok = van > 0 && tir > wacc && paybackYears !== null && paybackYears < h;
+    const marginal = van > 0 && (tir <= wacc || paybackYears >= h - 1);
+    decisionEl.parentElement.className = 'alert ' + (ok ? 'success' : marginal ? 'warn' : 'warn');
+    decisionEl.innerHTML = ok
+      ? `<strong>Recomendación: APROBAR ✓</strong>VAN positivo (${fmt(van)}), TIR (${tir ? (tir*100).toFixed(1)+'%' : 'N/A'}) supera el WACC y el payback es de ${paybackYears ? paybackYears.toFixed(1) : '—'} años. El proyecto crea valor y se recomienda aprobar en RAE.`
+      : `<strong>Recomendación: REVISAR con Sponsor ▲</strong>${van <= 0 ? 'VAN negativo — el proyecto no recupera la inversión al costo de capital. ' : ''}${tir !== null && tir <= wacc ? 'TIR inferior al WACC. ' : ''}${paybackYears === null ? 'El proyecto no se recupera dentro del horizonte evaluado.' : ''}Discute los supuestos con tu Sponsor y la OP antes de presentar al RAE.`;
+  }
+
+  // Params summary
+  ['p-wacc','p-ist','p-capex','p-opex','p-benefits','p-horizon'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const vals = [
+      (wacc*100).toFixed(2)+'% ('+getCurrency()+')',
+      (ist*100).toFixed(1)+'% Impuesto Primera Categoría',
+      fmt(totalCapex) + ' ' + getCurrency(),
+      fmt(opexByYear.slice(1).reduce((s,v)=>s+v,0)) + ' ' + getCurrency() + ' (total ' + h + ' años)',
+      fmt(benByYear.slice(1).reduce((s,v)=>s+v,0)) + ' ' + getCurrency() + ' (total ' + h + ' años)',
+      h + ' años (Año ' + document.getElementById('proj-year')?.value + ' al Año ' + (parseInt(document.getElementById('proj-year')?.value||2026)+h) + ')'
+    ];
+    el.textContent = vals[i];
+  });
+
+  // Flow table
+  const thead = document.getElementById('flow-table-head');
+  const tbody = document.getElementById('flow-table-body');
+  if (!thead || !tbody) return;
+  const years = ['Concepto', 'Año 0', ...Array.from({length:h},(_,i)=>'Año '+(i+1))];
+  thead.innerHTML = '<tr>' + years.map(y=>`<th>${y}</th>`).join('') + '</tr>';
+
+  const deprByYear = Array(h+1).fill(0);
+  const capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr => ({
+    val: parseFloat(tr.querySelector('.capex-d-val')?.value)||0,
+    life: parseFloat(tr.querySelector('.capex-d-life')?.value)||5
+  }));
+  capexDItems.forEach(item => {
+    const annualDepr = item.life > 0 ? item.val / item.life : 0;
+    for (let y = 1; y <= Math.min(h, item.life); y++) deprByYear[y] += annualDepr;
+  });
+
+  const rows = [
+    { label:'Beneficios brutos', vals: [null, ...benByYear.slice(1)], cls:'highlight' },
+    { label:'Costos recurrentes (OPEX)', vals: [null, ...opexByYear.slice(1).map(v=>-v)], cls:'' },
+    { label:'Depreciación (escudo fiscal)', vals: [null, ...deprByYear.slice(1).map(v=>-v)], cls:'' },
+    { label:'EBIT (Utilidad operativa)', vals: [null, ...Array.from({length:h},(_,i)=>benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1])], cls:'highlight' },
+    { label:'IST (' + (ist*100).toFixed(0) + '% sobre EBIT positivo)', vals: [null, ...Array.from({length:h},(_,i)=>{ const ebit=benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1]; return ebit>0?-ebit*ist:0; })], cls:'' },
+    { label:'NOPAT (EBIT neto de impuestos)', vals: [null, ...Array.from({length:h},(_,i)=>{ const ebit=benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1]; return ebit*(1-ist); })], cls:'' },
+    { label:'+ Depreciación (suma de vuelta)', vals: [null, ...deprByYear.slice(1)], cls:'' },
+    { label:'Flujo de Caja Libre (FCF)', vals: flows.map((f,i)=>i===0?f:f), cls:'highlight' },
+    { label:'Factor de descuento (WACC ' + (wacc*100).toFixed(1) + '%)', vals: Array.from({length:h+1},(_,i)=>i===0?1:1/Math.pow(1+wacc,i)), cls:'' },
+    { label:'FCF descontado', vals: discounted, cls:'' },
+    { label:'FCF descontado acumulado', vals: cumulDisc, cls:'highlight' },
+  ];
+
+  tbody.innerHTML = rows.map(row => {
+    const cells = row.vals.map((v,i) => {
+      if (v === null) return `<td class="val">—</td>`;
+      const cls = v > 0 ? 'positive' : v < 0 ? 'negative' : '';
+      const isSmall = Math.abs(v) < 1 && v !== 0;
+      return `<td class="val" style="${v>0?'color:var(--g400)':v<0?'color:var(--c400)':''}">${isSmall ? v.toFixed(4) : fmt(v)}</td>`;
+    });
+    return `<tr class="${row.cls}"><td>${row.label}</td>${cells.join('')}</tr>`;
+  }).join('');
+
+  // ── GRÁFICO NATIVO CANVAS (sin dependencias externas) ──
+  drawNativeChart(cumulDisc, h);
+}
+
+function drawNativeChart(cumulDisc, h) {
+  const canvas = document.getElementById('flowChart');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || 700;
+  const H = 240;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD_L = 72, PAD_R = 20, PAD_T = 20, PAD_B = 40;
+  const chartW = W - PAD_L - PAD_R;
+  const chartH = H - PAD_T - PAD_B;
+
+  const labels = ['Año 0', ...Array.from({length:h},(_,i)=>'Año '+(i+1))];
+  const n = cumulDisc.length;
+  const allVals = cumulDisc.filter(v => isFinite(v));
+  const minVal = Math.min(0, ...allVals);
+  const maxVal = Math.max(0, ...allVals);
+  const range = maxVal - minVal || 1;
+  const paddedMin = minVal - range * 0.08;
+  const paddedMax = maxVal + range * 0.08;
+  const totalRange = paddedMax - paddedMin || 1;
+
+  function toY(v) { return PAD_T + chartH * (1 - (v - paddedMin) / totalRange); }
+  function toX(i) { return PAD_L + (i + 0.5) * (chartW / n); }
+  const barW = Math.max(8, (chartW / n) * 0.55);
+  const zeroY = toY(0);
+
+  // ── grid lines & y-axis labels ──
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.textAlign = 'right';
+  const steps = 5;
+  for (let s = 0; s <= steps; s++) {
+    const v = paddedMin + (totalRange * s / steps);
+    const y = toY(v);
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(PAD_L, y); ctx.lineTo(W - PAD_R, y); ctx.stroke();
+    ctx.fillStyle = '#888780';
+    ctx.fillText(fmt(v), PAD_L - 6, y + 4);
+  }
+
+  // ── zero line ──
+  ctx.strokeStyle = 'rgba(83,74,183,0.35)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([5, 4]);
+  ctx.beginPath(); ctx.moveTo(PAD_L, zeroY); ctx.lineTo(W - PAD_R, zeroY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── bars ──
+  cumulDisc.forEach((v, i) => {
+    if (!isFinite(v)) return;
+    const x = toX(i) - barW / 2;
+    const yTop = toY(Math.max(0, v));
+    const yBot = toY(Math.min(0, v));
+    const bh = Math.max(2, Math.abs(yBot - yTop));
+    const positive = v >= 0;
+    ctx.fillStyle = positive ? 'rgba(15,110,86,0.82)' : 'rgba(153,60,29,0.78)';
+    const r = Math.min(5, barW / 3);
+    ctx.beginPath();
+    ctx.roundRect(x, yTop, barW, bh, positive ? [r, r, 0, 0] : [0, 0, r, r]);
+    ctx.fill();
+    // value label on bar
+    ctx.fillStyle = positive ? '#0F6E56' : '#993C1D';
+    ctx.font = '10px DM Mono, monospace';
+    ctx.textAlign = 'center';
+    const labelY = positive ? yTop - 5 : yBot + 13;
+    if (Math.abs(v) > 0) ctx.fillText(fmt(v), toX(i), labelY);
+  });
+
+  // ── x-axis labels ──
+  ctx.fillStyle = '#888780';
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  labels.forEach((lbl, i) => {
+    ctx.fillText(lbl, toX(i), H - PAD_B + 18);
+  });
+
+  // ── legend ──
+  ctx.textAlign = 'left';
+  ctx.font = '11px DM Sans, sans-serif';
+  [[0.82, '#0F6E56', 'Acumulado positivo'], [0.78, '#993C1D', 'Acumulado negativo'],
+   [0.35, '#534AB7', 'Línea cero (referencia)']].forEach(([, color, label], i) => {
+    const lx = PAD_L + i * 180;
+    ctx.fillStyle = color;
+    ctx.fillRect(lx, PAD_T - 10, 12, 10);
+    ctx.fillStyle = '#5F5E5A';
+    ctx.fillText(label, lx + 16, PAD_T);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// GUIDE ACCORDION
+// ══════════════════════════════════════════════════════════
+function toggleGuide(hdr) {
+  const body = hdr.nextElementSibling;
+  hdr.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+function init() {
+  rebuildTables();
+  // Add initial example rows
+  addRow('capex-nd');
+  addRow('capex-d');
+  addRow('capex-d');
+  addRow('opex');
+  addRow('opex');
+  addRow('benefits');
+  addRow('benefits');
+
+  // Add qualitative add buttons
+  const potentialRows = document.getElementById('potential-rows');
+  const btn1 = document.createElement('button');
+  btn1.className = 'add-row-btn'; btn1.style.marginTop = '12px';
+  btn1.textContent = '+ Agregar potencial económico';
+  btn1.onclick = () => addQualRow('potential');
+  potentialRows.appendChild(btn1);
+
+  const qualRows = document.getElementById('qualitative-rows');
+  const btn2 = document.createElement('button');
+  btn2.className = 'add-row-btn';
+  btn2.textContent = '+ Agregar beneficio cualitativo';
+  btn2.onclick = () => addQualRow('qualitative');
+  qualRows.appendChild(btn2);
+
+  recalcAll();
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
