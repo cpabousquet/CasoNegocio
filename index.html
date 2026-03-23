@@ -31,7 +31,9 @@ html{scroll-behavior:smooth;}
 body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh;}
 
 /* ── TOPBAR ── */
-.topbar{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid var(--border2);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.topbar{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid var(--border2);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.navbar{position:sticky;top:52px;z-index:199;background:#FAFAF8;border-bottom:1px solid var(--border2);padding:0 1.5rem;height:42px;display:flex;align-items:center;gap:4px;overflow-x:auto;}
+.navbar::-webkit-scrollbar{display:none;}
 .brand{display:flex;align-items:center;gap:10px;}
 .brand-mark{width:32px;height:32px;background:var(--p700);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-weight:700;font-size:13px;color:#fff;}
 .brand-name{font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;color:var(--p800);}
@@ -40,12 +42,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .nav-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;color:var(--text2);transition:all .15s;background:transparent;}
 .nav-pill:hover{color:var(--p700);background:var(--p50);}
 .nav-pill.active{background:var(--p700);color:#fff;border-color:var(--p700);}
+.topbar-action{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:'Segoe UI',Arial,sans-serif;transition:all .15s;white-space:nowrap;}
+.topbar-action:hover{background:var(--surface2);color:var(--text);}
+.topbar-action-accent{background:var(--p700);color:#fff;border-color:var(--p700);}
+.topbar-action-accent:hover{background:var(--p800);color:#fff;}
 
 /* ── LAYOUT ── */
-.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px);}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 94px);}
 
 /* ── SIDEBAR ── */
-.sidebar{background:#fff;border-right:1px solid var(--border2);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sidebar{background:#fff;border-right:1px solid var(--border2);padding:1.5rem 0;position:sticky;top:94px;height:calc(100vh - 94px);overflow-y:auto;}
 .sidebar-section{padding:0 1rem 1rem;}
 .sidebar-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:.5rem 1rem .25rem;display:block;}
 .sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .12s;margin-bottom:2px;border:1px solid transparent;}
@@ -234,15 +240,21 @@ canvas{width:100%!important;}
       <div class="brand-sub">Caso de Negocio — Análisis Costo-Beneficio</div>
     </div>
   </div>
-  <div class="nav-pills">
-    <div class="nav-pill active" onclick="showPage('params')">Parámetros</div>
-    <div class="nav-pill" onclick="showPage('capex')">1 · Inversión</div>
-    <div class="nav-pill" onclick="showPage('opex')">2 · Costos</div>
-    <div class="nav-pill" onclick="showPage('benefits')">3 · Beneficios</div>
-    <div class="nav-pill" onclick="showPage('qualitative')">4 · Cualitativos</div>
-    <div class="nav-pill" onclick="showPage('results')">Resultados</div>
-    <div class="nav-pill" onclick="showPage('guide')">Guía</div>
+  <div style="display:flex;gap:6px;flex-shrink:0;">
+    <button class="topbar-action" onclick="saveSession()" title="Guardar sesion">💾 Guardar sesión</button>
+    <button class="topbar-action" onclick="document.getElementById('load-input').click()" title="Cargar sesion">📂 Cargar sesión</button>
+    <button class="topbar-action topbar-action-accent" onclick="exportReport()" title="Exportar informe">📄 Exportar informe</button>
+    <input type="file" id="load-input" accept=".json" style="display:none" onchange="loadSession(event)">
   </div>
+</div>
+<div class="navbar">
+  <div class="nav-pill active" onclick="showPage('params')" id="np-params">⚙ Parámetros</div>
+  <div class="nav-pill" onclick="showPage('capex')" id="np-capex">1 · Inversión</div>
+  <div class="nav-pill" onclick="showPage('opex')" id="np-opex">2 · Costos</div>
+  <div class="nav-pill" onclick="showPage('benefits')" id="np-benefits">3 · Beneficios</div>
+  <div class="nav-pill" onclick="showPage('qualitative')" id="np-qualitative">4 · Cualitativos</div>
+  <div class="nav-pill" onclick="showPage('results')" id="np-results">📊 Resultados</div>
+  <div class="nav-pill" onclick="showPage('guide')" id="np-guide">📖 Guía</div>
 </div>
 
 <div class="app">
@@ -750,8 +762,10 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-pill').forEach(p => { if (p.textContent.toLowerCase().includes(id.slice(0,4)) || p.getAttribute('onclick')?.includes(id)) p.classList.add('active'); });
+  const pageEl = document.getElementById('page-' + id);
+  if (pageEl) pageEl.classList.add('active');
+  const pillEl = document.getElementById('np-' + id);
+  if (pillEl) pillEl.classList.add('active');
   const si = document.getElementById('si-' + id);
   if (si) si.classList.add('active');
   if (id === 'results') recalcAll();
@@ -1261,6 +1275,396 @@ function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
+// ══════════════════════════════════════════════════════════
+// GUARDAR SESIÓN
+// ══════════════════════════════════════════════════════════
+function collectSession() {
+  const h = getHorizon();
+  // Parámetros generales
+  const params = {
+    name: document.getElementById('proj-name')?.value || '',
+    po: document.getElementById('proj-po')?.value || '',
+    sponsor: document.getElementById('proj-sponsor')?.value || '',
+    tier: document.getElementById('proj-tier')?.value || 'T2',
+    year: document.getElementById('proj-year')?.value || '2026',
+    waccMode,
+    waccDirect: document.getElementById('wacc-direct')?.value || '12',
+    waccWd: document.getElementById('wacc-wd')?.value || '40',
+    waccKd: document.getElementById('wacc-kd')?.value || '8',
+    waccWe: document.getElementById('wacc-we')?.value || '60',
+    waccKe: document.getElementById('wacc-ke')?.value || '15',
+    ist: document.getElementById('ist-rate')?.value || '27',
+    horizon: document.getElementById('horizon')?.value || '5',
+    currency: document.getElementById('currency')?.value || 'Miles CLP',
+    contingency: document.getElementById('contingency-pct')?.value || '10',
+  };
+  // CAPEX no depreciable
+  const capexND = Array.from(document.querySelectorAll('#capex-nd-body tr')).map(tr => ({
+    label: tr.querySelector('input[type=text]')?.value || '',
+    val: tr.querySelector('.capex-nd-val')?.value || ''
+  }));
+  // CAPEX depreciable
+  const capexD = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr => ({
+    label: tr.querySelector('input[type=text]')?.value || '',
+    val: tr.querySelector('.capex-d-val')?.value || '',
+    life: tr.querySelector('.capex-d-life')?.value || '5'
+  }));
+  // OPEX
+  const opex = Array.from(document.querySelectorAll('#opex-body tr')).map(tr => {
+    const label = tr.querySelector('input[type=text]')?.value || '';
+    const vals = Array.from(tr.querySelectorAll('.opex-val')).map(i => i.value || '');
+    return { label, vals };
+  });
+  // Benefits
+  const benefits = Array.from(document.querySelectorAll('#benefits-body tr')).map(tr => {
+    const label = tr.querySelector('input[type=text]')?.value || '';
+    const vals = Array.from(tr.querySelectorAll('.ben-val')).map(i => i.value || '');
+    return { label, vals };
+  });
+  // Cualitativos
+  const potentials = Array.from(document.querySelectorAll('#potential-rows div[style]')).map(d => {
+    const ins = d.querySelectorAll('input');
+    return { label: ins[0]?.value || '', desc: ins[1]?.value || '' };
+  });
+  const qualitatives = Array.from(document.querySelectorAll('#qualitative-rows div[style]')).map(d => {
+    const ins = d.querySelectorAll('input');
+    return { label: ins[0]?.value || '', kpi: ins[1]?.value || '' };
+  });
+  return { version: '1.0', savedAt: new Date().toISOString(), params, capexND, capexD, opex, benefits, potentials, qualitatives };
+}
+
+function saveSession() {
+  const data = collectSession();
+  const name = data.params.name || 'caso-negocio';
+  const filename = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '') + '_sesion.json';
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('✓ Sesión guardada como ' + filename);
+}
+
+// ══════════════════════════════════════════════════════════
+// CARGAR SESIÓN
+// ══════════════════════════════════════════════════════════
+function loadSession(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      applySession(data);
+      showToast('✓ Sesión cargada correctamente');
+    } catch(err) {
+      showToast('Error al leer el archivo. Asegúrate de que es un JSON válido.', true);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function applySession(data) {
+  const p = data.params;
+  // Parámetros
+  const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+  setVal('proj-name', p.name); setVal('proj-po', p.po); setVal('proj-sponsor', p.sponsor);
+  setVal('proj-tier', p.tier); setVal('proj-year', p.year);
+  setVal('wacc-direct', p.waccDirect); setVal('wacc-wd', p.waccWd); setVal('wacc-kd', p.waccKd);
+  setVal('wacc-we', p.waccWe); setVal('wacc-ke', p.waccKe);
+  setVal('ist-rate', p.ist); setVal('contingency-pct', p.contingency);
+  setVal('currency', p.currency);
+  if (p.horizon) { setVal('horizon', p.horizon); rebuildTables(); }
+  // Limpiar tablas
+  document.getElementById('capex-nd-body').innerHTML = '';
+  document.getElementById('capex-d-body').innerHTML = '';
+  document.getElementById('opex-body').innerHTML = '';
+  document.getElementById('benefits-body').innerHTML = '';
+  rowIds = { 'capex-nd': 0, 'capex-d': 0, opex: 0, benefits: 0 };
+  const h = parseInt(p.horizon) || 5;
+  // CAPEX ND
+  (data.capexND || []).forEach(row => {
+    addRow('capex-nd');
+    const tr = document.querySelector('#capex-nd-body tr:last-child');
+    if (!tr) return;
+    tr.querySelector('input[type=text]').value = row.label;
+    tr.querySelector('.capex-nd-val').value = row.val;
+  });
+  // CAPEX D
+  (data.capexD || []).forEach(row => {
+    addRow('capex-d');
+    const tr = document.querySelector('#capex-d-body tr:last-child');
+    if (!tr) return;
+    tr.querySelector('input[type=text]').value = row.label;
+    tr.querySelector('.capex-d-val').value = row.val;
+    tr.querySelector('.capex-d-life').value = row.life;
+  });
+  // OPEX
+  (data.opex || []).forEach(row => {
+    addRow('opex');
+    const tr = document.querySelector('#opex-body tr:last-child');
+    if (!tr) return;
+    tr.querySelector('input[type=text]').value = row.label;
+    tr.querySelectorAll('.opex-val').forEach((inp, i) => { inp.value = row.vals[i] || ''; });
+  });
+  // Benefits
+  (data.benefits || []).forEach(row => {
+    addRow('benefits');
+    const tr = document.querySelector('#benefits-body tr:last-child');
+    if (!tr) return;
+    tr.querySelector('input[type=text]').value = row.label;
+    tr.querySelectorAll('.ben-val').forEach((inp, i) => { inp.value = row.vals[i] || ''; });
+  });
+  // Cualitativos — limpiar y repoblar
+  const potContainer = document.getElementById('potential-rows');
+  potContainer.querySelectorAll('div[style]').forEach(d => d.remove());
+  (data.potentials || []).forEach(row => {
+    addQualRow('potential');
+    const divs = potContainer.querySelectorAll('div[style]');
+    const last = divs[divs.length - 1];
+    if (!last) return;
+    const ins = last.querySelectorAll('input');
+    ins[0].value = row.label; ins[1].value = row.desc;
+  });
+  const qualContainer = document.getElementById('qualitative-rows');
+  qualContainer.querySelectorAll('div[style]').forEach(d => d.remove());
+  (data.qualitatives || []).forEach(row => {
+    addQualRow('qualitative');
+    const divs = qualContainer.querySelectorAll('div[style]');
+    const last = divs[divs.length - 1];
+    if (!last) return;
+    const ins = last.querySelectorAll('input');
+    ins[0].value = row.label; ins[1].value = row.kpi;
+  });
+  // Restaurar modo WACC
+  if (p.waccMode) {
+    waccMode = p.waccMode;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('active'));
+    const tabEl = document.querySelector(`.tab[onclick*="${p.waccMode}"]`);
+    if (tabEl) tabEl.classList.add('active');
+    const panelEl = document.getElementById('wacc-' + p.waccMode);
+    if (panelEl) panelEl.classList.add('active');
+  }
+  recalcAll();
+}
+
+// ══════════════════════════════════════════════════════════
+// EXPORTAR INFORME HTML
+// ══════════════════════════════════════════════════════════
+function exportReport() {
+  const data = collectSession();
+  const wacc = getWACC();
+  const ist = getIST();
+  const h = getHorizon();
+  const currency = getCurrency();
+  const projName = data.params.name || 'Sin nombre';
+  const now = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
+
+  // Recalculate for report
+  const capexND = Array.from(document.querySelectorAll('.capex-nd-val')).reduce((s,e)=>s+(parseFloat(e.value)||0),0);
+  const capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr=>({val:parseFloat(tr.querySelector('.capex-d-val')?.value)||0,life:parseFloat(tr.querySelector('.capex-d-life')?.value)||5}));
+  const capexD = capexDItems.reduce((s,i)=>s+i.val,0);
+  const contPct = parseFloat(document.getElementById('contingency-pct')?.value)||0;
+  const contVal = (capexND+capexD)*contPct/100;
+  const totalCapex = capexND+capexD+contVal;
+  const deprByYear = Array(h+1).fill(0);
+  capexDItems.forEach(item=>{const a=item.life>0?item.val/item.life:0;for(let y=1;y<=Math.min(h,item.life);y++)deprByYear[y]+=a;});
+  const opexByYear = Array(h+1).fill(0);
+  document.querySelectorAll('#opex-body tr').forEach(tr=>{tr.querySelectorAll('.opex-val').forEach(inp=>{const y=parseInt(inp.dataset.year);opexByYear[y]=(opexByYear[y]||0)+(parseFloat(inp.value)||0);});});
+  const benByYear = Array(h+1).fill(0);
+  document.querySelectorAll('#benefits-body tr').forEach(tr=>{tr.querySelectorAll('.ben-val').forEach(inp=>{const y=parseInt(inp.dataset.year);benByYear[y]=(benByYear[y]||0)+(parseFloat(inp.value)||0);});});
+  const flows=[-(totalCapex)];
+  for(let y=1;y<=h;y++){const ebit=benByYear[y]-opexByYear[y]-deprByYear[y];flows[y]=ebit*(1-ist)+deprByYear[y];}
+  let van=flows[0];const discounted=[flows[0]];
+  for(let y=1;y<=h;y++){const df=flows[y]/Math.pow(1+wacc,y);discounted[y]=df;van+=df;}
+  let cumulDisc=[flows[0]];for(let y=1;y<=h;y++)cumulDisc[y]=cumulDisc[y-1]+discounted[y];
+  let paybackYears=null;
+  for(let y=1;y<=h;y++){if(cumulDisc[y-1]<0&&cumulDisc[y]>=0){paybackYears=(y-1)+Math.abs(cumulDisc[y-1])/discounted[y];break;}}
+  let tir=null;
+  function npvR(r){return flows.reduce((s,f,i)=>s+f/Math.pow(1+r,i),0);}
+  let lo=-0.999,hi=100;
+  if(npvR(lo)*npvR(hi)<0){for(let i=0;i<200;i++){const m=(lo+hi)/2;if(Math.abs(hi-lo)<1e-8){tir=m;break;}npvR(m)>0?lo=m:hi=m;}tir=(lo+hi)/2;}
+  const avgBen=benByYear.slice(1).reduce((s,v)=>s+v,0)/h;
+  const avgOpex=opexByYear.slice(1).reduce((s,v)=>s+v,0)/h;
+  const roic=totalCapex>0?((avgBen-avgOpex)*(1-ist)/totalCapex)*100:null;
+  const vanOk=van>0;const tirOk=tir!==null&&tir>wacc;const pbOk=paybackYears!==null&&paybackYears<h;
+  const decision=vanOk&&tirOk&&pbOk?'APROBAR':'REVISAR CON SPONSOR';
+  const decColor=vanOk&&tirOk&&pbOk?'#0F6E56':'#854F0B';
+
+  // Build capex rows
+  const capexNDRows = Array.from(document.querySelectorAll('#capex-nd-body tr')).map(tr=>{
+    const lbl=tr.querySelector('input[type=text]')?.value||'';const v=parseFloat(tr.querySelector('.capex-nd-val')?.value)||0;
+    return lbl||v?`<tr><td>${lbl||'—'}</td><td style="text-align:right">${fmt(v)}</td></tr>`:'';
+  }).join('');
+  const capexDRows = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr=>{
+    const lbl=tr.querySelector('input[type=text]')?.value||'';const v=parseFloat(tr.querySelector('.capex-d-val')?.value)||0;const l=tr.querySelector('.capex-d-life')?.value||'5';
+    return lbl||v?`<tr><td>${lbl||'—'}</td><td style="text-align:right">${fmt(v)}</td><td style="text-align:right">${l} años</td></tr>`:'';
+  }).join('');
+  const yearHeaders = Array.from({length:h},(_,i)=>`<th>Año ${i+1}</th>`).join('');
+  const opexRows = Array.from(document.querySelectorAll('#opex-body tr')).map(tr=>{
+    const lbl=tr.querySelector('input[type=text]')?.value||'';
+    const vals=Array.from(tr.querySelectorAll('.opex-val')).map(i=>fmt(parseFloat(i.value)||0));
+    return lbl?`<tr><td>${lbl}</td>${vals.map(v=>`<td style="text-align:right">${v}</td>`).join('')}</tr>`:'';
+  }).join('');
+  const benRows = Array.from(document.querySelectorAll('#benefits-body tr')).map(tr=>{
+    const lbl=tr.querySelector('input[type=text]')?.value||'';
+    const vals=Array.from(tr.querySelectorAll('.ben-val')).map(i=>fmt(parseFloat(i.value)||0));
+    return lbl?`<tr><td>${lbl}</td>${vals.map(v=>`<td style="text-align:right;color:#0F6E56">${v}</td>`).join('')}</tr>`:'';
+  }).join('');
+  const potRows = Array.from(document.querySelectorAll('#potential-rows div[style]')).map(d=>{
+    const ins=d.querySelectorAll('input');return ins[0]?.value?`<tr><td>${ins[0].value}</td><td>${ins[1]?.value||''}</td></tr>`:'';
+  }).join('');
+  const qualRows2 = Array.from(document.querySelectorAll('#qualitative-rows div[style]')).map(d=>{
+    const ins=d.querySelectorAll('input');return ins[0]?.value?`<tr><td>${ins[0].value}</td><td>${ins[1]?.value||''}</td></tr>`:'';
+  }).join('');
+  const flowRows = [
+    ['Beneficios brutos',[null,...benByYear.slice(1)],'#0F6E56'],
+    ['Costos recurrentes (OPEX)',[null,...opexByYear.slice(1).map(v=>-v)],'#993C1D'],
+    ['Depreciación',[null,...deprByYear.slice(1).map(v=>-v)],'#854F0B'],
+    ['EBIT',[null,...Array.from({length:h},(_,i)=>benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1])],'#1A1A18'],
+    ['Flujo de Caja Libre (FCF)',flows,'#534AB7'],
+    ['FCF descontado',discounted,'#534AB7'],
+    ['FCF acumulado descontado',cumulDisc,'#534AB7'],
+  ].map(([lbl,vals,color])=>`<tr><td><strong>${lbl}</strong></td>${vals.map((v,i)=>v===null?'<td>—</td>':`<td style="text-align:right;color:${v>=0?color:'#E24B4A'}">${fmt(v)}</td>`).join('')}</tr>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<title>Informe Caso de Negocio — ${projName}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#1A1A18;background:#fff;font-size:13px;line-height:1.6;}
+.cover{background:#26215C;color:#fff;padding:3rem;margin-bottom:0;}
+.cover h1{font-size:28px;font-weight:600;margin-bottom:6px;}
+.cover p{font-size:14px;opacity:.7;}
+.cover .meta{margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.cover .meta-item label{font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.06em;display:block;}
+.cover .meta-item span{font-size:14px;font-weight:500;}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:3px solid #26215C;}
+.kpi{padding:1.5rem;border-right:1px solid #E8E6DF;}
+.kpi:last-child{border-right:none;}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:6px;}
+.kpi-value{font-size:26px;font-weight:700;line-height:1;}
+.kpi-sub{font-size:11px;color:#888780;margin-top:4px;}
+.decision{padding:1rem 2rem;font-size:14px;font-weight:600;color:#fff;}
+section{padding:2rem;}
+section+section{border-top:1px solid #E8E6DF;}
+h2{font-size:15px;font-weight:600;color:#26215C;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em;}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:.5rem;}
+th{padding:7px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#888780;background:#F5F4F1;border-bottom:1px solid #D3D1C7;}
+td{padding:8px 10px;border-bottom:1px solid #E8E6DF;}
+tr:last-child td{border-bottom:none;}
+.total td{font-weight:600;background:#F5F4F1;color:#26215C;}
+.footer{padding:1rem 2rem;background:#F5F4F1;border-top:1px solid #D3D1C7;font-size:11px;color:#888780;display:flex;justify-content:space-between;}
+@media print{
+  .print-bar{display:none!important;}
+  body{font-size:11px;}
+  .kpi-value{font-size:20px;}
+  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .kpis{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .decision{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  th{background:#F5F4F1!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  section{page-break-inside:avoid;}
+}
+</style></head><body>
+<div class="print-bar" style="padding:.75rem 2rem;background:#fff;border-bottom:1px solid #E8E6DF;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
+  <p style="font-size:12px;color:#888780;margin:0;">Para guardar como PDF: clic en el botón → en el diálogo elige <strong>"Guardar como PDF"</strong> como destino.</p>
+  <button onclick="window.print()" style="padding:8px 20px;background:#26215C;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;">🖨 Guardar como PDF</button>
+</div>
+<div class="cover">
+  <h1>${projName}</h1>
+  <p>Informe de Análisis Costo-Beneficio — Oficina de Proyectos OXXO Chile</p>
+  <div class="meta">
+    <div class="meta-item"><label>Product Owner</label><span>${data.params.po||'—'}</span></div>
+    <div class="meta-item"><label>Sponsor</label><span>${data.params.sponsor||'—'}</span></div>
+    <div class="meta-item"><label>Tier</label><span>${data.params.tier||'—'}</span></div>
+    <div class="meta-item"><label>Año inicio</label><span>${data.params.year||'—'}</span></div>
+    <div class="meta-item"><label>Horizonte</label><span>${h} años</span></div>
+    <div class="meta-item"><label>Fecha informe</label><span>${now}</span></div>
+  </div>
+</div>
+<div class="kpis">
+  <div class="kpi"><div class="kpi-label">VAN</div><div class="kpi-value" style="color:${van>0?'#0F6E56':'#E24B4A'}">${fmt(van)}</div><div class="kpi-sub">${currency} · ${van>0?'Crea valor':'Destruye valor'}</div></div>
+  <div class="kpi"><div class="kpi-label">TIR</div><div class="kpi-value" style="color:${tirOk?'#0F6E56':'#E24B4A'}">${tir!==null?(tir*100).toFixed(1)+'%':'N/A'}</div><div class="kpi-sub">WACC: ${(wacc*100).toFixed(1)}% · ${tirOk?'TIR > WACC ✓':'TIR < WACC ✗'}</div></div>
+  <div class="kpi"><div class="kpi-label">Payback descontado</div><div class="kpi-value" style="color:${pbOk?'#0F6E56':'#E24B4A'}">${paybackYears!==null?paybackYears.toFixed(1)+' años':'>'+h+' años'}</div><div class="kpi-sub">Recuperación de inversión</div></div>
+  <div class="kpi"><div class="kpi-label">ROIC</div><div class="kpi-value" style="color:${roic>15?'#0F6E56':'#854F0B'}">${roic!==null?roic.toFixed(1)+'%':'—'}</div><div class="kpi-sub">Retorno sobre capital invertido</div></div>
+</div>
+<div class="decision" style="background:${decColor}">Recomendación: ${decision}</div>
+<section>
+  <h2>Parámetros del modelo</h2>
+  <table><tr><td>WACC</td><td><strong>${(wacc*100).toFixed(2)}%</strong></td><td>IST (Primera Categoría)</td><td><strong>${(ist*100).toFixed(1)}%</strong></td></tr>
+  <tr><td>Total CAPEX (con contingencia)</td><td><strong>${fmt(totalCapex)} ${currency}</strong></td><td>Contingencia aplicada</td><td><strong>${contPct}%</strong></td></tr></table>
+</section>
+<section>
+  <h2>1 · Plan de Inversiones (CAPEX)</h2>
+  ${capexNDRows||capexDRows?`
+  <table><thead><tr><th>Concepto (No depreciable)</th><th>Monto</th></tr></thead><tbody>${capexNDRows||'<tr><td colspan="2">Sin registros</td></tr>'}</tbody></table>
+  <table style="margin-top:.75rem"><thead><tr><th>Concepto (Depreciable)</th><th>Monto</th><th>Vida útil</th></tr></thead><tbody>${capexDRows||'<tr><td colspan="3">Sin registros</td></tr>'}</tbody>
+  <tfoot><tr class="total"><td>TOTAL CAPEX (con contingencia ${contPct}%)</td><td>${fmt(totalCapex)}</td><td></td></tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
+</section>
+<section>
+  <h2>2 · Costos Recurrentes (OPEX)</h2>
+  ${opexRows?`<table><thead><tr><th>Concepto</th>${yearHeaders}</tr></thead><tbody>${opexRows}</tbody>
+  <tfoot><tr class="total"><td>Total OPEX</td>${Array.from({length:h},(_,i)=>`<td style="text-align:right">${fmt(opexByYear[i+1])}</td>`).join('')}</tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
+</section>
+<section>
+  <h2>3 · Beneficios Cuantificables</h2>
+  ${benRows?`<table><thead><tr><th>Concepto / Supuesto</th>${yearHeaders}</tr></thead><tbody>${benRows}</tbody>
+  <tfoot><tr class="total"><td>Total beneficios</td>${Array.from({length:h},(_,i)=>`<td style="text-align:right;color:#0F6E56">${fmt(benByYear[i+1])}</td>`).join('')}</tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
+</section>
+${potRows||qualRows2?`<section>
+  <h2>4 · Potencial económico & Beneficios no cuantificables</h2>
+  ${potRows?`<table><thead><tr><th>Potencial económico indirecto</th><th>Descripción</th></tr></thead><tbody>${potRows}</tbody></table>`:''}
+  ${qualRows2?`<table style="margin-top:.75rem"><thead><tr><th>Beneficio no cuantificable</th><th>KPI sustituto</th></tr></thead><tbody>${qualRows2}</tbody></table>`:''}
+</section>`:''}
+<section>
+  <h2>Tabla de flujos detallada</h2>
+  <table><thead><tr><th>Concepto</th><th>Año 0</th>${yearHeaders}</tr></thead><tbody>${flowRows}</tbody></table>
+</section>
+<div class="footer">
+  <span>Oficina de Proyectos · OXXO Chile · Playbook 2026</span>
+  <span>Generado el ${now} · Herramienta Caso de Negocio OP</span>
+</div>
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (win) {
+    win.onload = () => {
+      setTimeout(() => {
+        win.focus();
+        win.print();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      }, 800);
+    };
+  } else {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (projName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'')||'caso-negocio') + '_informe.html';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+  showToast('✓ Informe listo — elige "Guardar como PDF" en el diálogo de impresión');
+}
+
+// ══════════════════════════════════════════════════════════
+// TOAST NOTIFICATION
+// ══════════════════════════════════════════════════════════
+function showToast(msg, error=false) {
+  const existing = document.getElementById('toast-msg');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'toast-msg';
+  t.textContent = msg;
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity .3s;background:${error?'#FCEBEB':'#EAF3DE'};color:${error?'#791F1F':'#27500A'};border:1px solid ${error?'#F09595':'#C0DD97'};`;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(), 300); }, 3000);
+}
+
 </script>
 </body>
 </html>
