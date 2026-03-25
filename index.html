@@ -546,7 +546,7 @@ body.hc #hc-btn{background:#ffff00;color:#000;border-color:#ffff00;font-weight:7
         </div>
       </div>
       <div style="background:var(--p800);border:1px solid var(--p600);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-size:13px;font-weight:600;color:var(--p200);">TOTAL INVERSIÓN (CAPEX + Contingencia)</div>
+        <div style="font-size:13px;font-weight:600;color:var(--p200);">TOTAL INVERSIÓN (OPEX Año 0 neto + CAPEX depreciable + Contingencia)</div>
         <div style="font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:700;color:#fff;" id="capex-grand-total">0</div>
       </div>
       <!-- NAV -->
@@ -655,7 +655,7 @@ body.hc #hc-btn{background:#ffff00;color:#000;border-color:#ffff00;font-weight:7
       <div class="page-hero">
         <div class="page-hero-tag" style="background:var(--g800);color:var(--g100);">📊 Resultados</div>
         <h2>Análisis Financiero Completo</h2>
-        <p>Métricas calculadas en base a los flujos descontados al WACC efectivo, aplicando ISR sobre las utilidades operativas.</p>
+        <p>Métricas calculadas en base a los flujos descontados al WACC, aplicando ISR sobre las utilidades operativas.</p>
       </div>
 
       <div class="results-grid">
@@ -731,9 +731,9 @@ body.hc #hc-btn{background:#ffff00;color:#000;border-color:#ffff00;font-weight:7
         <div class="card-body">
           <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--a600);margin-bottom:6px;">📌 Ejemplos de fórmulas de cálculo — solo referencia, no se incluyen en el modelo</div>
           <div class="formula-grid">
-            <div class="formula-item"><div class="formula-name">WACC efectivo</div><div class="formula-val" id="p-wacc">—</div></div>
+            <div class="formula-item"><div class="formula-name">WACC</div><div class="formula-val" id="p-wacc">—</div></div>
             <div class="formula-item"><div class="formula-name">ISR aplicado</div><div class="formula-val" id="p-ist">—</div></div>
-            <div class="formula-item"><div class="formula-name">CAPEX total</div><div class="formula-val" id="p-capex">—</div></div>
+            <div class="formula-item"><div class="formula-name">Inversión inicial</div><div class="formula-val" id="p-capex">—</div></div>
             <div class="formula-item"><div class="formula-name">OPEX total (5 años)</div><div class="formula-val" id="p-opex">—</div></div>
             <div class="formula-item"><div class="formula-name">Beneficios totales (5 años)</div><div class="formula-val" id="p-benefits">—</div></div>
             <div class="formula-item"><div class="formula-name">Horizonte de evaluación</div><div class="formula-val" id="p-horizon">—</div></div>
@@ -1646,7 +1646,7 @@ function applySession(data) {
   setVal('wacc-direct', p.waccDirect); setVal('wacc-wd', p.waccWd); setVal('wacc-kd', p.waccKd);
   setVal('wacc-we', p.waccWe); setVal('wacc-ke', p.waccKe);
   setVal('isr-rate', p.ist); setVal('contingency-pct', p.contingency);
-  setVal('currency', p.currency); setVal('scale', p.scale || '1000');
+  setVal('currency', p.currency); setVal('scale', p.scale || '1000'); setVal('scale', p.scale || '1000');
   if (p.horizon) { setVal('horizon', p.horizon); rebuildTables(); }
   // Limpiar tablas
   document.getElementById('capex-nd-body').innerHTML = '';
