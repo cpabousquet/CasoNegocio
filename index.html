@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Análisis Costo-Beneficio — Oficina de Proyectos OXXO Chile</title>
+<title>Análisis Costo-Beneficio — Oficina de Proyectos OXXO</title>
 <style>
 :root {
   --p900:#1a1650;--p800:#26215C;--p700:#3C3489;--p600:#534AB7;--p400:#7F77DD;--p200:#AFA9EC;--p100:#CECBF6;--p50:#EEEDFE;
@@ -181,6 +181,35 @@ canvas{width:100%!important;}
 .payback-bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--p600),var(--t400));transition:width .6s ease;}
 .payback-bar-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
 
+/* ── PAGE NAV BUTTONS ── */
+.page-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--border2);}
+.page-nav-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:9px;border:1.5px solid var(--border2);background:#fff;color:var(--text2);font-family:'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
+.page-nav-btn:hover{background:var(--p50);border-color:var(--p400);color:var(--p700);}
+.page-nav-btn.primary{background:var(--p700);color:#fff;border-color:var(--p700);}
+.page-nav-btn.primary:hover{background:var(--p800);}
+.page-nav-spacer{flex:1;}
+
+/* ── SENSITIVITY SLIDER ── */
+.sensitivity-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem;}
+.sensitivity-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;}
+.sensitivity-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.sensitivity-slider{flex:1;min-width:180px;accent-color:var(--p600);cursor:pointer;height:6px;}
+.sensitivity-badge{font-family:'Cascadia Code','Consolas',monospace;font-size:13px;font-weight:600;padding:4px 12px;border-radius:20px;background:var(--p800);color:#fff;white-space:nowrap;}
+.sensitivity-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.sens-kpi{background:#fff;border:1px solid var(--border2);border-radius:8px;padding:8px 12px;}
+.sens-kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:3px;}
+.sens-kpi-val{font-family:'Cascadia Code','Consolas',monospace;font-size:14px;font-weight:600;}
+
+/* ── UNDO TOAST ── */
+.undo-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 16px;border-radius:9px;font-size:13px;font-weight:500;z-index:9998;box-shadow:0 4px 16px rgba(0,0,0,0.15);background:#1A1A18;color:#fff;display:flex;align-items:center;gap:12px;transition:opacity .3s;}
+.undo-toast button{padding:4px 12px;border-radius:6px;border:1.5px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:background .12s;}
+.undo-toast button:hover{background:rgba(255,255,255,.15);}
+
+/* ── DESCRIPTION TEXTAREA ── */
+.field textarea{background:#fff;border:1px solid var(--border2);border-radius:8px;padding:9px 12px;font-family:'Segoe UI',Arial,sans-serif;font-size:13px;color:var(--text);outline:none;transition:border .15s;width:100%;resize:vertical;min-height:70px;line-height:1.6;}
+.field textarea:focus{border-color:var(--p400);}
+.field textarea::placeholder{color:var(--text3);}
+
 /* ── GUIDE SECTION ── */
 .guide-block{background:#fff;border:1px solid var(--border2);border-radius:var(--radius);margin-bottom:.75rem;overflow:hidden;}
 .guide-block-hdr{padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid transparent;transition:background .12s;}
@@ -228,6 +257,48 @@ canvas{width:100%!important;}
   .sidebar{display:none;}
   .results-grid{grid-template-columns:1fr 1fr;}
 }
+
+/* ── CONCEPT INPUT VISIBLE ── */
+.concept-input{width:100%;background:#fff;border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;color:var(--text);outline:none;transition:border .12s, box-shadow .12s;}
+.concept-input:focus{border-color:var(--p400);box-shadow:0 0 0 3px var(--p50);}
+.concept-input::placeholder{color:var(--text3);font-style:italic;}
+
+/* ── ALTO CONTRASTE ── */
+body.hc{
+  --bg:#000;--surface:#111;--surface2:#1a1a1a;--surface3:#222;
+  --border:rgba(255,255,255,0.3);--border2:rgba(255,255,255,0.5);
+  --text:#fff;--text2:#f0f0f0;--text3:#c0c0c0;
+  --p50:#1a1050;--p100:#2a1a70;--p200:#bbb0ff;--p400:#9988ff;--p600:#7766ee;--p700:#8877ff;--p800:#5544cc;
+  --t50:#002020;--t400:#00cc88;--t600:#00aa66;--t800:#009955;
+  --a50:#1a1000;--a400:#ffaa00;--a600:#dd8800;--a800:#cc7700;
+  --g50:#001a00;--g400:#44dd44;--g600:#33bb33;--g800:#22aa22;
+  --r400:#ff5555;--r50:#1a0000;
+  --b50:#00111a;--b400:#44aaff;--b600:#2288dd;--b800:#1166bb;
+  --c50:#1a0500;--c400:#ff7744;--c600:#dd5522;--c800:#bb3300;
+}
+body.hc .topbar{background:#000;border-bottom:2px solid #fff;}
+body.hc .navbar{background:#111;border-bottom:2px solid #666;}
+body.hc .card{background:#111;border:1px solid #555;}
+body.hc .card-header{background:#1a1a1a;}
+body.hc .sidebar{background:#000;border-right:2px solid #555;}
+body.hc .field input,body.hc .field select{background:#fffde7;border:2px solid #ffff00;color:#000 !important;}
+body.hc .field input::placeholder{color:#555;}
+body.hc .field select option{background:#fffde7;color:#000;}
+body.hc .input-table input{background:#fffde7;border:2px solid #ffff00;color:#000 !important;}
+body.hc .param-input input{background:#fffde7;border:2px solid #ffff00;color:#000 !important;}
+body.hc .concept-input{background:#fffde7;border:2px solid #ffff00;color:#000 !important;}
+body.hc .concept-input::placeholder{color:#555;font-style:italic;}
+body.hc select{background:#fffde7 !important;border:2px solid #ffff00 !important;color:#000 !important;}
+body.hc select option{background:#fffde7;color:#000;}
+body.hc .wacc-result{background:#1a1050;border:2px solid #9988ff;}
+body.hc .wacc-result-value{color:#ffff00;}
+body.hc .wacc-result-label{color:#bbaaff;}
+body.hc .wacc-result-sub{color:#bbaaff;}
+body.hc .alert.info{background:#001122;border-color:#4488ff;color:#88ccff;}
+body.hc .alert.warn{background:#1a1000;border-color:#ffaa00;color:#ffcc44;}
+body.hc .result-mini{background:#1a1a1a;border:1px solid #555;}
+body.hc .guide-block{background:#111;border:1px solid #555;}
+body.hc #hc-btn{background:#ffff00;color:#000;border-color:#ffff00;font-weight:700;}
 </style>
 </head>
 <body>
@@ -236,13 +307,14 @@ canvas{width:100%!important;}
   <div class="brand">
     <div class="brand-mark">OP</div>
     <div>
-      <div class="brand-name">Oficina de Proyectos · OXXO Chile</div>
+      <div class="brand-name">Oficina de Proyectos · OXXO</div>
       <div class="brand-sub">Caso de Negocio — Análisis Costo-Beneficio</div>
     </div>
   </div>
   <div style="display:flex;gap:6px;flex-shrink:0;">
     <button class="topbar-action" onclick="saveSession()" title="Guardar sesion">💾 Guardar sesión</button>
     <button class="topbar-action" onclick="document.getElementById('load-input').click()" title="Cargar sesion">📂 Cargar sesión</button>
+    <button class="topbar-action" onclick="toggleContrast()" id="hc-btn" title="Alto contraste">◑ Contraste</button>
     <button class="topbar-action topbar-action-accent" onclick="exportReport()" title="Exportar informe">📄 Exportar informe</button>
     <input type="file" id="load-input" accept=".json" style="display:none" onchange="loadSession(event)">
   </div>
@@ -296,11 +368,11 @@ canvas{width:100%!important;}
     <span class="sidebar-label" style="margin-top:.5rem;">Resultados en vivo</span>
     <div class="result-mini">
       <div class="result-mini-title">Indicadores</div>
-      <div class="kpi-row"><span class="kpi-label">WACC efectivo</span><span class="kpi-val neutral mono" id="sb-wacc">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">WACC</span><span class="kpi-val neutral mono" id="sb-wacc">—</span></div>
       <div class="kpi-row"><span class="kpi-label">VAN</span><span class="kpi-val mono" id="sb-van">—</span></div>
       <div class="kpi-row"><span class="kpi-label">TIR</span><span class="kpi-val mono" id="sb-tir">—</span></div>
       <div class="kpi-row"><span class="kpi-label">Payback</span><span class="kpi-val mono" id="sb-payback">—</span></div>
-      <div class="kpi-row"><span class="kpi-label">ROIC</span><span class="kpi-val mono" id="sb-roic">—</span></div>
+      <div class="kpi-row"><span class="kpi-label">ROI anualizado</span><span class="kpi-val mono" id="sb-roic">—</span></div>
     </div>
   </aside>
 
@@ -312,7 +384,7 @@ canvas{width:100%!important;}
       <div class="page-hero">
         <div class="page-hero-tag" style="background:var(--p800);color:var(--p200);">⚙ Parámetros financieros</div>
         <h2>Configuración del modelo</h2>
-        <p>Define los parámetros base que se usarán en todos los cálculos. El WACC y el IST afectan directamente el VAN, la TIR y los flujos descontados.</p>
+        <p>Define los parámetros base que se usarán en todos los cálculos. El WACC y el ISR afectan directamente el VAN, la TIR y los flujos descontados.</p>
       </div>
 
       <div class="card">
@@ -335,12 +407,13 @@ canvas{width:100%!important;}
                 <option value="T4">Tier 4 — Mejora continua</option>
               </select>
             </div>
-            <div class="field"><label>Año de inicio</label>
-              <select id="proj-year" onchange="recalcAll()">
-                <option value="2025">2025</option>
-                <option value="2026" selected>2026</option>
-                <option value="2027">2027</option>
-              </select>
+            <div class="field"><label>Fecha de presentación</label>
+              <input type="date" id="proj-year" oninput="recalcAll()" style="cursor:pointer;">
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field"><label>Descripción del proyecto <span style="font-weight:400;text-transform:none;letter-spacing:0;">(problema que resuelve / alcance)</span></label>
+              <textarea id="proj-desc" placeholder="Describe brevemente el problema que resuelve el proyecto, su alcance y los principales beneficiarios."></textarea>
             </div>
           </div>
         </div>
@@ -349,45 +422,16 @@ canvas{width:100%!important;}
       <div class="card">
         <div class="card-header">
           <div class="card-header-icon" style="background:var(--p800);">💹</div>
-          <div><div class="card-title">WACC — Costo de Capital</div><div class="card-sub">Tasa mínima de retorno exigida al proyecto</div></div>
+          <div><div class="card-title">WACC — Costo de Capital</div><div class="card-sub">Tasa mínima de retorno exigida al proyecto · coordinar con Finanzas/Planeación</div></div>
         </div>
         <div class="card-body">
           <div class="alert info" style="margin-bottom:1.25rem;">
             <div class="alert-icon">ℹ</div>
-            <div class="alert-body"><strong>¿Qué es el WACC?</strong>Es la tasa que representa el costo de financiamiento de la empresa (deuda + capital propio). Un proyecto es atractivo cuando su TIR supera el WACC. Puedes ingresar el WACC directamente o calcularlo con sus componentes.</div>
+            <div class="alert-body"><strong>¿Qué es el WACC?</strong>Es la tasa que representa el costo de financiamiento de la empresa (deuda + capital propio ponderados). Un proyecto es atractivo cuando su TIR supera el WACC. Ingrésalo directamente coordinando con el área de Finanzas.</div>
           </div>
-          <div class="tabs">
-            <div class="tab active" onclick="switchWaccTab('simple',this)">Ingresar WACC directo</div>
-            <div class="tab" onclick="switchWaccTab('calc',this)">Calcular por componentes</div>
-          </div>
-          <div class="tab-panel active" id="wacc-simple">
-            <div class="param-row">
-              <div><div class="param-label">WACC de la empresa</div><div class="param-hint">Coordinar con Finanzas / Planeación</div></div>
-              <div class="param-input"><input type="number" id="wacc-direct" value="12" min="1" max="50" step="0.1" oninput="recalcAll()"><span class="param-unit">%</span></div>
-            </div>
-          </div>
-          <div class="tab-panel" id="wacc-calc">
-            <div class="param-row">
-              <div><div class="param-label">Peso de la deuda (Wd)</div><div class="param-hint">% del financiamiento que viene de deuda</div></div>
-              <div class="param-input"><input type="number" id="wacc-wd" value="40" min="0" max="100" step="1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
-            </div>
-            <div class="param-row">
-              <div><div class="param-label">Costo de la deuda (Kd)</div><div class="param-hint">Tasa de interés de los créditos bancarios</div></div>
-              <div class="param-input"><input type="number" id="wacc-kd" value="8" min="0" max="30" step="0.1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
-            </div>
-            <div class="param-row">
-              <div><div class="param-label">Peso del capital propio (We)</div><div class="param-hint">% del financiamiento propio (= 100% − Wd)</div></div>
-              <div class="param-input"><input type="number" id="wacc-we" value="60" min="0" max="100" step="1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
-            </div>
-            <div class="param-row">
-              <div><div class="param-label">Costo del capital propio (Ke)</div><div class="param-hint">Rentabilidad exigida por los accionistas (CAPM)</div></div>
-              <div class="param-input"><input type="number" id="wacc-ke" value="15" min="0" max="40" step="0.1" oninput="recalcWacc()"><span class="param-unit">%</span></div>
-            </div>
-            <div class="wacc-result">
-              <div class="wacc-result-label">WACC calculado</div>
-              <div class="wacc-result-value" id="wacc-calc-display">12.0%</div>
-              <div class="wacc-result-sub">Wd×Kd×(1−IST) + We×Ke</div>
-            </div>
+          <div class="param-row">
+            <div><div class="param-label">WACC de la empresa</div><div class="param-hint">Tasa oficial coordinada con Finanzas / Planeación. OXXO referencia: ~9.6%</div></div>
+            <div class="param-input"><input type="number" id="wacc-direct" value="9.6" min="0.1" max="50" step="0.1" oninput="recalcAll()"><span class="param-unit">%</span></div>
           </div>
         </div>
       </div>
@@ -395,16 +439,16 @@ canvas{width:100%!important;}
       <div class="card">
         <div class="card-header">
           <div class="card-header-icon" style="background:var(--a800);">🏛</div>
-          <div><div class="card-title">IST — Impuesto a las empresas (Chile)</div><div class="card-sub">Se aplica sobre la utilidad antes de impuestos en los flujos netos</div></div>
+          <div><div class="card-title">ISR — Impuesto sobre la Renta</div><div class="card-sub">Se aplica sobre la utilidad antes de impuestos en los flujos netos</div></div>
         </div>
         <div class="card-body">
           <div class="alert warn" style="margin-bottom:1.25rem;">
             <div class="alert-icon">▲</div>
-            <div class="alert-body"><strong>Chile: Primera Categoría</strong>La tasa del Impuesto de Primera Categoría en Chile es actualmente 27% para empresas del régimen general (Pro Pyme puede ser menor). Este impuesto reduce los flujos netos del proyecto antes de descontarlos con el WACC. Confirma la tasa con el área de Finanzas/Tributaria.</div>
+            <div class="alert-body"><strong>Impuesto sobre la Renta (ISR)</strong>Es el impuesto a las empresas aplicable en cada país. Este impuesto reduce los flujos netos del proyecto antes de descontarlos con el WACC. Confirma la tasa vigente con el área de Finanzas/Tributaria de tu país.</div>
           </div>
           <div class="param-row">
-            <div><div class="param-label">Tasa IST (Impuesto Primera Categoría)</div><div class="param-hint">Chile régimen general: 27%. Pro Pyme: 25%</div></div>
-            <div class="param-input"><input type="number" id="ist-rate" value="27" min="0" max="40" step="0.5" oninput="recalcAll()"><span class="param-unit">%</span></div>
+            <div><div class="param-label">Tasa ISR (Impuesto sobre la Renta)</div><div class="param-hint">Varía por país: Chile 27%, México 30%, Perú 29.5%, Colombia 35%, USA 21%</div></div>
+            <div class="param-input"><input type="number" id="isr-rate" value="27" min="0" max="40" step="0.5" oninput="recalcAll()"><span class="param-unit">%</span></div>
           </div>
           <div class="param-row">
             <div><div class="param-label">Horizonte de evaluación</div><div class="param-hint">Período de proyección del modelo</div></div>
@@ -414,20 +458,42 @@ canvas{width:100%!important;}
                 <option value="5" selected>5 años</option>
                 <option value="7">7 años</option>
                 <option value="10">10 años</option>
+                <option value="12">12 años</option>
+                <option value="15">15 años</option>
               </select>
             </div>
           </div>
           <div class="param-row">
-            <div><div class="param-label">Moneda del modelo</div><div class="param-hint">Todas las cifras en la unidad seleccionada</div></div>
+            <div><div class="param-label">Moneda del modelo</div><div class="param-hint">Moneda en que se expresan todas las cifras</div></div>
             <div class="param-input">
-              <select id="currency" onchange="recalcAll()" style="width:140px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--text);">
-                <option value="Miles CLP">Miles CLP ($)</option>
-                <option value="USD">USD ($)</option>
-                <option value="UF">UF</option>
+              <select id="currency" onchange="recalcAll()" style="width:160px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--text);">
+                <option value="CLP">CLP — Peso Chileno</option>
+                <option value="MXN">MXN — Peso Mexicano</option>
+                <option value="PEN">PEN — Sol Peruano</option>
+                <option value="COP">COP — Peso Colombiano</option>
+                <option value="USD">USD — Dólar americano</option>
+              </select>
+            </div>
+          </div>
+          <div class="param-row">
+            <div>
+              <div class="param-label">Escala de las cifras</div>
+              <div class="param-hint">🔢 <strong>Importante:</strong> ingresa todos los montos (CAPEX, OPEX, Beneficios) en esta escala. Si eliges "Miles", escribe <em>1.500</em> para significar $1.500.000.</div>
+            </div>
+            <div class="param-input">
+              <select id="scale" onchange="recalcAll()" style="width:180px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--text);">
+                <option value="1">Nominal (sin transformación)</option>
+                <option value="1000" selected>Miles (÷ 1.000)</option>
+                <option value="1000000">Millones (÷ 1.000.000)</option>
               </select>
             </div>
           </div>
         </div>
+      </div>
+      <!-- NAV -->
+      <div class="page-nav">
+        <span></span>
+        <button class="page-nav-btn primary" onclick="showPage('capex')">1 · Plan de Inversiones →</button>
       </div>
     </div>
 
@@ -438,17 +504,17 @@ canvas{width:100%!important;}
         <h2>Plan de Inversiones</h2>
         <p>Registra los desembolsos únicos para implementar la solución. Estos se concentran en el Año 0 y determinan la inversión inicial del proyecto.</p>
       </div>
-      <div class="alert info"><div class="alert-icon">ℹ</div><div class="alert-body"><strong>Tip:</strong> Los activos depreciables se amortizarán durante su vida útil, generando un escudo tributario (depreciación × IST) que reduce la base imponible de cada año. La herramienta lo calcula automáticamente.</div></div>
+      <div class="alert info"><div class="alert-icon">ℹ</div><div class="alert-body"><strong>Tip:</strong> Los activos depreciables se amortizarán durante su vida útil, generando un escudo tributario (depreciación × ISR) que reduce la base imponible de cada año. La herramienta lo calcula automáticamente.</div></div>
       <div class="card" style="margin-top:1rem;">
         <div class="card-header">
           <div class="card-header-icon" style="background:var(--p800);">📦</div>
-          <div><div class="card-title">Activos no depreciables</div><div class="card-sub">Terrenos, mejoras físicas, capital de trabajo</div></div>
+          <div><div class="card-title">Gastos de implementación (OPEX Año 0)</div><div class="card-sub">Se desembolsan al inicio y se llevan a gasto — el costo efectivo = monto × (1 − ISR)</div></div>
         </div>
         <div class="card-body">
           <table class="input-table" id="capex-nd-table">
             <thead><tr><th>Concepto</th><th class="right">Monto (Año 0)</th><th style="width:40px;"></th></tr></thead>
             <tbody id="capex-nd-body"></tbody>
-            <tfoot><tr class="total-row"><td>Subtotal no depreciable</td><td id="capex-nd-total">0</td><td></td></tr></tfoot>
+            <tfoot><tr class="total-row"><td>Subtotal gastos implementación (OPEX)</td><td id="capex-nd-total">0</td><td></td></tr></tfoot>
           </table>
           <button class="add-row-btn" onclick="addRow('capex-nd')">+ Agregar concepto</button>
         </div>
@@ -483,6 +549,11 @@ canvas{width:100%!important;}
         <div style="font-size:13px;font-weight:600;color:var(--p200);">TOTAL INVERSIÓN (CAPEX + Contingencia)</div>
         <div style="font-family:'Segoe UI Semibold','Segoe UI',Arial,sans-serif;font-size:24px;font-weight:700;color:#fff;" id="capex-grand-total">0</div>
       </div>
+      <!-- NAV -->
+      <div class="page-nav">
+        <button class="page-nav-btn" onclick="showPage('params')">← Parámetros</button>
+        <button class="page-nav-btn primary" onclick="showPage('opex')">2 · Costos Recurrentes →</button>
+      </div>
     </div>
 
     <!-- ══════════ OPEX ══════════ -->
@@ -506,6 +577,11 @@ canvas{width:100%!important;}
           <button class="add-row-btn" onclick="addRow('opex')">+ Agregar costo</button>
         </div>
       </div>
+      <!-- NAV -->
+      <div class="page-nav">
+        <button class="page-nav-btn" onclick="showPage('capex')">← Plan de Inversiones</button>
+        <button class="page-nav-btn primary" onclick="showPage('benefits')">3 · Beneficios →</button>
+      </div>
     </div>
 
     <!-- ══════════ BENEFITS ══════════ -->
@@ -521,6 +597,7 @@ canvas{width:100%!important;}
           <div><div class="card-title">Beneficios anuales por período</div><div class="card-sub">Ahorro HH, energía, licencias, ventas nuevas, mejora margen, etc.</div></div>
         </div>
         <div class="card-body">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--a600);margin-bottom:6px;">📌 Ejemplos de fórmulas de cálculo — solo referencia, no se incluyen en el modelo</div>
           <div class="formula-grid">
             <div class="formula-item"><div class="formula-name">Ahorro HH</div><div class="formula-val">hrs/mes × 12 × tarifa/hr × N° personas</div></div>
             <div class="formula-item"><div class="formula-name">Reducción errores</div><div class="formula-val">costo/error × frec/mes × (tasa_act − tasa_nueva) × 12</div></div>
@@ -534,6 +611,11 @@ canvas{width:100%!important;}
           </table>
           <button class="add-row-btn" onclick="addRow('benefits')">+ Agregar beneficio</button>
         </div>
+      </div>
+      <!-- NAV -->
+      <div class="page-nav">
+        <button class="page-nav-btn" onclick="showPage('opex')">← Costos Recurrentes</button>
+        <button class="page-nav-btn primary" onclick="showPage('qualitative')">4 · Cualitativos →</button>
       </div>
     </div>
 
@@ -561,6 +643,11 @@ canvas{width:100%!important;}
         <div class="card-body" id="qualitative-rows">
         </div>
       </div>
+      <!-- NAV -->
+      <div class="page-nav">
+        <button class="page-nav-btn" onclick="showPage('benefits')">← Beneficios</button>
+        <button class="page-nav-btn primary" onclick="showPage('results')">Ver Resultados 📊</button>
+      </div>
     </div>
 
     <!-- ══════════ RESULTS ══════════ -->
@@ -568,7 +655,7 @@ canvas{width:100%!important;}
       <div class="page-hero">
         <div class="page-hero-tag" style="background:var(--g800);color:var(--g100);">📊 Resultados</div>
         <h2>Análisis Financiero Completo</h2>
-        <p>Métricas calculadas en base a los flujos descontados al WACC efectivo, aplicando IST sobre las utilidades operativas.</p>
+        <p>Métricas calculadas en base a los flujos descontados al WACC efectivo, aplicando ISR sobre las utilidades operativas.</p>
       </div>
 
       <div class="results-grid">
@@ -588,9 +675,9 @@ canvas{width:100%!important;}
           <div class="res-sub" id="r-payback-sub">Recuperación de inversión</div>
         </div>
         <div class="res-card coral">
-          <div class="res-label">ROIC</div>
+          <div class="res-label">ROI anualizado</div>
           <div class="res-value" id="r-roic">—</div>
-          <div class="res-sub" id="r-roic-sub">Retorno sobre capital</div>
+          <div class="res-sub" id="r-roic-sub">Retorno anualizado post-ISR</div>
         </div>
       </div>
 
@@ -600,8 +687,24 @@ canvas{width:100%!important;}
         <div class="payback-bar-labels"><span>Año 0</span><span id="pb-bar-mid"></span><span id="pb-bar-end"></span></div>
       </div>
 
+      <!-- SENSIBILIDAD -->
+      <div class="sensitivity-wrap">
+        <div class="sensitivity-title">🎛 Análisis de Sensibilidad — variación en beneficios</div>
+        <div class="sensitivity-row">
+          <span style="font-size:12px;color:var(--text3);white-space:nowrap;">−30%</span>
+          <input type="range" id="sens-slider" min="-30" max="30" value="0" step="5" class="sensitivity-slider" oninput="updateSensitivity(this.value)">
+          <span style="font-size:12px;color:var(--text3);white-space:nowrap;">+30%</span>
+          <span class="sensitivity-badge" id="sens-label">Base 0%</span>
+        </div>
+        <div class="sensitivity-kpis">
+          <div class="sens-kpi"><div class="sens-kpi-label">VAN sensibilizado</div><div class="sens-kpi-val" id="sens-van" style="color:var(--p700)">—</div></div>
+          <div class="sens-kpi"><div class="sens-kpi-label">TIR sensibilizada</div><div class="sens-kpi-val" id="sens-tir" style="color:var(--t600)">—</div></div>
+          <div class="sens-kpi"><div class="sens-kpi-label">Payback sensibilizado</div><div class="sens-kpi-val" id="sens-pb" style="color:var(--a600)">—</div></div>
+        </div>
+      </div>
+
       <div class="chart-wrap">
-        <div class="chart-title">Flujo de caja acumulado descontado (con IST)</div>
+        <div class="chart-title">Flujo de caja acumulado descontado (con ISR)</div>
         <canvas id="flowChart" height="220"></canvas>
       </div>
 
@@ -626,9 +729,10 @@ canvas{width:100%!important;}
           <div><div class="card-title">Parámetros aplicados</div><div class="card-sub">Resumen de los supuestos del modelo</div></div>
         </div>
         <div class="card-body">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--a600);margin-bottom:6px;">📌 Ejemplos de fórmulas de cálculo — solo referencia, no se incluyen en el modelo</div>
           <div class="formula-grid">
             <div class="formula-item"><div class="formula-name">WACC efectivo</div><div class="formula-val" id="p-wacc">—</div></div>
-            <div class="formula-item"><div class="formula-name">IST aplicado</div><div class="formula-val" id="p-ist">—</div></div>
+            <div class="formula-item"><div class="formula-name">ISR aplicado</div><div class="formula-val" id="p-ist">—</div></div>
             <div class="formula-item"><div class="formula-name">CAPEX total</div><div class="formula-val" id="p-capex">—</div></div>
             <div class="formula-item"><div class="formula-name">OPEX total (5 años)</div><div class="formula-val" id="p-opex">—</div></div>
             <div class="formula-item"><div class="formula-name">Beneficios totales (5 años)</div><div class="formula-val" id="p-benefits">—</div></div>
@@ -661,7 +765,7 @@ canvas{width:100%!important;}
           <p><strong>No depreciables:</strong> activos que no pierden valor contablemente (terrenos, capital de trabajo, mejoras estructurales permanentes).<br>
           <strong>Depreciables:</strong> software (3–5 años), hardware (4–6 años), desarrollo TI (3 años). TI debe validar la vida útil antes del RAE.<br>
           <strong>Contingencia:</strong> agrega 10–15% del total. Es obligatorio declararla aquí — si aparece un imprevisto sin contingencia, deberás solicitar un cambio de presupuesto formal.</p>
-          <p><strong>Impacto tributario:</strong> la depreciación anual de los activos depreciables genera un <em>escudo tributario</em> = Depreciación × IST. Esto reduce la base imponible y mejora el flujo neto de cada período. La herramienta lo calcula automáticamente.</p>
+          <p><strong>Impacto tributario:</strong> la depreciación anual de los activos depreciables genera un <em>escudo tributario</em> = Depreciación × ISR. Esto reduce la base imponible y mejora el flujo neto de cada período. La herramienta lo calcula automáticamente.</p>
           <div class="chips">
             <span class="chip2">Software y licencias</span><span class="chip2">Hardware / POS</span><span class="chip2">Desarrollo e integración TI</span><span class="chip2">Consultoría implantación</span><span class="chip2">Mejoras físicas</span><span class="chip2">Capital de trabajo</span>
           </div>
@@ -727,8 +831,8 @@ canvas{width:100%!important;}
           <p><strong>VAN (Valor Actual Neto):</strong> suma de todos los flujos futuros traídos a valor de hoy descontados al WACC, menos la inversión inicial. <em>VAN &gt; 0 → el proyecto crea valor</em>. Es la métrica más importante.</p>
           <p><strong>TIR (Tasa Interna de Retorno):</strong> tasa que hace que el VAN sea exactamente 0. <em>TIR &gt; WACC → el proyecto es atractivo</em>. Si la TIR es muy alta, el proyecto tiene margen de seguridad ante variaciones del costo de capital.</p>
           <p><strong>Payback descontado:</strong> tiempo en que los flujos descontados acumulados igualan la inversión inicial. Es más conservador que el payback simple porque considera el valor del dinero en el tiempo. <em>Se considera bueno: &lt; 24–36 meses para Tier 2–3</em>.</p>
-          <p><strong>ROIC (Retorno sobre Capital Invertido):</strong> beneficio neto anual promedio ÷ inversión total × 100%. <em>Se considera bueno: &gt; 15–20%</em>.</p>
-          <p><strong>IST en los flujos:</strong> el impuesto se aplica sobre la utilidad operativa neta de cada año (beneficios − costos − depreciación). El flujo neto = Utilidad operativa × (1 − IST) + Depreciación (se suma de nuevo porque no es caja).</p>
+          <p><strong>ROI anualizado:</strong> ((Suma flujos netos post-ISR ÷ Inversión efectiva) − 1) ÷ Años × 100. El "−1" descuenta la recuperación del capital, midiendo solo el retorno puro. <em>Se considera bueno: &gt; 20% anual</em>.</p>
+          <p><strong>ISR en los flujos:</strong> el impuesto se aplica sobre la utilidad operativa neta de cada año (beneficios − costos − depreciación). El flujo neto = Utilidad operativa × (1 − ISR) + Depreciación (se suma de nuevo porque no es caja).</p>
         </div>
       </div>
     </div>
@@ -757,6 +861,7 @@ const state = {
 // ══════════════════════════════════════════════════════════
 // NAV
 // ══════════════════════════════════════════════════════════
+const PAGE_ORDER = ['params','capex','opex','benefits','qualitative','results'];
 function showPage(id) {
   currentPage = id;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -768,50 +873,24 @@ function showPage(id) {
   if (pillEl) pillEl.classList.add('active');
   const si = document.getElementById('si-' + id);
   if (si) si.classList.add('active');
+  // Re-check section completion status after navigation
+  checkSectionDone();
   if (id === 'results') recalcAll();
 }
 
 // ══════════════════════════════════════════════════════════
-// WACC TAB
+// WACC (solo modo directo)
 // ══════════════════════════════════════════════════════════
-let waccMode = 'simple';
-function switchWaccTab(mode, el) {
-  waccMode = mode;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('wacc-' + mode).classList.add('active');
-  recalcWacc();
-}
-
-function recalcWacc() {
-  const ist = parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27;
-  const wd = parseFloat(document.getElementById('wacc-wd').value) / 100 || 0.4;
-  const kd = parseFloat(document.getElementById('wacc-kd').value) / 100 || 0.08;
-  const we = parseFloat(document.getElementById('wacc-we').value) / 100 || 0.6;
-  const ke = parseFloat(document.getElementById('wacc-ke').value) / 100 || 0.15;
-  const wacc = wd * kd * (1 - ist) + we * ke;
-  const el = document.getElementById('wacc-calc-display');
-  if (el) el.textContent = (wacc * 100).toFixed(2) + '%';
-  recalcAll();
-}
-
 function getWACC() {
-  if (waccMode === 'simple') {
-    return parseFloat(document.getElementById('wacc-direct').value) / 100 || 0.12;
-  } else {
-    const ist = parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27;
-    const wd = parseFloat(document.getElementById('wacc-wd').value) / 100 || 0.4;
-    const kd = parseFloat(document.getElementById('wacc-kd').value) / 100 || 0.08;
-    const we = parseFloat(document.getElementById('wacc-we').value) / 100 || 0.6;
-    const ke = parseFloat(document.getElementById('wacc-ke').value) / 100 || 0.15;
-    return wd * kd * (1 - ist) + we * ke;
-  }
+  return parseFloat(document.getElementById('wacc-direct').value) / 100 || 0.096;
 }
 
-function getIST() { return parseFloat(document.getElementById('ist-rate').value) / 100 || 0.27; }
+
+function getIST() { return parseFloat(document.getElementById('isr-rate').value) / 100 || 0.27; }
+function getScale() { return parseInt(document.getElementById('scale')?.value) || 1; }
+function getCurrencyLabel() { const c = document.getElementById('currency')?.value || 'CLP'; const s = getScale(); const sl = s===1000?'Miles ':s===1000000?'MM ':''; return sl+c; }
 function getHorizon() { return parseInt(document.getElementById('horizon').value) || 5; }
-function getCurrency() { return document.getElementById('currency')?.value || 'Miles CLP'; }
+function getCurrency() { return getCurrencyLabel(); }
 
 // ══════════════════════════════════════════════════════════
 // ROW MANAGEMENT
@@ -825,32 +904,34 @@ function addRow(type) {
   if (type === 'capex-nd') {
     const tr = document.createElement('tr');
     tr.id = 'cnd-' + id;
-    tr.innerHTML = `<td><input type="text" placeholder="Ej: Mejoras sala servidores" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text);font-size:12px;outline:none;"></td>
-      <td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-nd-val" style="width:100%"></td>
-      <td><button class="del-btn" onclick="delRow('cnd-${id}')">✕</button></td>`;
+    const delBtnND = '<button class="del-btn" onclick="delRow(\'cnd-' + id + '\')">✕</button>';
+    tr.innerHTML = '<td><input type="text" placeholder="Ej: Capacitación, Instalaciones, Mejoras, Servicios Profesionales, Gastos de Viaje, Administración de Proyectos..." oninput="recalcAll()" class="concept-input"></td>'
+      + '<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-nd-val" style="width:100%"></td>'
+      + '<td>' + delBtnND + '</td>';
     document.getElementById('capex-nd-body').appendChild(tr);
   } else if (type === 'capex-d') {
     const tr = document.createElement('tr');
     tr.id = 'cd-' + id;
-    tr.innerHTML = `<td><input type="text" placeholder="Ej: Software ERP" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text);font-size:12px;outline:none;"></td>
-      <td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-d-val"></td>
-      <td><input type="number" placeholder="5" min="1" max="20" value="5" oninput="recalcAll()" class="capex-d-life" style="width:70px;"></td>
-      <td><button class="del-btn" onclick="delRow('cd-${id}')">✕</button></td>`;
+    const delBtnD = '<button class="del-btn" onclick="delRow(\'cd-' + id + '\')">✕</button>';
+    tr.innerHTML = '<td><input type="text" placeholder="Escribe el concepto aqui..." oninput="recalcAll()" class="concept-input"></td>'
+      + '<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="capex-d-val"></td>'
+      + '<td><input type="number" placeholder="5" min="1" max="20" value="5" oninput="recalcAll()" class="capex-d-life" style="width:70px;"></td>'
+      + '<td>' + delBtnD + '</td>';
     document.getElementById('capex-d-body').appendChild(tr);
   } else if (type === 'opex') {
     const tr = document.createElement('tr');
     tr.id = 'opex-' + id;
-    let cells = `<td class="row-label"><input type="text" placeholder="Ej: Licencias software" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text2);font-size:12px;outline:none;"></td>`;
-    for (let y = 1; y <= h; y++) cells += `<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="opex-val" data-year="${y}"></td>`;
-    cells += `<td><button class="del-btn" onclick="delRow('opex-${id}')">✕</button></td>`;
+    let cells = '<td class="row-label"><input type="text" placeholder="Escribe el concepto aqui..." oninput="recalcAll()" class="concept-input"></td>';
+    for (let y = 1; y <= h; y++) cells += '<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="opex-val" data-year="' + y + '"></td>';
+    cells += '<td><button class="del-btn" onclick="delRow(\'opex-' + id + '\')">✕</button></td>';
     tr.innerHTML = cells;
     document.getElementById('opex-body').appendChild(tr);
   } else if (type === 'benefits') {
     const tr = document.createElement('tr');
     tr.id = 'ben-' + id;
-    let cells = `<td class="row-label"><input type="text" placeholder="Ej: Ahorro HH — 40 min×24 tiendas×$8.000/hr" oninput="recalcAll()" style="width:100%;background:transparent;border:none;color:var(--text2);font-size:12px;outline:none;"></td>`;
-    for (let y = 1; y <= h; y++) cells += `<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="ben-val" data-year="${y}"></td>`;
-    cells += `<td><button class="del-btn" onclick="delRow('ben-${id}')">✕</button></td>`;
+    let cells = '<td class="row-label"><input type="text" placeholder="Escribe el beneficio y su supuesto aqui..." oninput="recalcAll()" class="concept-input"></td>';
+    for (let y = 1; y <= h; y++) cells += '<td><input type="number" placeholder="0" min="0" value="" oninput="recalcAll()" class="ben-val" data-year="' + y + '"></td>';
+    cells += '<td><button class="del-btn" onclick="delRow(\'ben-' + id + '\')">✕</button></td>';
     tr.innerHTML = cells;
     document.getElementById('benefits-body').appendChild(tr);
   }
@@ -859,22 +940,68 @@ function addRow(type) {
 
 function delRow(id) {
   const el = document.getElementById(id);
-  if (el) el.remove();
+  if (!el) return;
+  // Store html for undo
+  const parentId = el.parentElement.id;
+  const html = el.outerHTML;
+  const nextSib = el.nextElementSibling || null;
+  el.remove();
   recalcAll();
+  // Show undo toast
+  const existing = document.getElementById('undo-toast-el');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'undo-toast-el';
+  t.className = 'undo-toast';
+  t.innerHTML = '<span>Fila eliminada</span><button onclick="undoDelete(\'' + parentId + '\', \'' + encodeURIComponent(html) + '\', \'' + (nextSib ? nextSib.id : '') + '\', this)">Deshacer</button>';
+  document.body.appendChild(t);
+  const timer = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 4000);
+  t._timer = timer;
+}
+
+function undoDelete(parentId, encodedHtml, nextSibId, btn) {
+  const parent = document.getElementById(parentId);
+  if (!parent) return;
+  const tmp = document.createElement('tbody');
+  tmp.innerHTML = decodeURIComponent(encodedHtml);
+  const row = tmp.firstElementChild;
+  if (!row) return;
+  if (nextSibId) {
+    const nextSib = document.getElementById(nextSibId);
+    if (nextSib) { parent.insertBefore(row, nextSib); } else { parent.appendChild(row); }
+  } else {
+    parent.appendChild(row);
+  }
+  recalcAll();
+  const toast = document.getElementById('undo-toast-el');
+  if (toast) { clearTimeout(toast._timer); toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }
 }
 
 function rebuildTables() {
   const h = getHorizon();
+  const hasData = document.querySelectorAll('.opex-val, .ben-val').length > 0
+    && (Array.from(document.querySelectorAll('.opex-val, .ben-val')).some(el => parseFloat(el.value) > 0));
+  if (hasData) {
+    const ok = confirm('⚠️ Cambiar el horizonte borrará todas las filas de Costos y Beneficios ya ingresadas.\n\n¿Deseas continuar?');
+    if (!ok) {
+      // Revertir el select al valor anterior
+      const sel = document.getElementById('horizon');
+      sel.value = String(document.querySelectorAll('.opex-val[data-year]').length > 0
+        ? Math.max(...Array.from(document.querySelectorAll('.opex-val[data-year]')).map(e => parseInt(e.dataset.year)))
+        : h);
+      return;
+    }
+  }
   // rebuild opex header
   const oh = document.getElementById('opex-header');
-  oh.innerHTML = '<th>Concepto</th>' + Array.from({length:h},(_,i)=>`<th class="right">Año ${i+1}</th>`).join('') + '<th></th>';
+  oh.innerHTML = '<th>Concepto</th>' + Array.from({length:h},(_,i)=>'<th class="right">Año '+(i+1)+'</th>').join('') + '<th></th>';
   const otr = document.getElementById('opex-total-row');
-  otr.innerHTML = '<td>Total costos recurrentes</td>' + Array.from({length:h},(_,i)=>`<td id="opex-total-y${i+1}" style="text-align:right;color:var(--c400);">0</td>`).join('') + '<td></td>';
+  otr.innerHTML = '<td>Total costos recurrentes</td>' + Array.from({length:h},(_,i)=>'<td id="opex-total-y'+(i+1)+'" style="text-align:right;color:var(--c400);">0</td>').join('') + '<td></td>';
   // rebuild benefits header
   const bh = document.getElementById('benefits-header');
-  bh.innerHTML = '<th>Concepto / Supuesto</th>' + Array.from({length:h},(_,i)=>`<th class="right">Año ${i+1}</th>`).join('') + '<th></th>';
+  bh.innerHTML = '<th>Concepto / Supuesto</th>' + Array.from({length:h},(_,i)=>'<th class="right">Año '+(i+1)+'</th>').join('') + '<th></th>';
   const btr = document.getElementById('benefits-total-row');
-  btr.innerHTML = '<td>Total beneficios anuales</td>' + Array.from({length:h},(_,i)=>`<td id="ben-total-y${i+1}" style="text-align:right;color:var(--g400);">0</td>`).join('') + '<td></td>';
+  btr.innerHTML = '<td>Total beneficios anuales</td>' + Array.from({length:h},(_,i)=>'<td id="ben-total-y'+(i+1)+'" style="text-align:right;color:var(--g400);">0</td>').join('') + '<td></td>';
   // clear opex and benefits rows as they have wrong column count
   document.getElementById('opex-body').innerHTML = '';
   document.getElementById('benefits-body').innerHTML = '';
@@ -885,6 +1012,7 @@ function rebuildTables() {
 function addQualRow(type) {
   const container = document.getElementById(type === 'potential' ? 'potential-rows' : 'qualitative-rows');
   const div = document.createElement('div');
+  div.className = 'qual-row';
   div.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:8px;';
   div.innerHTML = `
     <div class="field"><label>${type==='potential'?'Potencial económico':'Beneficio cualitativo'}</label>
@@ -911,7 +1039,53 @@ function sumInputs(selector) {
   return Array.from(document.querySelectorAll(selector)).reduce((s,el) => s + (parseFloat(el.value)||0), 0);
 }
 
+function checkSectionDone() {
+  // Params: done if project name AND date filled
+  const hasProjName = (document.getElementById('proj-name')?.value || '').trim().length > 0;
+  const hasProjDate = (document.getElementById('proj-year')?.value || '').trim().length > 0;
+  setSectionDone('params', hasProjName && hasProjDate);
+
+  // CAPEX: done if any value > 0
+  const hasCapex = Array.from(document.querySelectorAll('.capex-nd-val, .capex-d-val'))
+    .some(el => parseFloat(el.value) > 0);
+  setSectionDone('capex', hasCapex);
+
+  // OPEX: done if any value > 0
+  const hasOpex = Array.from(document.querySelectorAll('.opex-val'))
+    .some(el => parseFloat(el.value) > 0);
+  setSectionDone('opex', hasOpex);
+
+  // Benefits: done if any value > 0
+  const hasBenefits = Array.from(document.querySelectorAll('.ben-val'))
+    .some(el => parseFloat(el.value) > 0);
+  setSectionDone('benefits', hasBenefits);
+
+  // Qualitative: done if any text input has content
+  const hasQual = Array.from(document.querySelectorAll('#potential-rows input[type=text], #qualitative-rows input[type=text]'))
+    .some(el => el.value.trim().length > 0);
+  setSectionDone('qualitative', hasQual);
+}
+
+
+function setSectionDone(page, isDone) {
+  const item = document.getElementById('si-' + page);
+  const check = document.getElementById('sc-' + page);
+  if (!item || !check) return;
+  // Don't override active state styling, but manage done class
+  if (isDone) {
+    item.classList.add('done');
+    check.textContent = '✓';
+  } else {
+    // Only remove done if not the active/current page
+    if (page !== currentPage) {
+      item.classList.remove('done');
+      check.textContent = '';
+    }
+  }
+}
+
 function recalcAll() {
+  checkSectionDone();
   const h = getHorizon();
   const wacc = getWACC();
   const ist = getIST();
@@ -965,11 +1139,14 @@ function recalcAll() {
     if (el) el.textContent = fmt(benByYear[y]);
   }
 
-  // ── Net cash flows with IST ──
-  // Flow(0) = -totalCapex
-  // Flow(y) = (Benefits - OPEX - Depreciation) * (1-IST) + Depreciation
+  // ── Net cash flows with ISR ──
+  // Flow(0): gastos OPEX de implementación reciben beneficio fiscal inmediato → costo efectivo = capexND × (1-ISR)
+  //          activos depreciables salen completos en Año 0 (escudo se recupera vía depreciación anual)
+  // Flow(y) = (Benefits - OPEX - Depreciation) * (1-ISR) + Depreciation
+  const capexNDNet = capexND * (1 - ist);   // OPEX Año 0: costo efectivo después de ISR
+  const capexDTotal = capexD + contVal;     // Activos depreciables + contingencia: sin ajuste fiscal en Año 0
   const flows = [];
-  flows[0] = -totalCapex;
+  flows[0] = -(capexNDNet + capexDTotal);
   for (let y = 1; y <= h; y++) {
     const ebit = benByYear[y] - opexByYear[y] - deprByYear[y];
     const nopat = ebit * (1 - ist);
@@ -1013,10 +1190,12 @@ function recalcAll() {
     tir = (lo + hi) / 2;
   }
 
-  // ── ROIC ──
-  const avgBenefit = benByYear.slice(1).reduce((s,v) => s + v, 0) / h;
-  const avgOpex = opexByYear.slice(1).reduce((s,v) => s + v, 0) / h;
-  const roic = totalCapex > 0 ? ((avgBenefit - avgOpex) * (1 - ist) / totalCapex) * 100 : null;
+  // ── ROI anualizado ──
+  // Fórmula: ((Suma flujos netos post-ISR ÷ Inversión efectiva neta) − 1) ÷ Años × 100
+  // Denominador = capexNDNet (OPEX neto ISR) + capexDTotal (activos depreciables)
+  const inversionEfectiva = capexNDNet + capexDTotal;
+  const totalFlowsNet = flows.slice(1).reduce((s,v) => s + v, 0);
+  const roic = inversionEfectiva > 0 ? (((totalFlowsNet / inversionEfectiva) - 1) / h) * 100 : null;
 
   // ── UPDATE SIDEBAR ──
   const sbWacc = document.getElementById('sb-wacc');
@@ -1032,11 +1211,13 @@ function recalcAll() {
 
   // ── UPDATE RESULTS PAGE ──
   if (currentPage === 'results') {
-    updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h);
+    updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h, capexNDNet, capexDTotal);
   }
 }
 
-function updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h) {
+function updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, opexByYear, benByYear, flows, discounted, cumulDisc, h, capexNDNet, capexDTotal) {
+  capexNDNet = (capexNDNet !== undefined && capexNDNet !== null) ? capexNDNet : 0;
+  capexDTotal = (capexDTotal !== undefined && capexDTotal !== null) ? capexDTotal : 0;
   // KPI cards
   const rVan = document.getElementById('r-van');
   if (rVan) { rVan.textContent = fmt(van); rVan.className = 'res-value ' + (van > 0 ? 'good' : 'bad'); }
@@ -1083,11 +1264,11 @@ function updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, 
     if (!el) return;
     const vals = [
       (wacc*100).toFixed(2)+'% ('+getCurrency()+')',
-      (ist*100).toFixed(1)+'% Impuesto Primera Categoría',
+      (ist*100).toFixed(1)+'% Impuesto sobre la Renta (ISR)',
       fmt(totalCapex) + ' ' + getCurrency(),
       fmt(opexByYear.slice(1).reduce((s,v)=>s+v,0)) + ' ' + getCurrency() + ' (total ' + h + ' años)',
       fmt(benByYear.slice(1).reduce((s,v)=>s+v,0)) + ' ' + getCurrency() + ' (total ' + h + ' años)',
-      h + ' años (Año ' + document.getElementById('proj-year')?.value + ' al Año ' + (parseInt(document.getElementById('proj-year')?.value||2026)+h) + ')'
+      h + ' años'
     ];
     el.textContent = vals[i];
   });
@@ -1110,11 +1291,13 @@ function updateResultsPage(van, tir, paybackYears, roic, wacc, ist, totalCapex, 
   });
 
   const rows = [
+    ...(capexNDNet > 0 ? [{ label:'Gastos OPEX implementación (Año 0)', vals: [-(capexNDNet), ...Array(h).fill(null)], cls:'' }] : []),
+    ...(capexDTotal > 0 ? [{ label:'Activos depreciables (Año 0)', vals: [-(capexDTotal), ...Array(h).fill(null)], cls:'' }] : []),
     { label:'Beneficios brutos', vals: [null, ...benByYear.slice(1)], cls:'highlight' },
     { label:'Costos recurrentes (OPEX)', vals: [null, ...opexByYear.slice(1).map(v=>-v)], cls:'' },
     { label:'Depreciación (escudo fiscal)', vals: [null, ...deprByYear.slice(1).map(v=>-v)], cls:'' },
     { label:'EBIT (Utilidad operativa)', vals: [null, ...Array.from({length:h},(_,i)=>benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1])], cls:'highlight' },
-    { label:'IST (' + (ist*100).toFixed(0) + '% sobre EBIT positivo)', vals: [null, ...Array.from({length:h},(_,i)=>{ const ebit=benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1]; return ebit>0?-ebit*ist:0; })], cls:'' },
+    { label:'ISR (' + (ist*100).toFixed(0) + '% sobre utilidad operativa)', vals: [null, ...Array.from({length:h},(_,i)=>{ const ebit=benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1]; return ebit>0?-ebit*ist:0; })], cls:'' },
     { label:'NOPAT (EBIT neto de impuestos)', vals: [null, ...Array.from({length:h},(_,i)=>{ const ebit=benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1]; return ebit*(1-ist); })], cls:'' },
     { label:'+ Depreciación (suma de vuelta)', vals: [null, ...deprByYear.slice(1)], cls:'' },
     { label:'Flujo de Caja Libre (FCF)', vals: flows.map((f,i)=>i===0?f:f), cls:'highlight' },
@@ -1243,26 +1426,110 @@ function toggleGuide(hdr) {
 }
 
 // ══════════════════════════════════════════════════════════
+// SENSITIVITY ANALYSIS
+// ══════════════════════════════════════════════════════════
+function updateSensitivity(pct) {
+  const label = document.getElementById('sens-label');
+  const pctNum = parseFloat(pct);
+  if (label) label.textContent = (pctNum >= 0 ? '+' : '') + pctNum + '% beneficios';
+  const factor = 1 + pctNum / 100;
+  const h = getHorizon();
+  const wacc = getWACC();
+  const ist = getIST();
+  // Collect base data
+  const capexND = Array.from(document.querySelectorAll('.capex-nd-val')).reduce((s,e) => s+(parseFloat(e.value)||0),0);
+  const capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr => ({
+    val: parseFloat(tr.querySelector('.capex-d-val')?.value)||0,
+    life: parseFloat(tr.querySelector('.capex-d-life')?.value)||5
+  }));
+  const capexD = capexDItems.reduce((s,i) => s+i.val, 0);
+  const contPct = parseFloat(document.getElementById('contingency-pct')?.value)||0;
+  const contVal = (capexND + capexD) * contPct / 100;
+  const capexNDNet = capexND * (1 - ist);
+  const capexDTotal = capexD + contVal;
+  const deprByYear = Array(h+1).fill(0);
+  capexDItems.forEach(item => {
+    const a = item.life > 0 ? item.val/item.life : 0;
+    for (let y=1; y<=Math.min(h,item.life); y++) deprByYear[y] += a;
+  });
+  const opexByYear = Array(h+1).fill(0);
+  document.querySelectorAll('#opex-body tr').forEach(tr => {
+    tr.querySelectorAll('.opex-val').forEach(inp => {
+      const y = parseInt(inp.dataset.year); opexByYear[y] = (opexByYear[y]||0) + (parseFloat(inp.value)||0);
+    });
+  });
+  const benByYear = Array(h+1).fill(0);
+  document.querySelectorAll('#benefits-body tr').forEach(tr => {
+    tr.querySelectorAll('.ben-val').forEach(inp => {
+      const y = parseInt(inp.dataset.year); benByYear[y] = (benByYear[y]||0) + (parseFloat(inp.value)||0) * factor;
+    });
+  });
+  const flows = [-(capexNDNet + capexDTotal)];
+  for (let y=1; y<=h; y++) {
+    const ebit = benByYear[y] - opexByYear[y] - deprByYear[y];
+    flows[y] = ebit*(1-ist) + deprByYear[y];
+  }
+  let van = flows[0];
+  const disc = [flows[0]];
+  for (let y=1; y<=h; y++) { disc[y] = flows[y]/Math.pow(1+wacc,y); van += disc[y]; }
+  const cumul = [flows[0]];
+  for (let y=1; y<=h; y++) cumul[y] = cumul[y-1] + disc[y];
+  let pb = null;
+  for (let y=1; y<=h; y++) {
+    if (cumul[y-1]<0 && cumul[y]>=0) { pb = (y-1) + Math.abs(cumul[y-1])/disc[y]; break; }
+  }
+  function npvR(r) { return flows.reduce((s,f,i)=>s+f/Math.pow(1+r,i),0); }
+  let tir = null, lo=-0.999, hi=100;
+  if (npvR(lo)*npvR(hi)<0) {
+    for (let i=0;i<200;i++) { const m=(lo+hi)/2; if(Math.abs(hi-lo)<1e-8){tir=m;break;} npvR(m)>0?lo=m:hi=m; }
+    tir=(lo+hi)/2;
+  }
+  const vEl=document.getElementById('sens-van'); if(vEl){vEl.textContent=fmt(van);vEl.style.color=van>0?'var(--g600)':'var(--r400)';}
+  const tEl=document.getElementById('sens-tir'); if(tEl){tEl.textContent=tir!==null?(tir*100).toFixed(1)+'%':'N/A';tEl.style.color=tir>wacc?'var(--g600)':'var(--r400)';}
+  const pEl=document.getElementById('sens-pb'); if(pEl){pEl.textContent=pb!==null?pb.toFixed(1)+' años':'> '+h+' años';pEl.style.color=pb!==null&&pb<h?'var(--g600)':'var(--r400)';}
+}
+
+// ══════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════
+function setPlaceholderRow(rowId, conceptVal, numSelector, numVal) {
+  const tr = document.getElementById(rowId);
+  if (!tr) return;
+  const txt = tr.querySelector('input[type=text]');
+  const num = tr.querySelector(numSelector);
+  if (txt) { txt.placeholder = conceptVal; txt.style.color = 'var(--text3)'; }
+  // No pre-fill numbers — keep placeholder empty to not pollute calculation
+}
+
 function init() {
   rebuildTables();
-  // Add initial example rows
-  addRow('capex-nd');
-  addRow('capex-d');
-  addRow('capex-d');
-  addRow('opex');
-  addRow('opex');
-  addRow('benefits');
-  addRow('benefits');
+  // Add rows with descriptive placeholders
+  addRow('capex-nd'); addRow('capex-d'); addRow('capex-d');
+  addRow('opex'); addRow('opex');
+  addRow('benefits'); addRow('benefits');
+  // Customize placeholders for context
+  const ndRows = document.querySelectorAll('#capex-nd-body tr');
+  if (ndRows[0]) { const t = ndRows[0].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Capacitación equipo — 4 días × 20 personas'; }
+  const dRows = document.querySelectorAll('#capex-d-body tr');
+  if (dRows[0]) { const t = dRows[0].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Licencia de software (vida útil 3 años)'; }
+  if (dRows[1]) { const t = dRows[1].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Desarrollo e integración TI'; }
+  const opRows = document.querySelectorAll('#opex-body tr');
+  if (opRows[0]) { const t = opRows[0].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Licencia anual SaaS (cotizar con proveedor)'; }
+  if (opRows[1]) { const t = opRows[1].querySelector('input[type=text]'); if(t) t.placeholder='Ej: HH mantenimiento TI — hrs/mes × tarifa/hr'; }
+  const benRows = document.querySelectorAll('#benefits-body tr');
+  if (benRows[0]) { const t = benRows[0].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Ahorro HH cierre caja — 40min×24tiendas×52sem×$8.000/hr'; }
+  if (benRows[1]) { const t = benRows[1].querySelector('input[type=text]'); if(t) t.placeholder='Ej: Reducción errores — costo/error × frec/mes × Δtasa'; }
 
-  // Add qualitative add buttons
+  // Add qualitative buttons + default examples
   const potentialRows = document.getElementById('potential-rows');
   const btn1 = document.createElement('button');
   btn1.className = 'add-row-btn'; btn1.style.marginTop = '12px';
   btn1.textContent = '+ Agregar potencial económico';
   btn1.onclick = () => addQualRow('potential');
   potentialRows.appendChild(btn1);
+  // Default example potentials
+  addQualRow('potential');
+  const p1 = potentialRows.querySelectorAll('.qual-row'); if(p1.length>0){const ins=p1[p1.length-1].querySelectorAll('input[type=text]'); if(ins[0])ins[0].placeholder='Ej: Plataforma escalable a 50 tiendas adicionales'; if(ins[1])ins[1].placeholder='Reduce CAPEX de futura expansión en ~30%;';}
 
   const qualRows = document.getElementById('qualitative-rows');
   const btn2 = document.createElement('button');
@@ -1270,6 +1537,11 @@ function init() {
   btn2.textContent = '+ Agregar beneficio cualitativo';
   btn2.onclick = () => addQualRow('qualitative');
   qualRows.appendChild(btn2);
+  // Default example qualitatives
+  addQualRow('qualitative');
+  const q1 = qualRows.querySelectorAll('.qual-row'); if(q1.length>0){const ins=q1[q1.length-1].querySelectorAll('input[type=text]'); if(ins[0])ins[0].placeholder='Ej: Mejora experiencia cajeros (CX interno)'; if(ins[1])ins[1].placeholder='NPS interno antes/después a 90 días del go-live';}
+  addQualRow('qualitative');
+  const q2 = qualRows.querySelectorAll('.qual-row'); if(q2.length>0){const ins=q2[q2.length-1].querySelectorAll('input[type=text]'); if(ins[0])ins[0].placeholder='Ej: Reducción riesgo operacional (errores auditoria)'; if(ins[1])ins[1].placeholder='Tasa de hallazgos en auditoría semestral';}
 
   recalcAll();
 }
@@ -1286,17 +1558,14 @@ function collectSession() {
     name: document.getElementById('proj-name')?.value || '',
     po: document.getElementById('proj-po')?.value || '',
     sponsor: document.getElementById('proj-sponsor')?.value || '',
+    desc: document.getElementById('proj-desc')?.value || '',
     tier: document.getElementById('proj-tier')?.value || 'T2',
     year: document.getElementById('proj-year')?.value || '2026',
-    waccMode,
-    waccDirect: document.getElementById('wacc-direct')?.value || '12',
-    waccWd: document.getElementById('wacc-wd')?.value || '40',
-    waccKd: document.getElementById('wacc-kd')?.value || '8',
-    waccWe: document.getElementById('wacc-we')?.value || '60',
-    waccKe: document.getElementById('wacc-ke')?.value || '15',
-    ist: document.getElementById('ist-rate')?.value || '27',
+    waccDirect: document.getElementById('wacc-direct')?.value || '9.6',
+    ist: document.getElementById('isr-rate')?.value || '27',
     horizon: document.getElementById('horizon')?.value || '5',
-    currency: document.getElementById('currency')?.value || 'Miles CLP',
+    currency: document.getElementById('currency')?.value || 'CLP',
+    scale: document.getElementById('scale')?.value || '1000',
     contingency: document.getElementById('contingency-pct')?.value || '10',
   };
   // CAPEX no depreciable
@@ -1323,12 +1592,12 @@ function collectSession() {
     return { label, vals };
   });
   // Cualitativos
-  const potentials = Array.from(document.querySelectorAll('#potential-rows div[style]')).map(d => {
-    const ins = d.querySelectorAll('input');
+  const potentials = Array.from(document.querySelectorAll('#potential-rows .qual-row')).map(d => {
+    const ins = d.querySelectorAll('input[type=text]');
     return { label: ins[0]?.value || '', desc: ins[1]?.value || '' };
   });
-  const qualitatives = Array.from(document.querySelectorAll('#qualitative-rows div[style]')).map(d => {
-    const ins = d.querySelectorAll('input');
+  const qualitatives = Array.from(document.querySelectorAll('#qualitative-rows .qual-row')).map(d => {
+    const ins = d.querySelectorAll('input[type=text]');
     return { label: ins[0]?.value || '', kpi: ins[1]?.value || '' };
   });
   return { version: '1.0', savedAt: new Date().toISOString(), params, capexND, capexD, opex, benefits, potentials, qualitatives };
@@ -1360,7 +1629,8 @@ function loadSession(event) {
       applySession(data);
       showToast('✓ Sesión cargada correctamente');
     } catch(err) {
-      showToast('Error al leer el archivo. Asegúrate de que es un JSON válido.', true);
+      console.error('loadSession error:', err);
+      showToast('Error al cargar: ' + err.message, true);
     }
     event.target.value = '';
   };
@@ -1375,8 +1645,8 @@ function applySession(data) {
   setVal('proj-tier', p.tier); setVal('proj-year', p.year);
   setVal('wacc-direct', p.waccDirect); setVal('wacc-wd', p.waccWd); setVal('wacc-kd', p.waccKd);
   setVal('wacc-we', p.waccWe); setVal('wacc-ke', p.waccKe);
-  setVal('ist-rate', p.ist); setVal('contingency-pct', p.contingency);
-  setVal('currency', p.currency);
+  setVal('isr-rate', p.ist); setVal('contingency-pct', p.contingency);
+  setVal('currency', p.currency); setVal('scale', p.scale || '1000');
   if (p.horizon) { setVal('horizon', p.horizon); rebuildTables(); }
   // Limpiar tablas
   document.getElementById('capex-nd-body').innerHTML = '';
@@ -1420,24 +1690,26 @@ function applySession(data) {
   });
   // Cualitativos — limpiar y repoblar
   const potContainer = document.getElementById('potential-rows');
-  potContainer.querySelectorAll('div[style]').forEach(d => d.remove());
+  potContainer.querySelectorAll('.qual-row').forEach(d => d.remove());
   (data.potentials || []).forEach(row => {
     addQualRow('potential');
-    const divs = potContainer.querySelectorAll('div[style]');
+    const divs = potContainer.querySelectorAll('.qual-row');
     const last = divs[divs.length - 1];
     if (!last) return;
-    const ins = last.querySelectorAll('input');
-    ins[0].value = row.label; ins[1].value = row.desc;
+    const ins = last.querySelectorAll('input[type=text]');
+    if (ins[0]) ins[0].value = row.label;
+    if (ins[1]) ins[1].value = row.desc;
   });
   const qualContainer = document.getElementById('qualitative-rows');
-  qualContainer.querySelectorAll('div[style]').forEach(d => d.remove());
+  qualContainer.querySelectorAll('.qual-row').forEach(d => d.remove());
   (data.qualitatives || []).forEach(row => {
     addQualRow('qualitative');
-    const divs = qualContainer.querySelectorAll('div[style]');
+    const divs = qualContainer.querySelectorAll('.qual-row');
     const last = divs[divs.length - 1];
     if (!last) return;
-    const ins = last.querySelectorAll('input');
-    ins[0].value = row.label; ins[1].value = row.kpi;
+    const ins = last.querySelectorAll('input[type=text]');
+    if (ins[0]) ins[0].value = row.label;
+    if (ins[1]) ins[1].value = row.kpi;
   });
   // Restaurar modo WACC
   if (p.waccMode) {
@@ -1456,201 +1728,398 @@ function applySession(data) {
 // EXPORTAR INFORME HTML
 // ══════════════════════════════════════════════════════════
 function exportReport() {
-  const data = collectSession();
-  const wacc = getWACC();
-  const ist = getIST();
-  const h = getHorizon();
-  const currency = getCurrency();
-  const projName = data.params.name || 'Sin nombre';
-  const now = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
+  var data = collectSession();
+  var wacc = getWACC();
+  var ist = getIST();
+  var h = getHorizon();
+  var currency = getCurrency();
+  var projName = data.params.name || 'Sin nombre';
+  var now = new Date().toLocaleDateString('es-CL', { year:'numeric', month:'long', day:'numeric' });
+  var presDate = data.params.year ? new Date(data.params.year).toLocaleDateString('es-CL',{year:'numeric',month:'long',day:'numeric'}) : '—';
 
-  // Recalculate for report
-  const capexND = Array.from(document.querySelectorAll('.capex-nd-val')).reduce((s,e)=>s+(parseFloat(e.value)||0),0);
-  const capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr=>({val:parseFloat(tr.querySelector('.capex-d-val')?.value)||0,life:parseFloat(tr.querySelector('.capex-d-life')?.value)||5}));
-  const capexD = capexDItems.reduce((s,i)=>s+i.val,0);
-  const contPct = parseFloat(document.getElementById('contingency-pct')?.value)||0;
-  const contVal = (capexND+capexD)*contPct/100;
-  const totalCapex = capexND+capexD+contVal;
-  const deprByYear = Array(h+1).fill(0);
-  capexDItems.forEach(item=>{const a=item.life>0?item.val/item.life:0;for(let y=1;y<=Math.min(h,item.life);y++)deprByYear[y]+=a;});
-  const opexByYear = Array(h+1).fill(0);
-  document.querySelectorAll('#opex-body tr').forEach(tr=>{tr.querySelectorAll('.opex-val').forEach(inp=>{const y=parseInt(inp.dataset.year);opexByYear[y]=(opexByYear[y]||0)+(parseFloat(inp.value)||0);});});
-  const benByYear = Array(h+1).fill(0);
-  document.querySelectorAll('#benefits-body tr').forEach(tr=>{tr.querySelectorAll('.ben-val').forEach(inp=>{const y=parseInt(inp.dataset.year);benByYear[y]=(benByYear[y]||0)+(parseFloat(inp.value)||0);});});
-  const flows=[-(totalCapex)];
-  for(let y=1;y<=h;y++){const ebit=benByYear[y]-opexByYear[y]-deprByYear[y];flows[y]=ebit*(1-ist)+deprByYear[y];}
-  let van=flows[0];const discounted=[flows[0]];
-  for(let y=1;y<=h;y++){const df=flows[y]/Math.pow(1+wacc,y);discounted[y]=df;van+=df;}
-  let cumulDisc=[flows[0]];for(let y=1;y<=h;y++)cumulDisc[y]=cumulDisc[y-1]+discounted[y];
-  let paybackYears=null;
-  for(let y=1;y<=h;y++){if(cumulDisc[y-1]<0&&cumulDisc[y]>=0){paybackYears=(y-1)+Math.abs(cumulDisc[y-1])/discounted[y];break;}}
-  let tir=null;
-  function npvR(r){return flows.reduce((s,f,i)=>s+f/Math.pow(1+r,i),0);}
-  let lo=-0.999,hi=100;
-  if(npvR(lo)*npvR(hi)<0){for(let i=0;i<200;i++){const m=(lo+hi)/2;if(Math.abs(hi-lo)<1e-8){tir=m;break;}npvR(m)>0?lo=m:hi=m;}tir=(lo+hi)/2;}
-  const avgBen=benByYear.slice(1).reduce((s,v)=>s+v,0)/h;
-  const avgOpex=opexByYear.slice(1).reduce((s,v)=>s+v,0)/h;
-  const roic=totalCapex>0?((avgBen-avgOpex)*(1-ist)/totalCapex)*100:null;
-  const vanOk=van>0;const tirOk=tir!==null&&tir>wacc;const pbOk=paybackYears!==null&&paybackYears<h;
-  const decision=vanOk&&tirOk&&pbOk?'APROBAR':'REVISAR CON SPONSOR';
-  const decColor=vanOk&&tirOk&&pbOk?'#0F6E56':'#854F0B';
+  // ── Recalcular flujos ──
+  var capexND = Array.from(document.querySelectorAll('.capex-nd-val')).reduce(function(s,e){return s+(parseFloat(e.value)||0);},0);
+  var capexDItems = Array.from(document.querySelectorAll('#capex-d-body tr')).map(function(tr){return {
+    label: tr.querySelector('input[type=text]') ? tr.querySelector('input[type=text]').value : '',
+    val: parseFloat(tr.querySelector('.capex-d-val') ? tr.querySelector('.capex-d-val').value : 0)||0,
+    life: parseFloat(tr.querySelector('.capex-d-life') ? tr.querySelector('.capex-d-life').value : 5)||5
+  };});
+  var capexD = capexDItems.reduce(function(s,i){return s+i.val;},0);
+  var contPct = parseFloat(document.getElementById('contingency-pct') ? document.getElementById('contingency-pct').value : 0)||0;
+  var contVal = (capexND+capexD)*contPct/100;
+  var totalCapex = capexND+capexD+contVal;
+  var deprByYear = new Array(h+1).fill(0);
+  capexDItems.forEach(function(item){
+    var a = item.life>0 ? item.val/item.life : 0;
+    for(var y=1;y<=Math.min(h,item.life);y++) deprByYear[y]+=a;
+  });
+  var opexByYear = new Array(h+1).fill(0);
+  document.querySelectorAll('#opex-body tr').forEach(function(tr){
+    tr.querySelectorAll('.opex-val').forEach(function(inp){
+      var y=parseInt(inp.dataset.year);
+      opexByYear[y]=(opexByYear[y]||0)+(parseFloat(inp.value)||0);
+    });
+  });
+  var benByYear = new Array(h+1).fill(0);
+  document.querySelectorAll('#benefits-body tr').forEach(function(tr){
+    tr.querySelectorAll('.ben-val').forEach(function(inp){
+      var y=parseInt(inp.dataset.year);
+      benByYear[y]=(benByYear[y]||0)+(parseFloat(inp.value)||0);
+    });
+  });
+  var capexNDv = Array.from(document.querySelectorAll('.capex-nd-val')).reduce(function(s,e){return s+(parseFloat(e.value)||0);},0);
+  var capexNDNetv = capexNDv * (1 - ist);
+  var capexDTotalv = capexD + contVal;
+  var flows=[-(capexNDNetv + capexDTotalv)];
+  for(var y=1;y<=h;y++){
+    var ebit=benByYear[y]-opexByYear[y]-deprByYear[y];
+    flows[y]=ebit*(1-ist)+deprByYear[y];
+  }
+  var van=flows[0];
+  var discounted=[flows[0]];
+  for(var y=1;y<=h;y++){
+    var df=flows[y]/Math.pow(1+wacc,y);
+    discounted[y]=df;
+    van+=df;
+  }
+  var cumulDisc=[flows[0]];
+  for(var y=1;y<=h;y++) cumulDisc[y]=cumulDisc[y-1]+discounted[y];
+  var paybackYears=null;
+  for(var y=1;y<=h;y++){
+    if(cumulDisc[y-1]<0&&cumulDisc[y]>=0){
+      paybackYears=(y-1)+Math.abs(cumulDisc[y-1])/discounted[y];
+      break;
+    }
+  }
+  function npvR(r){return flows.reduce(function(s,f,i){return s+f/Math.pow(1+r,i);},0);}
+  var tir=null;
+  var lo=-0.999,hi=100;
+  if(npvR(lo)*npvR(hi)<0){
+    for(var ii=0;ii<200;ii++){
+      var m=(lo+hi)/2;
+      if(Math.abs(hi-lo)<1e-8){tir=m;break;}
+      if(npvR(m)>0) lo=m; else hi=m;
+    }
+    tir=(lo+hi)/2;
+  }
+  var inversionEfectivav = capexNDNetv + capexDTotalv;
+  var totalFlowsNetv=flows.slice(1).reduce(function(s,v){return s+v;},0);
+  var roic=inversionEfectivav>0?(((totalFlowsNetv/inversionEfectivav)-1)/h)*100:null;
+  var vanOk=van>0;
+  var tirOk=tir!==null&&tir>wacc;
+  var pbOk=paybackYears!==null&&paybackYears<h;
+  var allOk=vanOk&&tirOk&&pbOk;
+  var totalBen5=benByYear.slice(1).reduce(function(s,v){return s+v;},0);
+  var totalOpex5=opexByYear.slice(1).reduce(function(s,v){return s+v;},0);
+  var benefitRatio=totalCapex>0?(totalBen5/totalCapex).toFixed(1):'—';
+  var decColor=allOk?'#0F6E56':'#854F0B';
+  var decBg=allOk?'#EAF3DE':'#FAEEDA';
+  var decText=allOk?'#27500A':'#633806';
+  var decision=allOk?'APROBAR':'REVISAR CON SPONSOR';
+  var tierLabels={'T1':'Tier 1 — Transformacional','T2':'Tier 2 — Estratégico','T3':'Tier 3 — Regulatorio','T4':'Tier 4 — Mejora continua'};
+  var tierLabel=tierLabels[data.params.tier]||data.params.tier||'—';
 
-  // Build capex rows
-  const capexNDRows = Array.from(document.querySelectorAll('#capex-nd-body tr')).map(tr=>{
-    const lbl=tr.querySelector('input[type=text]')?.value||'';const v=parseFloat(tr.querySelector('.capex-nd-val')?.value)||0;
-    return lbl||v?`<tr><td>${lbl||'—'}</td><td style="text-align:right">${fmt(v)}</td></tr>`:'';
-  }).join('');
-  const capexDRows = Array.from(document.querySelectorAll('#capex-d-body tr')).map(tr=>{
-    const lbl=tr.querySelector('input[type=text]')?.value||'';const v=parseFloat(tr.querySelector('.capex-d-val')?.value)||0;const l=tr.querySelector('.capex-d-life')?.value||'5';
-    return lbl||v?`<tr><td>${lbl||'—'}</td><td style="text-align:right">${fmt(v)}</td><td style="text-align:right">${l} años</td></tr>`:'';
-  }).join('');
-  const yearHeaders = Array.from({length:h},(_,i)=>`<th>Año ${i+1}</th>`).join('');
-  const opexRows = Array.from(document.querySelectorAll('#opex-body tr')).map(tr=>{
-    const lbl=tr.querySelector('input[type=text]')?.value||'';
-    const vals=Array.from(tr.querySelectorAll('.opex-val')).map(i=>fmt(parseFloat(i.value)||0));
-    return lbl?`<tr><td>${lbl}</td>${vals.map(v=>`<td style="text-align:right">${v}</td>`).join('')}</tr>`:'';
-  }).join('');
-  const benRows = Array.from(document.querySelectorAll('#benefits-body tr')).map(tr=>{
-    const lbl=tr.querySelector('input[type=text]')?.value||'';
-    const vals=Array.from(tr.querySelectorAll('.ben-val')).map(i=>fmt(parseFloat(i.value)||0));
-    return lbl?`<tr><td>${lbl}</td>${vals.map(v=>`<td style="text-align:right;color:#0F6E56">${v}</td>`).join('')}</tr>`:'';
-  }).join('');
-  const potRows = Array.from(document.querySelectorAll('#potential-rows div[style]')).map(d=>{
-    const ins=d.querySelectorAll('input');return ins[0]?.value?`<tr><td>${ins[0].value}</td><td>${ins[1]?.value||''}</td></tr>`:'';
-  }).join('');
-  const qualRows2 = Array.from(document.querySelectorAll('#qualitative-rows div[style]')).map(d=>{
-    const ins=d.querySelectorAll('input');return ins[0]?.value?`<tr><td>${ins[0].value}</td><td>${ins[1]?.value||''}</td></tr>`:'';
-  }).join('');
-  const flowRows = [
-    ['Beneficios brutos',[null,...benByYear.slice(1)],'#0F6E56'],
-    ['Costos recurrentes (OPEX)',[null,...opexByYear.slice(1).map(v=>-v)],'#993C1D'],
-    ['Depreciación',[null,...deprByYear.slice(1).map(v=>-v)],'#854F0B'],
-    ['EBIT',[null,...Array.from({length:h},(_,i)=>benByYear[i+1]-opexByYear[i+1]-deprByYear[i+1])],'#1A1A18'],
-    ['Flujo de Caja Libre (FCF)',flows,'#534AB7'],
-    ['FCF descontado',discounted,'#534AB7'],
-    ['FCF acumulado descontado',cumulDisc,'#534AB7'],
-  ].map(([lbl,vals,color])=>`<tr><td><strong>${lbl}</strong></td>${vals.map((v,i)=>v===null?'<td>—</td>':`<td style="text-align:right;color:${v>=0?color:'#E24B4A'}">${fmt(v)}</td>`).join('')}</tr>`).join('');
+  // ── Construir filas de tablas ──
+  function fmtN(n){
+    if(isNaN(n)||n===null) return '—';
+    var s=n<0?'-':'';var a=Math.abs(n);
+    if(a>=1000000) return s+(a/1000000).toFixed(2)+'M';
+    if(a>=1000) return s+Math.round(a).toLocaleString('es-CL');
+    return s+a.toFixed(1);
+  }
 
-  const html = `<!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8">
-<title>Informe Caso de Negocio — ${projName}</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Arial,sans-serif;color:#1A1A18;background:#fff;font-size:13px;line-height:1.6;}
-.cover{background:#26215C;color:#fff;padding:3rem;margin-bottom:0;}
-.cover h1{font-size:28px;font-weight:600;margin-bottom:6px;}
-.cover p{font-size:14px;opacity:.7;}
-.cover .meta{margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-.cover .meta-item label{font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.06em;display:block;}
-.cover .meta-item span{font-size:14px;font-weight:500;}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:3px solid #26215C;}
-.kpi{padding:1.5rem;border-right:1px solid #E8E6DF;}
-.kpi:last-child{border-right:none;}
-.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:6px;}
-.kpi-value{font-size:26px;font-weight:700;line-height:1;}
-.kpi-sub{font-size:11px;color:#888780;margin-top:4px;}
-.decision{padding:1rem 2rem;font-size:14px;font-weight:600;color:#fff;}
-section{padding:2rem;}
-section+section{border-top:1px solid #E8E6DF;}
-h2{font-size:15px;font-weight:600;color:#26215C;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em;}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:.5rem;}
-th{padding:7px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#888780;background:#F5F4F1;border-bottom:1px solid #D3D1C7;}
-td{padding:8px 10px;border-bottom:1px solid #E8E6DF;}
-tr:last-child td{border-bottom:none;}
-.total td{font-weight:600;background:#F5F4F1;color:#26215C;}
-.footer{padding:1rem 2rem;background:#F5F4F1;border-top:1px solid #D3D1C7;font-size:11px;color:#888780;display:flex;justify-content:space-between;}
-@media print{
-  .print-bar{display:none!important;}
-  body{font-size:11px;}
-  .kpi-value{font-size:20px;}
-  .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .kpis{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .decision{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  th{background:#F5F4F1!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  section{page-break-inside:avoid;}
-}
-</style></head><body>
-<div class="print-bar" style="padding:.75rem 2rem;background:#fff;border-bottom:1px solid #E8E6DF;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;">
-  <p style="font-size:12px;color:#888780;margin:0;">Para guardar como PDF: clic en el botón → en el diálogo elige <strong>"Guardar como PDF"</strong> como destino.</p>
-  <button onclick="window.print()" style="padding:8px 20px;background:#26215C;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Segoe UI',Arial,sans-serif;">🖨 Guardar como PDF</button>
-</div>
-<div class="cover">
-  <h1>${projName}</h1>
-  <p>Informe de Análisis Costo-Beneficio — Oficina de Proyectos OXXO Chile</p>
-  <div class="meta">
-    <div class="meta-item"><label>Product Owner</label><span>${data.params.po||'—'}</span></div>
-    <div class="meta-item"><label>Sponsor</label><span>${data.params.sponsor||'—'}</span></div>
-    <div class="meta-item"><label>Tier</label><span>${data.params.tier||'—'}</span></div>
-    <div class="meta-item"><label>Año inicio</label><span>${data.params.year||'—'}</span></div>
-    <div class="meta-item"><label>Horizonte</label><span>${h} años</span></div>
-    <div class="meta-item"><label>Fecha informe</label><span>${now}</span></div>
-  </div>
-</div>
-<div class="kpis">
-  <div class="kpi"><div class="kpi-label">VAN</div><div class="kpi-value" style="color:${van>0?'#0F6E56':'#E24B4A'}">${fmt(van)}</div><div class="kpi-sub">${currency} · ${van>0?'Crea valor':'Destruye valor'}</div></div>
-  <div class="kpi"><div class="kpi-label">TIR</div><div class="kpi-value" style="color:${tirOk?'#0F6E56':'#E24B4A'}">${tir!==null?(tir*100).toFixed(1)+'%':'N/A'}</div><div class="kpi-sub">WACC: ${(wacc*100).toFixed(1)}% · ${tirOk?'TIR > WACC ✓':'TIR < WACC ✗'}</div></div>
-  <div class="kpi"><div class="kpi-label">Payback descontado</div><div class="kpi-value" style="color:${pbOk?'#0F6E56':'#E24B4A'}">${paybackYears!==null?paybackYears.toFixed(1)+' años':'>'+h+' años'}</div><div class="kpi-sub">Recuperación de inversión</div></div>
-  <div class="kpi"><div class="kpi-label">ROIC</div><div class="kpi-value" style="color:${roic>15?'#0F6E56':'#854F0B'}">${roic!==null?roic.toFixed(1)+'%':'—'}</div><div class="kpi-sub">Retorno sobre capital invertido</div></div>
-</div>
-<div class="decision" style="background:${decColor}">Recomendación: ${decision}</div>
-<section>
-  <h2>Parámetros del modelo</h2>
-  <table><tr><td>WACC</td><td><strong>${(wacc*100).toFixed(2)}%</strong></td><td>IST (Primera Categoría)</td><td><strong>${(ist*100).toFixed(1)}%</strong></td></tr>
-  <tr><td>Total CAPEX (con contingencia)</td><td><strong>${fmt(totalCapex)} ${currency}</strong></td><td>Contingencia aplicada</td><td><strong>${contPct}%</strong></td></tr></table>
-</section>
-<section>
-  <h2>1 · Plan de Inversiones (CAPEX)</h2>
-  ${capexNDRows||capexDRows?`
-  <table><thead><tr><th>Concepto (No depreciable)</th><th>Monto</th></tr></thead><tbody>${capexNDRows||'<tr><td colspan="2">Sin registros</td></tr>'}</tbody></table>
-  <table style="margin-top:.75rem"><thead><tr><th>Concepto (Depreciable)</th><th>Monto</th><th>Vida útil</th></tr></thead><tbody>${capexDRows||'<tr><td colspan="3">Sin registros</td></tr>'}</tbody>
-  <tfoot><tr class="total"><td>TOTAL CAPEX (con contingencia ${contPct}%)</td><td>${fmt(totalCapex)}</td><td></td></tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
-</section>
-<section>
-  <h2>2 · Costos Recurrentes (OPEX)</h2>
-  ${opexRows?`<table><thead><tr><th>Concepto</th>${yearHeaders}</tr></thead><tbody>${opexRows}</tbody>
-  <tfoot><tr class="total"><td>Total OPEX</td>${Array.from({length:h},(_,i)=>`<td style="text-align:right">${fmt(opexByYear[i+1])}</td>`).join('')}</tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
-</section>
-<section>
-  <h2>3 · Beneficios Cuantificables</h2>
-  ${benRows?`<table><thead><tr><th>Concepto / Supuesto</th>${yearHeaders}</tr></thead><tbody>${benRows}</tbody>
-  <tfoot><tr class="total"><td>Total beneficios</td>${Array.from({length:h},(_,i)=>`<td style="text-align:right;color:#0F6E56">${fmt(benByYear[i+1])}</td>`).join('')}</tr></tfoot></table>`:'<p>Sin datos ingresados.</p>'}
-</section>
-${potRows||qualRows2?`<section>
-  <h2>4 · Potencial económico & Beneficios no cuantificables</h2>
-  ${potRows?`<table><thead><tr><th>Potencial económico indirecto</th><th>Descripción</th></tr></thead><tbody>${potRows}</tbody></table>`:''}
-  ${qualRows2?`<table style="margin-top:.75rem"><thead><tr><th>Beneficio no cuantificable</th><th>KPI sustituto</th></tr></thead><tbody>${qualRows2}</tbody></table>`:''}
-</section>`:''}
-<section>
-  <h2>Tabla de flujos detallada</h2>
-  <table><thead><tr><th>Concepto</th><th>Año 0</th>${yearHeaders}</tr></thead><tbody>${flowRows}</tbody></table>
-</section>
-<div class="footer">
-  <span>Oficina de Proyectos · OXXO Chile · Playbook 2026</span>
-  <span>Generado el ${now} · Herramienta Caso de Negocio OP</span>
-</div>
-</body></html>`;
+  var capexNDRows='';
+  document.querySelectorAll('#capex-nd-body tr').forEach(function(tr){
+    var lbl=tr.querySelector('input[type=text]') ? tr.querySelector('input[type=text]').value : '';
+    var v=parseFloat(tr.querySelector('.capex-nd-val') ? tr.querySelector('.capex-nd-val').value : 0)||0;
+    if(lbl||v) capexNDRows+='<tr><td>'+(lbl||'—')+'</td><td class="num">'+fmtN(v)+'</td></tr>';
+  });
+  var capexDRows='';
+  document.querySelectorAll('#capex-d-body tr').forEach(function(tr){
+    var lbl=tr.querySelector('input[type=text]') ? tr.querySelector('input[type=text]').value : '';
+    var v=parseFloat(tr.querySelector('.capex-d-val') ? tr.querySelector('.capex-d-val').value : 0)||0;
+    var l=tr.querySelector('.capex-d-life') ? tr.querySelector('.capex-d-life').value : '5';
+    if(lbl||v) capexDRows+='<tr><td>'+(lbl||'—')+'</td><td class="num">'+fmtN(v)+'</td><td class="num">'+l+' años</td></tr>';
+  });
+  var yh='';
+  for(var yi=0;yi<h;yi++) yh+='<th class="num">Año '+(yi+1)+'</th>';
+  var yhTotal=yh+'<th class="num">Total '+h+' años</th>';
 
-  const blob = new Blob([html], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const win = window.open(url, '_blank');
-  if (win) {
-    win.onload = () => {
-      setTimeout(() => {
+  var opexRows='';
+  document.querySelectorAll('#opex-body tr').forEach(function(tr){
+    var lbl=tr.querySelector('input[type=text]') ? tr.querySelector('input[type=text]').value : '';
+    if(!lbl) return;
+    var vals=Array.from(tr.querySelectorAll('.opex-val')).map(function(i){return parseFloat(i.value)||0;});
+    var total=vals.reduce(function(s,v){return s+v;},0);
+    var cells='';
+    vals.forEach(function(v){cells+='<td class="num">'+fmtN(v)+'</td>';});
+    opexRows+='<tr><td>'+lbl+'</td>'+cells+'<td class="num bold">'+fmtN(total)+'</td></tr>';
+  });
+  var opexTotalCells='';
+  for(var yi=0;yi<h;yi++) opexTotalCells+='<td class="num">'+fmtN(opexByYear[yi+1])+'</td>';
+
+  var benRows='';
+  document.querySelectorAll('#benefits-body tr').forEach(function(tr){
+    var lbl=tr.querySelector('input[type=text]') ? tr.querySelector('input[type=text]').value : '';
+    if(!lbl) return;
+    var vals=Array.from(tr.querySelectorAll('.ben-val')).map(function(i){return parseFloat(i.value)||0;});
+    var total=vals.reduce(function(s,v){return s+v;},0);
+    var cells='';
+    vals.forEach(function(v){cells+='<td class="num green">'+fmtN(v)+'</td>';});
+    benRows+='<tr><td>'+lbl+'</td>'+cells+'<td class="num bold green">'+fmtN(total)+'</td></tr>';
+  });
+  var benTotalCells='';
+  for(var yi=0;yi<h;yi++) benTotalCells+='<td class="num green">'+fmtN(benByYear[yi+1])+'</td>';
+
+  // Cualitativos
+  var potRows='';
+  document.querySelectorAll('#potential-rows .qual-row').forEach(function(d){
+    var ins=d.querySelectorAll('input[type=text]');
+    var lbl=ins[0]?ins[0].value.trim():'';
+    var desc=ins[1]?ins[1].value.trim():'';
+    if(lbl) potRows+='<tr><td>'+lbl+'</td><td>'+(desc||'—')+'</td></tr>';
+  });
+  var qualRows='';
+  document.querySelectorAll('#qualitative-rows .qual-row').forEach(function(d){
+    var ins=d.querySelectorAll('input[type=text]');
+    var lbl=ins[0]?ins[0].value.trim():'';
+    var kpi=ins[1]?ins[1].value.trim():'';
+    if(lbl) qualRows+='<tr><td>'+lbl+'</td><td>'+(kpi||'—')+'</td></tr>';
+  });
+
+  // Tabla de flujos
+  var flowDefs=[
+    {lbl:'Beneficios brutos',vals:benByYear,pos:true,bold:false},
+    {lbl:'Costos recurrentes (OPEX)',vals:opexByYear.map(function(v,i){return i===0?null:-v;}),pos:false,bold:false},
+    {lbl:'Depreciación (escudo ISR)',vals:deprByYear.map(function(v,i){return i===0?null:-v;}),pos:false,bold:false},
+    {lbl:'EBIT (utilidad operativa)',vals:Array.from({length:h+1},function(_,i){return i===0?null:benByYear[i]-opexByYear[i]-deprByYear[i];}),pos:true,bold:true},
+    {lbl:'ISR ('+Math.round(ist*100)+'% sobre EBIT)',vals:Array.from({length:h+1},function(_,i){if(i===0)return null;var e=benByYear[i]-opexByYear[i]-deprByYear[i];return e>0?-e*ist:0;}),pos:false,bold:false},
+    {lbl:'FCF neto',vals:flows,pos:true,bold:true},
+    {lbl:'FCF descontado',vals:discounted,pos:true,bold:false},
+    {lbl:'FCF acumulado descontado',vals:cumulDisc,pos:true,bold:true}
+  ];
+  var flowRows='';
+  flowDefs.forEach(function(row){
+    var cells='';
+    row.vals.forEach(function(v,i){
+      if(v===null){cells+='<td>—</td>';return;}
+      var color=v>=0?'#0F6E56':'#E24B4A';
+      cells+='<td class="num" style="color:'+color+'">'+fmtN(v)+'</td>';
+    });
+    flowRows+='<tr'+(row.bold?' class="bold-row"':'')+'><td>'+row.lbl+'</td>'+cells+'</tr>';
+  });
+
+  // ── Construir HTML del informe ──
+  var STYLE = [
+    '*{box-sizing:border-box;margin:0;padding:0;}',
+    'body{font-family:"Segoe UI",Arial,sans-serif;color:#1A1A18;background:#fff;font-size:12.5px;line-height:1.6;}',
+    '.print-bar{padding:.6rem 2rem;background:#fff;border-bottom:1px solid #E8E6DF;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}',
+    '.print-bar button{padding:7px 18px;background:#26215C;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;}',
+    '.cover{background:#26215C;color:#fff;padding:2.5rem 3rem;}',
+    '.cover h1{font-size:26px;font-weight:700;margin-bottom:4px;}',
+    '.cover .subtitle{font-size:13px;opacity:.65;margin-bottom:1.25rem;}',
+    '.badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem;}',
+    '.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}',
+    '.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}',
+    '.meta-item label{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:2px;}',
+    '.meta-item span{font-size:13px;font-weight:500;}',
+    '.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:3px solid #26215C;}',
+    '.kpi{padding:1.25rem 1.5rem;border-right:1px solid #E8E6DF;}',
+    '.kpi:last-child{border-right:none;}',
+    '.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#888780;margin-bottom:5px;}',
+    '.kpi-value{font-size:24px;font-weight:700;line-height:1.1;margin-bottom:3px;}',
+    '.kpi-sub{font-size:11px;color:#888780;}',
+    '.decision{padding:.9rem 2rem;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px;}',
+    '.exec-summary{padding:1.5rem 2rem;background:#F8F7F4;border-bottom:2px solid #E8E6DF;}',
+    '.exec-summary h2{font-size:13px;font-weight:700;color:#26215C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem;}',
+    '.exec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}',
+    '.exec-card{background:#fff;border:1px solid #E8E6DF;border-radius:8px;padding:.875rem 1rem;}',
+    '.exec-card-label{font-size:10px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}',
+    '.exec-card-value{font-size:18px;font-weight:700;color:#26215C;}',
+    '.exec-card-sub{font-size:11px;color:#888780;margin-top:2px;}',
+    'section{padding:1.5rem 2rem;}',
+    'section+section{border-top:1px solid #E8E6DF;}',
+    'h2{font-size:13px;font-weight:700;color:#26215C;margin-bottom:.875rem;text-transform:uppercase;letter-spacing:.05em;padding-bottom:.5rem;border-bottom:2px solid #EEEDFE;}',
+    'table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:.5rem;}',
+    'th{padding:7px 10px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#888780;background:#F5F4F1;border-bottom:1px solid #D3D1C7;}',
+    'th.num{text-align:right;}',
+    'td{padding:7px 10px;border-bottom:1px solid #E8E6DF;color:#1A1A18;}',
+    'tr:last-child td{border-bottom:none;}',
+    'td.num{text-align:right;font-family:"Consolas","Courier New",monospace;font-size:11.5px;}',
+    'td.green{color:#0F6E56;}',
+    'td.bold{font-weight:600;}',
+    '.bold-row td{font-weight:600;background:#F8F7F4;}',
+    '.total-row td{font-weight:700;background:#EEEDFE;color:#26215C;}',
+    '.qual-box{border-radius:8px;padding:1rem 1.25rem;margin-bottom:.75rem;}',
+    '.qual-box-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem;}',
+    '.footer{padding:1rem 2rem;background:#F5F4F1;border-top:1px solid #D3D1C7;font-size:11px;color:#888780;display:flex;justify-content:space-between;}',
+    '@media print{',
+    '.print-bar{display:none!important;}',
+    'body{font-size:11px;}',
+    '.kpi-value{font-size:18px;}',
+    '.cover,.kpis,.decision,.exec-summary{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    'th,.bold-row,.total-row,.exec-card,.qual-box{-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+    'section{page-break-inside:avoid;}',
+    '}'
+  ].join('\n');
+
+  var vanColor=van>0?'#0F6E56':'#E24B4A';
+  var tirColor=tirOk?'#0F6E56':'#E24B4A';
+  var pbColor=pbOk?'#0F6E56':'#E24B4A';
+  var roicColor=roic>15?'#0F6E56':roic>0?'#854F0B':'#E24B4A';
+
+  var chartImg = '';
+  var canvas = document.getElementById('flowChart');
+  if(canvas) chartImg = canvas.toDataURL('image/png');
+
+  var R='';
+  R+='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">';
+  R+='<title>Informe — '+projName+'</title>';
+  R+='<style>'+STYLE+'</style></head><body>';
+
+  // Print bar
+  R+='<div class="print-bar">';
+  R+='<p style="font-size:12px;color:#888780;margin:0;">Para guardar como PDF → elige <strong>"Guardar como PDF"</strong> en el destino de impresión.</p>';
+  R+='<button onclick="window.print()">Guardar como PDF</button>';
+  R+='</div>';
+
+  // Portada
+  R+='<div class="cover">';
+  R+='<h1>'+projName+'</h1>';
+  R+='<div class="subtitle">Informe de Evaluación Económica — Oficina de Proyectos OXXO</div>';
+  R+='<div class="badges">';
+  R+='<span class="badge" style="background:#EEEDFE;color:#3C3489;">'+tierLabel+'</span>';
+  R+='<span class="badge" style="background:rgba(255,255,255,.15);color:#fff;">Horizonte: '+h+' años</span>';
+  R+='<span class="badge" style="background:rgba(255,255,255,.15);color:#fff;">'+currency+'</span>';
+  R+='<span class="badge" style="background:rgba(255,255,255,.15);color:#fff;">WACC: '+(wacc*100).toFixed(1)+'%  ISR: '+(ist*100).toFixed(1)+'%</span>';
+  R+='</div>';
+  R+='<div class="meta-grid">';
+  R+='<div class="meta-item"><label>Product Owner</label><span>'+(data.params.po||'—')+'</span></div>';
+  R+='<div class="meta-item"><label>Sponsor</label><span>'+(data.params.sponsor||'—')+'</span></div>';
+  R+='<div class="meta-item"><label>Fecha de presentación</label><span>'+presDate+'</span></div>';
+  R+='<div class="meta-item"><label>Fecha del informe</label><span>'+now+'</span></div>';
+  R+='</div>';
+  if(data.params.desc){
+    R+='<div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.15)">';
+    R+='<label style="font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:4px;">Descripción del Proyecto</label>';
+    R+='<div style="font-size:13px;line-height:1.5;opacity:0.9;">'+data.params.desc.replace(/\n/g,'<br>')+'</div></div>';
+  }
+  R+='</div>';
+
+  // KPIs
+  R+='<div class="kpis">';
+  R+='<div class="kpi"><div class="kpi-label">VAN</div><div class="kpi-value" style="color:'+vanColor+'">'+fmtN(van)+'</div><div class="kpi-sub">'+currency+' · '+(van>0?'Crea valor ✓':'Destruye valor ✗')+'</div></div>';
+  R+='<div class="kpi"><div class="kpi-label">TIR</div><div class="kpi-value" style="color:'+tirColor+'">'+(tir!==null?(tir*100).toFixed(1)+'%':'N/A')+'</div><div class="kpi-sub">'+(tirOk?'TIR > WACC ✓':'TIR < WACC ✗')+' (WACC '+(wacc*100).toFixed(1)+'%)</div></div>';
+  R+='<div class="kpi"><div class="kpi-label">Payback descontado</div><div class="kpi-value" style="color:'+pbColor+'">'+(paybackYears!==null?paybackYears.toFixed(1)+' años':'>'+h+' años')+'</div><div class="kpi-sub">'+(pbOk?'Dentro del horizonte ✓':'Fuera del horizonte ✗')+'</div></div>';
+  R+='<div class="kpi"><div class="kpi-label">ROIC</div><div class="kpi-value" style="color:'+roicColor+'">'+(roic!==null?roic.toFixed(1)+'%':'—')+'</div><div class="kpi-sub">Retorno sobre capital invertido</div></div>';
+  R+='</div>';
+
+  // Recomendación
+  R+='<div class="decision" style="background:'+decBg+';color:'+decText+';border-bottom:1px solid '+(allOk?'#C0DD97':'#FAC775')+'">';
+  R+='<span style="font-size:18px;">'+(allOk?'✓':'▲')+'</span>';
+  R+='<div><strong>Recomendación: '+decision+'</strong>';
+  R+='<span style="font-weight:400;margin-left:12px;font-size:12px;">VAN '+fmtN(van)+' '+currency+' · TIR '+(tir!==null?(tir*100).toFixed(1)+'%':'N/A')+' · Payback '+(paybackYears!==null?paybackYears.toFixed(1)+' años':'>'+h+' años')+' · ROIC '+(roic!==null?roic.toFixed(1)+'%':'—')+'</span>';
+  R+='</div></div>';
+
+  // Resumen ejecutivo
+  R+='<div class="exec-summary"><h2>Resumen ejecutivo</h2><div class="exec-grid">';
+  R+='<div class="exec-card"><div class="exec-card-label">Inversión total (CAPEX)</div><div class="exec-card-value">'+fmtN(totalCapex)+'</div><div class="exec-card-sub">'+currency+' · Contingencia '+contPct+'%</div></div>';
+  R+='<div class="exec-card"><div class="exec-card-label">Beneficios totales ('+h+' años)</div><div class="exec-card-value" style="color:#0F6E56">'+fmtN(totalBen5)+'</div><div class="exec-card-sub">'+currency+' acumulados</div></div>';
+  R+='<div class="exec-card"><div class="exec-card-label">OPEX total ('+h+' años)</div><div class="exec-card-value" style="color:#993C1D">'+fmtN(totalOpex5)+'</div><div class="exec-card-sub">'+currency+' costos recurrentes</div></div>';
+  R+='<div class="exec-card"><div class="exec-card-label">Ratio Beneficio / Inversión</div><div class="exec-card-value" style="color:#534AB7">'+benefitRatio+'x</div><div class="exec-card-sub">Por cada unidad invertida</div></div>';
+  R+='<div class="exec-card"><div class="exec-card-label">FCF acumulado ('+h+' años)</div><div class="exec-card-value" style="color:'+(cumulDisc[h]>0?'#0F6E56':'#E24B4A')+'">'+fmtN(cumulDisc[h])+'</div><div class="exec-card-sub">'+currency+' descontados al WACC</div></div>';
+  R+='<div class="exec-card"><div class="exec-card-label">Parámetros aplicados</div><div class="exec-card-value" style="font-size:13px">WACC '+(wacc*100).toFixed(1)+'% · ISR '+(ist*100).toFixed(1)+'%</div><div class="exec-card-sub">Horizonte '+h+' años · '+currency+'</div></div>';
+  R+='</div></div>';
+
+  // Sección 1: CAPEX
+  R+='<section><h2>1 · Plan de Inversiones (CAPEX)</h2>';
+  if(capexNDRows) {
+    R+='<table><thead><tr><th>Concepto — No depreciable</th><th class="num">Monto ('+currency+')</th></tr></thead><tbody>'+capexNDRows+'</tbody></table>';
+  }
+  if(capexDRows) {
+    R+='<table style="margin-top:.75rem"><thead><tr><th>Concepto — Depreciable</th><th class="num">Monto ('+currency+')</th><th class="num">Vida útil</th></tr></thead>';
+    R+='<tbody>'+capexDRows+'</tbody>';
+    R+='<tfoot><tr class="total-row"><td>TOTAL CAPEX + Contingencia ('+contPct+'%)</td><td class="num">'+fmtN(totalCapex)+'</td><td></td></tr></tfoot></table>';
+  }
+  if(!capexNDRows&&!capexDRows) R+='<p style="color:#888;font-style:italic;">Sin datos ingresados.</p>';
+  R+='</section>';
+
+  // Sección 2: OPEX
+  R+='<section><h2>2 · Costos Recurrentes (OPEX)</h2>';
+  if(opexRows) {
+    R+='<table><thead><tr><th>Concepto</th>'+yhTotal+'</tr></thead><tbody>'+opexRows+'</tbody>';
+    R+='<tfoot><tr class="total-row"><td>Total OPEX</td>'+opexTotalCells+'<td class="num">'+fmtN(totalOpex5)+'</td></tr></tfoot></table>';
+  } else {
+    R+='<p style="color:#888;font-style:italic;">Sin datos ingresados.</p>';
+  }
+  R+='</section>';
+
+  // Sección 3: Beneficios
+  R+='<section><h2>3 · Beneficios Cuantificables</h2>';
+  if(benRows) {
+    R+='<table><thead><tr><th>Concepto / Supuesto</th>'+yhTotal+'</tr></thead><tbody>'+benRows+'</tbody>';
+    R+='<tfoot><tr class="total-row"><td>Total beneficios anuales</td>'+benTotalCells+'<td class="num" style="color:#0F6E56">'+fmtN(totalBen5)+'</td></tr></tfoot></table>';
+  } else {
+    R+='<p style="color:#888;font-style:italic;">Sin datos ingresados.</p>';
+  }
+  R+='</section>';
+
+  // Sección 4: Cualitativos
+  R+='<section><h2>4 · Potencial Económico &amp; Beneficios No Cuantificables</h2>';
+  if(potRows) {
+    R+='<div class="qual-box" style="background:#E6F1FB;margin-bottom:.75rem;">';
+    R+='<div class="qual-box-title" style="color:#0C447C;">Potencial económico indirecto</div>';
+    R+='<table><thead><tr><th>Concepto estratégico</th><th>Descripción del impacto</th></tr></thead><tbody>'+potRows+'</tbody></table>';
+    R+='</div>';
+  }
+  if(qualRows) {
+    R+='<div class="qual-box" style="background:#FAECE7;">';
+    R+='<div class="qual-box-title" style="color:#712B13;">Beneficios no cuantificables</div>';
+    R+='<table><thead><tr><th>Beneficio cualitativo</th><th>KPI sustituto para medición</th></tr></thead><tbody>'+qualRows+'</tbody></table>';
+    R+='</div>';
+  }
+  if(!potRows&&!qualRows) R+='<p style="color:#888;font-style:italic;">Sin potenciales ni beneficios cualitativos registrados.</p>';
+  R+='</section>';
+
+  // Sección 5: Flujos
+  R+='<section><h2>5 · Tabla de Flujos Detallada</h2>';
+  R+='<table><thead><tr><th>Concepto</th><th class="num">Año 0</th>'+yh+'</tr></thead><tbody>'+flowRows+'</tbody></table>';
+  R+='</section>';
+
+  // Sección 6: Gráfico
+  if(chartImg) {
+    R+='<section><h2>6 · Gráfico Flujo de Caja Acumulado Descontado</h2>';
+    R+='<div style="text-align:center;margin-top:1rem;"><img src="'+chartImg+'" style="max-width:100%;height:auto;max-height:280px;"></div>';
+    R+='</section>';
+  }
+
+  // Footer
+  R+='<div class="footer">';
+  R+='<span>Oficina de Proyectos · OXXO · Playbook 2026</span>';
+  R+='<span>Generado el '+now+' · Confidencial</span>';
+  R+='</div>';
+  R+='</body></html>';
+
+  var blob = new Blob([R], {type:'text/html'});
+  var url = URL.createObjectURL(blob);
+  var win = window.open(url, '_blank');
+  if(win) {
+    win.onload = function() {
+      setTimeout(function() {
         win.focus();
         win.print();
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
+        setTimeout(function(){URL.revokeObjectURL(url);}, 60000);
       }, 800);
     };
   } else {
-    const a = document.createElement('a');
+    var a = document.createElement('a');
     a.href = url;
-    a.download = (projName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'')||'caso-negocio') + '_informe.html';
+    a.download = (projName.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')||'caso-negocio') + '_informe.html';
     a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    setTimeout(function(){URL.revokeObjectURL(url);}, 5000);
   }
   showToast('✓ Informe listo — elige "Guardar como PDF" en el diálogo de impresión');
 }
-
 // ══════════════════════════════════════════════════════════
 // TOAST NOTIFICATION
 // ══════════════════════════════════════════════════════════
@@ -1663,6 +2132,24 @@ function showToast(msg, error=false) {
   t.style.cssText = `position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity .3s;background:${error?'#FCEBEB':'#EAF3DE'};color:${error?'#791F1F':'#27500A'};border:1px solid ${error?'#F09595':'#C0DD97'};`;
   document.body.appendChild(t);
   setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(), 300); }, 3000);
+}
+
+
+// ── ALTO CONTRASTE ────────────────────────────────────────
+function toggleContrast() {
+  document.body.classList.toggle('hc');
+  const btn = document.getElementById('hc-btn');
+  if (document.body.classList.contains('hc')) {
+    btn.textContent = '◑ Normal';
+    btn.style.background = '#ffff00';
+    btn.style.color = '#000';
+    btn.style.borderColor = '#ffff00';
+  } else {
+    btn.textContent = '◑ Contraste';
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+  }
 }
 
 </script>
